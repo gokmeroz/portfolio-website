@@ -1,18 +1,58 @@
-@reference "tailwindcss";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer components {
-  /* replace border-mint / text-mint with hex-based utilities */
-  .btn-outline {
-    @apply inline-flex items-center gap-2 rounded border px-4 py-2 text-sm
-           border-[#64ffda] text-[#64ffda] hover:bg-[#64ffda]/10 transition-colors;
+@theme {
+  --font-sans:
+    Inter, ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+
+  --color-brand-primary: #4f772d;
+  --color-brand-secondary: #90a955;
+
+  /* You can keep this light background */
+  --color-bg-base: #f9fafb;
+  --color-text-base: #111827;
+}
+
+/* Base styles */
+@layer base {
+  html:focus-within {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    /* changed for readability */
+    @apply font-sans bg-[var(--color-bg-base)] text-[var(--color-text-base)];
+  }
+
+  /* Make anchors and headings readable on light or mid backgrounds */
+  a {
+    @apply text-[var(--color-brand-primary)] no-underline font-medium;
+  }
+  a:hover {
+    @apply text-[var(--color-brand-secondary)];
+  }
+
+  /* Headings now use darker text and brand highlight */
+  h1,
+  h2,
+  h3 {
+    @apply text-[var(--color-text-base)];
+  }
+
+  p {
+    /* darker text for better contrast */
+    @apply leading-relaxed text-neutral-700;
+  }
+
+  ul {
+    @apply text-neutral-700;
   }
 }
 
-/* Page background + default text */
-/* body {
-  background: radial-gradient(80% 80% at 20% 0%, #0f172a 0%, #0b1220 55%);
-  color: #e6f1ff;
-} */
+/* Helpers */
+.container-mx {
+  @apply mx-auto max-w-6xl px-4 sm:px-6 lg:px-8;
+}
+.hr-soft {
+  @apply h-px my-8 bg-gradient-to-r from-transparent via-neutral-400/30 to-transparent;
+}

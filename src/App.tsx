@@ -1,88 +1,58 @@
+import { useEffect, useState } from "react";
 import Nav from "./components/Nav";
-import Hero from "./sections/Hero";
+import Footer from "./components/Footer";
+import About from "./sections/About";
+import Works from "./sections/Works";
+import Contact from "./sections/Contact";
+import Articles from "./sections/Articles";
+import "./index.css";
 
 export default function App() {
+  const [active, setActive] = useState<string>("about");
+
+  // mouse-follow glow
+  useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      document.body.style.setProperty("--mx", `${e.clientX}px`);
+      document.body.style.setProperty("--my", `${e.clientY}px`);
+    };
+    window.addEventListener("pointermove", onMove);
+    return () => window.removeEventListener("pointermove", onMove);
+  }, []);
+
+  // active section tracking
+  useEffect(() => {
+    const ids = ["about", "projects", "contact", "articles"];
+    const obs = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((en) => en.isIntersecting && setActive(en.target.id)),
+      { rootMargin: "-40% 0px -55% 0px", threshold: [0, 0.2, 0.6] }
+    );
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) obs.observe(el);
+    });
+    return () => obs.disconnect();
+  }, []);
+
   return (
     <div>
-      <Nav />
-      <main>
-        <section id="home">
-          <Hero />
-        </section>
-
-        <section id="about" className="section">
-          <h2 className="text-2xl font-semibold">
-            <span className="num">01.</span> About
-          </h2>
-          <p className="mt-6 text-slate1 max-w-3xl">
-            Backend-leaning full-stack engineer focused on robust APIs and fast,
-            accessible UIs. Recently: Nummoria (finance tracker), Eyehub
-            (TÜBİTAK 122E085), enterprise modules at Halkbank.
+      <Nav active={active} />
+      <main className="container-mx pt-24 pb-10">
+        <header className="pb-6">
+          <h1>About Me!</h1>
+          <p className="mt-3 max-w-3xl">
+            Two–three lines about you. Short, confident, friendly. Replace this
+            with your real summary.
           </p>
-        </section>
+        </header>
 
-        <section id="experience" className="section">
-          <h2 className="text-2xl font-semibold">
-            <span className="num">02.</span> Experience
-          </h2>
-          <ul className="mt-6 space-y-4 text-slate1">
-            <li>• Halkbank — Full-stack Intern (C#/.NET, SQL, AngularJS)</li>
-            <li>• Eyehub — TÜBİTAK 122E085 (Backend + AWS infra)</li>
-            <li>• Nummoria — Personal finance app (Node, React)</li>
-          </ul>
-        </section>
-
-        <section id="work" className="section">
-          <h2 className="text-2xl font-semibold">
-            <span className="num">03.</span> Some Things I’ve Built
-          </h2>
-          <div className="mt-8 grid md:grid-cols-2 gap-6">
-            <article className="p-5 rounded border border-white/10 bg-ink2">
-              <h3 className="font-semibold">Nummoria</h3>
-              <p className="mt-2 text-slate1 text-sm">
-                Full-stack personal finance tracker with clean UI and AI helper.
-              </p>
-              <div className="mt-4 text-sm">
-                <a
-                  className="text-mint underline decoration-dotted"
-                  href="https://github.com/gokmeroz/nummoria"
-                  target="_blank"
-                >
-                  Code
-                </a>
-              </div>
-            </article>
-            <article className="p-5 rounded border border-white/10 bg-ink2">
-              <h3 className="font-semibold">Eyehub (TÜBİTAK 122E085)</h3>
-              <p className="mt-2 text-slate1 text-sm">
-                Dyslexia detection & education tools; backend + AWS workflows.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section id="contact" className="section text-center">
-          <h2 className="text-2xl font-semibold">
-            <span className="num">04.</span> Get In Touch
-          </h2>
-          <p className="mt-4 text-slate1 max-w-xl mx-auto">
-            I’m currently open to new opportunities. If you have a role, a
-            project, or just want to say hi—my inbox is open.
-          </p>
-          <a
-            href="mailto:goekmeroz@gmail.com"
-            className="btn-outline mt-8 inline-flex"
-          >
-            Say Hello
-          </a>
-        </section>
+        <About />
+        <Works />
+        <Contact />
+        <Articles />
+        <Footer />
       </main>
-
-      <footer className="border-t border-white/10">
-        <div className="max-w-content mx-auto px-5 py-10 text-center text-slate1 text-sm">
-          © {new Date().getFullYear()} Göktuğ Mert Özdoğan
-        </div>
-      </footer>
     </div>
   );
 }

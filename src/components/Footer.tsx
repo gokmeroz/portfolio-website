@@ -1,11 +1,20 @@
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-night">
-      <div className="max-w-6xl mx-auto px-4 py-6 text-sm text-white/60 flex items-center justify-between">
-        <span>© {new Date().getFullYear()} Göktuğ Mert Özdoğan</span>
-        <a className="hover:text-accent" href="mailto:goekmeroz@gmail.com">
-          goekmeroz@gmail.com
-        </a>
+    <footer className="py-10 text-sm text-neutral-400">
+      <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent my-8" />
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+        <p>© 2025 — All rights are reserved.</p>
+        <p>
+          Follow me on Medium for more →{" "}
+          <a
+            href="https://medium.com/@gokmeroz"
+            className="underline underline-offset-4"
+            target="_blank"
+            rel="noreferrer"
+          >
+            medium.com/@gokmeroz
+          </a>
+        </p>
       </div>
     </footer>
   );
