@@ -57,6 +57,19 @@ export default function About() {
         />
         <Divider />
         <ExperienceItem
+          title="Backend Developer"
+          company="TUBITAK PROJECT 122E085 - Eyehub"
+          location="Istanbul, Turkey"
+          date="Nov 2023 - Jun 2024"
+          bullets={[
+            "Supported a research-driven project focused on dyslexia detection for children",
+            "Built and maintained backend servers using Node.js and JavaScript",
+            "Deployed and managed project infrastructure with AWS Cloud Services",
+            "Collaborated with researchers and engineers under Prof. Gunet Eroglu, bridging academia and software development",
+          ]}
+        />
+        <Divider />
+        <ExperienceItem
           title="Software Engineering Intern"
           company="ComPro"
           location="Istanbul, Turkey"
@@ -69,7 +82,6 @@ export default function About() {
           ]}
         />
       </div>
-      <Divider />
     </section>
   );
 }

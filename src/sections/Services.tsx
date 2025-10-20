@@ -53,10 +53,10 @@ export default function Services() {
         <div className="md:flex md:items-end md:justify-between">
           <div>
             <p className="uppercase tracking-[0.25em] text-xs text-accent2/80">
-              Our Services
+              My Services
             </p>
             <h2 className="mt-2 text-2xl md:text-3xl font-extrabold">
-              WHAT WE DO?
+              WHAT I DO?
             </h2>
             <div className="hr-accent mt-3 text-sm text-white/70 max-w-md">
               If you hire a videographer or our team, we deliver custom video

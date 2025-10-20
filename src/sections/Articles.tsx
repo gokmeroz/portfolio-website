@@ -55,6 +55,17 @@ export default function Articles() {
           </article>
         ))}
       </div>
+      <p>
+        Follow me on Medium for more →{" "}
+        <a
+          href="https://medium.com/@gokmeroz"
+          className="underline underline-offset-4"
+          target="_blank"
+          rel="noreferrer"
+        >
+          medium.com/@gokmeroz
+        </a>
+      </p>
     </section>
   );
 }

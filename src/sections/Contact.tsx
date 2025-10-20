@@ -5,10 +5,7 @@ export default function Contact() {
       <h2 className="text-2xl font-extrabold tracking-tight">Contacts</h2>
 
       <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-6 border border-white/10 rounded-2xl p-6">
-        <a
-          href="mailto:goekmeroz@gmail.com"
-          className="px-8 py-4 rounded-2xl bg-green-600 text-white font-bold text-lg shadow hover:scale-[1.02] transition"
-        >
+        <a href="mailto:goekmeroz@gmail.com" className="btn-accent">
           HIRE ME!
         </a>
 
@@ -25,7 +22,7 @@ export default function Contact() {
           </a>
           <a
             className="underline underline-offset-4 opacity-80 hover:opacity-100"
-            href="https://linkedin.com/in/gokmeroz"
+            href="https://linkedin.com/in/goktugmertozdogan"
             target="_blank"
             rel="noreferrer"
           >
@@ -34,7 +31,7 @@ export default function Contact() {
           </a>
           <a
             className="underline underline-offset-4 opacity-80 hover:opacity-100"
-            href="https://x.com/gokmeroz"
+            href="https://x.com/gokmeroz_dev"
             target="_blank"
             rel="noreferrer"
           >

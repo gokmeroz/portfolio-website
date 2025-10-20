@@ -6,6 +6,7 @@ const groups = [
       "JavaScript",
       "C#",
       ".NET",
+      "Python",
       "SQL",
       "MongoDB",
       "Git",
@@ -16,7 +17,15 @@ const groups = [
   },
   {
     title: "Frameworks & Libraries",
-    items: ["React", "Node.js", "Express", "Tailwind", "Framer Motion", "Vite"],
+    items: [
+      "React",
+      "Node.js",
+      "React Native",
+      "Express",
+      "Tailwind",
+      "Framer Motion",
+      "Vite",
+    ],
   },
 ];
 

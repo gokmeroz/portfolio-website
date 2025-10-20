@@ -26,7 +26,7 @@ export default function Nav({ active }: { active: string }) {
           onClick={onClick}
           className="font-semibold tracking-wide"
         >
-          Göktuğ Mert Özdoğan
+          Göktuğ Mert Özdoğan ~ Software Engineer
         </a>
 
         {/* Menu (right) */}

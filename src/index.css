@@ -1,58 +1,142 @@
 @import "tailwindcss";
 
+/* ======================================================
+   🎨 THEME: Forest Terminal
+   Palette inspired by deep greens, earthy browns, and ivory tones.
+   Works perfectly with the Ithaca pixel font aesthetic.
+====================================================== */
 @theme {
-  --font-sans:
-    Inter, ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  /* ==============================
+     Font
+  ============================== */
+  --font-sans: "Ithaca", ui-monospace, monospace;
 
-  --color-brand-primary: #4f772d;
-  --color-brand-secondary: #90a955;
+  /* ==============================
+     Core Palette
+  ============================== */
 
-  /* You can keep this light background */
-  --color-bg-base: #f9fafb;
-  --color-text-base: #111827;
+  /* 🎨 Backgrounds */
+  --color-bg-base: #fff9f2; /* Soft ivory page background — gentle on eyes */
+  --color-surface: #fdfbf8; /* Slightly lighter surface tone for contrast between sections */
+
+  /* 🖋️ Text Colors */
+  --color-text-base: #161514; /* Deep neutral — main text color */
+  --color-text-muted: #472e12; /* Warm brown — for subtitles, dates, muted info */
+
+  /* 🌿 Accents */
+  --color-accent: #2e6e27; /* Forest green — brand color, links, buttons */
+  --color-accent-2: #55a543; /* Bright green hover — interactive highlight */
+
+  /* 🧱 Borders / Structure */
+  --color-border: #4b3218; /* Earth brown — dividers, outlines, navbar background */
 }
 
-/* Base styles */
+/* ======================================================
+   🧱 Base Layer Styles
+====================================================== */
 @layer base {
   html:focus-within {
     scroll-behavior: smooth;
   }
 
   body {
-    /* changed for readability */
-    @apply font-sans bg-[var(--color-bg-base)] text-[var(--color-text-base)];
+    @apply font-sans bg-[var(--color-bg-base)] text-[var(--color-text-base)] antialiased;
+    line-height: 1.65;
   }
 
-  /* Make anchors and headings readable on light or mid backgrounds */
+  /* Global Links */
   a {
-    @apply text-[var(--color-brand-primary)] no-underline font-medium;
+    color: var(--color-accent-2);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
   }
   a:hover {
-    @apply text-[var(--color-brand-secondary)];
+    color: var(--color-accent-2);
   }
 
-  /* Headings now use darker text and brand highlight */
+  /* Headings */
   h1,
   h2,
   h3 {
-    @apply text-[var(--color-text-base)];
+    color: var(--color-text-base);
+    letter-spacing: 0.01em;
   }
 
-  p {
-    /* darker text for better contrast */
-    @apply leading-relaxed text-neutral-700;
+  /* Paragraphs and Lists */
+  p,
+  ul,
+  li {
+    color: var(--color-text-base);
+    letter-spacing: 0.02em;
   }
 
-  ul {
-    @apply text-neutral-700;
+  /* Muted Text Utility */
+  .text-muted {
+    color: var(--color-text-muted);
+  }
+
+  /* Selection highlight */
+  ::selection {
+    background-color: var(--color-accent);
+    color: #fff9f2;
   }
 }
 
-/* Helpers */
+/* ======================================================
+   🧩 Helpers & Utility Classes
+====================================================== */
+
+/* Centered container */
 .container-mx {
   @apply mx-auto max-w-6xl px-4 sm:px-6 lg:px-8;
 }
+
+/* Divider line */
 .hr-soft {
-  @apply h-px my-8 bg-gradient-to-r from-transparent via-neutral-400/30 to-transparent;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(20, 19, 18, 0.25),
+    transparent
+  );
+  height: 1px;
+  margin: 2rem 0;
+}
+
+/* Card element — used for sections, project blocks, etc. */
+.card {
+  @apply rounded-2xl p-6 border shadow-sm transition;
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+.card:hover {
+  box-shadow: 0 6px 18px rgba(75, 50, 24, 0.15);
+}
+
+/* Accent button */
+.btn-accent {
+  @apply inline-flex items-center justify-center font-semibold rounded-2xl px-5 py-3 transition;
+  color: #fff9f2;
+  background: var(--color-accent);
+}
+.btn-accent:hover {
+  background: var(--color-accent-2);
+  color: #0b0f0c;
+  transform: scale(1.02);
+}
+
+/* Navbar background + blur style */
+.nav-surface {
+  background: var(--color-border);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--color-bg-base);
+}
+
+/* Optional footer styling */
+.footer {
+  background: var(--color-border);
+  color: var(--color-bg-base);
+  @apply py-8 text-center text-sm tracking-wide;
 }

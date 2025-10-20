@@ -12,9 +12,9 @@ const projects: Project[] = [
   {
     title: "NUMMORIA ~ Personalized Finance Tracker",
     logoText: "src/assets/nummoria_logo.png",
-    what: "Nummoria is a full-stack personal finance application that helps you manage expenses, income, investments, and accounts in one place..",
-    why: "To help users to track their transactions and build better financial habits.",
-    how: "Stack + approach in a sentence.",
+    why: "Personal finance tools are either too basic to be useful or too complex for everyday tracking. Most people want to understand where their money goes, not study accounting. I built Nummoria to simplify that gap — a clean, intuitive app where income, expenses, and investments live together under one interface. The goal is clarity, not spreadsheets: see balances per account, visualize categories, track crypto, stocks, or land investments, and plan recurring transactions without friction. Instead of hiding insights behind complexity, Nummoria makes financial awareness part of your daily routine. It started as a personal need for better control, and evolved into a full-stack system designed for long-term use and AI-powered budgeting.",
+    how: "Nummoria runs on a Node.js + Express backend with MongoDB/Mongoose for data persistence, structured as modular routes and controllers (auth, accounts, transactions, investments, reports). Authentication supports JWT for API access and OAuth via Google for instant signup/login. The frontend, built with React (Vite + TailwindCSS), provides a fast and responsive dashboard experience, including charts, summaries, and dynamic filtering by account or currency. ESLint + Prettier enforce code consistency; Docker can spin up MongoDB for local or production deployment. All communication between backend and frontend flows through a secure REST API; environment variables control credentials, and CORS rules limit origins. Planned AI integration (via OpenAI API) will analyze transactions, detect spending trends, and recommend budget allocations automatically. The codebase is fully open-source under MIT license, emphasizing simplicity, scalability, and transparency.",
+    what: "The live app offers user registration, authentication (email/Google), profile management (name, profession, currency), and account types (checking, savings, credit, cash). Users can log income, expenses, and investments with category tagging and frequency scheduling. Reports visualize totals by category, currency, and account through pie and bar charts, giving immediate clarity on spending habits. The investment module supports stocks, crypto, gold, and real estate with symbol-based tracking (e.g., BTC-USD, AAPL). Recurring transactions ensure monthly patterns stay updated automatically. Upcoming releases will add an AI Financial Expert Agent to generate personalized insights, predict cash flow, and suggest optimizations. In short, Nummoria transforms raw financial data into usable knowledge — simple enough for daily use, powerful enough to replace multiple disconnected tools.",
     techs: ["React.js", "Node.js", "MongoDB", "Vue.js", "Tailwindcss"],
     links: {
       code: "https://github.com/gokmeroz/nummoria",
@@ -22,13 +22,36 @@ const projects: Project[] = [
     },
   },
   {
-    title: "Project 2",
-    logoText: "2",
-    why: "Problem & value proposition.",
-    how: "How you built it.",
-    what: "Performance/users/etc.",
-    techs: ["Next.js", "Prisma", "Tailwind"],
-    links: { code: "#", live: "#" },
+    title: "Sports Academies Management Mobile App",
+    logoText: "src/assets/sports-academy-managment-mobile-app.png",
+    why: "Running a sports academy usually means juggling spreadsheets, WhatsApp groups, paper forms, and manual payments across multiple tools. Owners need an at-a-glance picture of teams, sessions, attendance, and finances; coaches want fast check-in and access to drills; parents want clear schedules and updates; players want progress tracking. This app unifies those flows into one mobile-first product with role-based access (player/parent/coach/admin), clean calendars, one-tap attendance, match sheets, drill libraries, and push notifications. It reduces admin time, prevents miscommunication, and makes day-to-day operations measurable instead of chaotic. I’m building product & engineering; my cousin, Zeynep Yavlal, leads the business side (market discovery, pricing, onboarding partnerships) so the feature set directly reflects real academy needs.",
+    how: "Technically, it’s a React Native + Expo mobile app backed by a Node.js/Express API and MongoDB (Mongoose). The system is multi-tenant by design (every document scoped with clubId) so multiple academies can operate in isolation. On the backend, we follow a vertical slice structure (modules for users, teams, sessions, attendance, matches, drills, stats, media, notifications, messages, health) with joi validation, JWT auth (access/refresh), role guards, and security middleware (helmet, CORS whitelist, rate limiting). File uploads (avatars, drill clips) use Multer; push notifications are via Firebase (firebase-admin on server, expo-notifications on mobile) with topics per club/team/user. We use cursor/limit pagination and lean projections for snappy lists; common indexes (e.g., clubId+teamId+dateStart for sessions, unique clubId+sessionId+playerId for attendance) keep queries fast. On mobile, navigation is @react-navigation/native; AsyncStorage persists tokens; views prefer offline-friendly patterns (optimistic UI and background refresh). Testing uses Jest/Supertest; dev uses nodemon. Everything is free-license packages and cloud-agnostic so we can host cheaply and scale later.",
+    what: "Phase 1 delivers the operational core: role-based onboarding, team & session scheduling with calendar views, one-tap attendance, player/coach profiles, and actionable push notifications (session reminders, changes, messages). Phase 2 adds drill libraries with tags/difficulty/duration, match lineups and result capture, per-player stat logging and summaries, parent/coach messaging threads, and subscription payments. Admins get simple audit logs and CSV exports; coaches get fast check-in and drill search; parents see schedules and attendance; players see progress. Early prototype testing with local academies is validating three must-haves: (1) sub-5-second check-in flow per team, (2) clear parent schedule sharing, and (3) reliable notifications. The longer-term goal is a lean SaaS with multi-branch support, clean analytics, and pricing tiers—kept sustainable by a minimal stack, robust validation, and clear data isolation.",
+    techs: ["Node.js", "React Native", "TailwindCSS", "MongoDB", "Expo"],
+    links: {
+      code: "https://github.com/gokmeroz/sports-academy-managment-mobile-app",
+      live: "#",
+    },
+  },
+  {
+    title: "High-Frequency Trading of Bitcoin and Other Coins",
+    logoText: "HFT",
+    why: "In volatile crypto markets, even milliseconds matter. We set out to design a system that detects and executes profitable trades automatically — faster than human decision-making — to showcase how algorithmic trading can optimize returns in real-time conditions.",
+    how: "Built collaboratively as our university capstone project with my teammates Fazlı Altun and Hakan Emir Arslan, we combined machine learning and real-time data pipelines using Binance APIs. The backend runs on Python for predictive modeling and trade signal generation, while the frontend — built with React, TypeScript, and Tailwind — visualizes live market data, performance metrics, and trade history.",
+    what: "The final model achieved consistent simulated profitability across various market scenarios, demonstrating how intelligent strategies can outperform simple momentum or mean-reversion tactics. Beyond grades, this project taught us scalability, latency optimization, and the art of translating math into money.",
+    techs: [
+      "Python",
+      "JavaScript",
+      "React",
+      "TypeScript",
+      "Tailwind",
+      "Binance API",
+      "Machine Learning",
+    ],
+    links: {
+      code: "https://github.com/fazlialtunn/hft-bitcoin-capstone",
+      live: "#",
+    },
   },
 ];
 

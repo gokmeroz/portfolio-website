@@ -6,6 +6,11 @@ import Works from "./sections/Works";
 import Contact from "./sections/Contact";
 import Articles from "./sections/Articles";
 import "./index.css";
+import ScrollTop from "./components/ScrollTop";
+import Skills from "./sections/Skills";
+import Services from "./sections/Services";
+import Hero from "./sections/Hero";
+import SpotlightOverlay from "./components/SpotlightOverlay";
 
 export default function App() {
   const [active, setActive] = useState<string>("about");
@@ -39,19 +44,21 @@ export default function App() {
     <div>
       <Nav active={active} />
       <main className="container-mx pt-24 pb-10">
-        <header className="pb-6">
-          <h1>About Me!</h1>
-          <p className="mt-3 max-w-3xl">
-            Two–three lines about you. Short, confident, friendly. Replace this
-            with your real summary.
-          </p>
-        </header>
-
+        <Hero />
         <About />
+        <Skills />
         <Works />
+        <Services />
         <Contact />
         <Articles />
+        <ScrollTop />
         <Footer />
+        <SpotlightOverlay
+          coreSize={5}
+          glowSize={240}
+          lerp={0.2}
+          trailCount={30}
+        />
       </main>
     </div>
   );
