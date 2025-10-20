@@ -55,9 +55,9 @@ export default function App() {
         <Footer />
         <SpotlightOverlay
           coreSize={5}
-          glowSize={240}
+          glowSize={24}
           lerp={0.2}
-          trailCount={30}
+          trailCount={10}
         />
       </main>
     </div>
