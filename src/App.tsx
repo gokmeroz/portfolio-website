@@ -11,6 +11,7 @@ import Skills from "./sections/Skills";
 import Services from "./sections/Services";
 import Hero from "./sections/Hero";
 import SpotlightOverlay from "./components/SpotlightOverlay";
+import Certificates from "./sections/Certificates";
 
 export default function App() {
   const [active, setActive] = useState<string>("about");
@@ -47,6 +48,7 @@ export default function App() {
         <Hero />
         <About />
         <Skills />
+        <Certificates />
         <Works />
         <Services />
         <Contact />

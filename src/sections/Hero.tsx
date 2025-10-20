@@ -99,6 +99,7 @@ export default function Hero() {
           relationship, a career move, or a side project, I’d rather take my
           time and make it mine.{" "}
         </p>
+        <h3>Code. Build. Invest. Repeat. </h3>
       </div>
       <Divider />
       {/* </details> */}
