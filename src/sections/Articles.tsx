@@ -1,6 +1,6 @@
 type Article = {
   title: string;
-  topic: string;
+  topic: string[];
   date: string;
   excerpt: string;
   source: string;
@@ -8,20 +8,13 @@ type Article = {
 
 const items: Article[] = [
   {
-    title: "Article A — Name of the Title",
-    topic: "Topic: …",
-    date: "2025-10-19",
+    title: "Why I Think JavaScript Can Do It All",
+    topic: ["JavaScript", "Full Stack Development"],
+    date: "2025-10-22",
     excerpt:
-      "A few lines of summary about the article. Keep it tight and enticing for 'Read more'.",
-    source: "https://medium.com/@gokmeroz",
-  },
-  {
-    title: "Article B — Another Title",
-    topic: "Topic: …",
-    date: "2025-09-30",
-    excerpt:
-      "Another short preview of your writing with a clear takeaway and hook.",
-    source: "https://medium.com/@gokmeroz",
+      "Every developer has their go-to language, and for me, that’s always been JavaScript. The more I create, the more I realize it’s far beyond just a scripting language",
+    source:
+      "https://medium.com/@goekmeroz/why-i-think-javascript-can-do-it-all-407f98599f5f",
   },
 ];
 
@@ -34,7 +27,7 @@ export default function Articles() {
         {items.map((a, i) => (
           <article key={i} className="border border-white/10 rounded-2xl p-5">
             <div className="flex items-center justify-between text-sm text-neutral-400">
-              <span>{a.topic}</span>
+              <span>{a.topic.join(" ~ ")}</span>
               <span>{a.date}</span>
             </div>
             <h3 className="mt-2 text-lg font-bold">{a.title}</h3>

@@ -8,16 +8,19 @@
    Works perfectly with the Spider-Man font aesthetic.
 ====================================================== */
 @theme {
-  --font-sans: Abril Fatface ", sans-serif;" /* Creative & bold */
-    /* ==============================
+  /* --font-sans: "Abril Fatface", sans-serif; */
+  /* Creative & bold */
+  --font-sans: "Ithaca", sans-serif;
+  /* ==============================
      Core Palette
   ============================== */
-    /* 🎨 Backgrounds */ --color-bg-base: #fff9f2; /* Soft ivory page background — gentle on eyes */
+  /* 🎨 Backgrounds */
+  --color-bg-base: #fff9f2; /* Soft ivory page background — gentle on eyes */
   --color-surface: #fdfbf8; /* Slightly lighter surface tone for contrast between sections */
 
   /* 🖋️ Text Colors */
   --color-text-base: #161514; /* Deep neutral — main text color */
-  --color-text-muted: #472e12; /* Warm brown — for subtitles, dates, muted info */
+  --color-text-muted: #db2316; /* Warm brown — for subtitles, dates, muted info */
 
   /* 🌿 Accents */
   --color-accent: #2e6e27; /* Forest green — brand color, links, buttons */
