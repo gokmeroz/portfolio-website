@@ -35,7 +35,7 @@ const projects: Project[] = [
   },
   {
     title: "High-Frequency Trading of Bitcoin and Other Coins",
-    logoText: "HFT",
+    logoText: "src/assets/hft_btc.jpg",
     why: "In volatile crypto markets, even milliseconds matter. We set out to design a system that detects and executes profitable trades automatically — faster than human decision-making — to showcase how algorithmic trading can optimize returns in real-time conditions.",
     how: "Built collaboratively as our university capstone project with my teammates Fazlı Altun and Hakan Emir Arslan, we combined machine learning and real-time data pipelines using Binance APIs. The backend runs on Python for predictive modeling and trade signal generation, while the frontend — built with React, TypeScript, and Tailwind — visualizes live market data, performance metrics, and trade history.",
     what: "The final model achieved consistent simulated profitability across various market scenarios, demonstrating how intelligent strategies can outperform simple momentum or mean-reversion tactics. Beyond grades, this project taught us scalability, latency optimization, and the art of translating math into money.",
@@ -45,7 +45,7 @@ const projects: Project[] = [
       "React",
       "TypeScript",
       "Tailwind",
-      "Binance API",
+      "Coingecko API",
       "Machine Learning",
     ],
     links: {
