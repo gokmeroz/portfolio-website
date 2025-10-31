@@ -66,11 +66,11 @@ export default function Hero() {
           system, testing its limits, and seeing it actually handle real-world
           data. Outside of coding though, I’m a pretty layered person. I like
           comics and drawing caricatures. Moreover, I’m big on sports — I follow
-          football religiously (yes, I’m a Fenerbahçe fan through and through),
-          and I’ve got a soft spot for combat sports like boxing and MMA. I hit
-          the gym regularly, not because I’m chasing aesthetics, but because
-          it’s one of the few times my brain shuts off from code and just
-          focuses on movement and rhythm. I’m also super into finance and
+          football religiously (yes, I’m a die-hard Fenerbahçe fan through and
+          through), and I’ve got a soft spot for combat sports like boxing, bjj
+          and MMA. I hit the gym regularly, not because I’m chasing aesthetics,
+          but because it’s one of the few times my brain shuts off from code and
+          just focuses on movement and rhythm. I’m also super into finance and
           investing — it started out as curiosity during high school, but now
           it’s one of my daily hobbies. I track crypto markets, U.S. stocks, and
           sometimes play around with short-term trades just to understand the
