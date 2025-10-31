@@ -24,13 +24,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
+          cache: "npm"
 
       - name: Install deps
         run: npm ci
 
       - name: Build (Vite)
         run: npm run build
+
+      # Install AWS CLI v2 (ensures 'aws' is available)
+      - name: Install AWS CLI
+        run: |
+          curl -sSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip -q awscliv2.zip
+          sudo ./aws/install --update
+          aws --version
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -39,9 +47,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # Cache-friendly deploy:
-      #  - upload all static assets with long cache
-      #  - upload index.html with no-cache (so changes show instantly)
+      # Upload immutable assets first (long cache)
       - name: Sync assets (immutable)
         run: |
           aws s3 sync ./dist s3://$S3_BUCKET \
@@ -51,6 +57,7 @@ jobs:
         env:
           S3_BUCKET: ${{ secrets.S3_BUCKET }}
 
+      # Upload index.html with no-cache so content updates immediately
       - name: Upload index.html (no-cache)
         run: |
           aws s3 cp ./dist/index.html s3://$S3_BUCKET/index.html \
