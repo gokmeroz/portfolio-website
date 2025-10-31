@@ -13,9 +13,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show basic info
+        run: |
+          echo "Branch: $GITHUB_REF"
+          echo "Repo root contents:"
+          ls -la
+          echo "Node/npm versions (before setup-node):"
+          node -v || true
+          npm -v || true
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Show Node/npm after setup
+        run: |
+          node -v
+          npm -v
+
   build-and-deploy:
     runs-on: ubuntu-latest
-
+    needs: debug
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,11 +54,17 @@ jobs:
 
       - name: Install deps
         run: npm ci
-        # working-directory: ./<subfolder>   # <-- uncomment & set if your project isn't at repo root
+        # If your app is NOT at repo root, uncomment:
+        # working-directory: ./<your-subfolder>
 
       - name: Build
         run: npm run build
-        # working-directory: ./<subfolder>
+        # working-directory: ./<your-subfolder>
+
+      - name: List dist
+        run: |
+          echo "Dist contents:"
+          ls -la dist || (echo "dist missing!" && exit 1)
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -41,7 +73,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # Upload immutable assets first (long cache)
       - name: Sync assets (immutable)
         uses: aws-actions/aws-cli-action@v2
         with:
@@ -51,7 +82,6 @@ jobs:
             --exclude index.html
             --cache-control "public,max-age=31536000,immutable"
 
-      # Upload index.html with no-cache so text changes show instantly
       - name: Upload index.html (no-cache)
         uses: aws-actions/aws-cli-action@v2
         with:
