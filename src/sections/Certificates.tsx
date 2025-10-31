@@ -1,87 +1,66 @@
-// frontend/src/components/Cer.tsx
+// src/sections/Certificates.tsx
 import { useEffect, useState } from "react";
 
-type Cert = {
-  title: string;
-  from: string;
-  certificate_url: string;
-};
+// Import images so Vite bundles them
+import imgMetaIntroBE from "@/assets/certificates/meta-intro-backend.jpeg";
+import imgMetaIntroDB from "@/assets/certificates/meta-intro-databases.jpeg";
+import imgMichiganSQL from "@/assets/certificates/michigan-sql.jpeg";
+import imgUdemyNode from "@/assets/certificates/udemy-node-express-mongodb.jpg";
+import imgMetaPython from "@/assets/certificates/meta-programming-python.jpeg";
+import imgColoradoReq from "@/assets/certificates/colorado-requirements-secure-dev.jpeg";
+import imgUdemyAspNet from "@/assets/certificates/udemy-aspnet-core-9.jpg";
+import imgMetaVC from "@/assets/certificates/meta-version-control.jpeg";
+
+type Cert = { title: string; from: string; certificate_url: string };
 
 const groups: Cert[] = [
   {
     title: "Introduction to Back-End Development",
     from: "Meta",
-    certificate_url:
-      "src/assets/certificates/Introduction to Back-End Development .jpeg",
+    certificate_url: imgMetaIntroBE,
   },
   {
     title: "Introduction to Databases for Back-End Development",
     from: "Meta",
-    certificate_url:
-      "src/assets/certificates/Introduction to Databases for Back-End Development .jpeg",
+    certificate_url: imgMetaIntroDB,
   },
   {
     title: "Introduction to Structured Query Language (SQL)",
     from: "University of Michigan",
-    certificate_url:
-      "src/assets/certificates/Introduction to Structured Query Language (SQL).jpeg",
+    certificate_url: imgMichiganSQL,
   },
   {
     title: "Node.js, Express, MongoDB & More — The Complete Bootcamp",
     from: "Udemy",
-    certificate_url:
-      "src/assets/certificates/Node.js, Express, MongoDB & More- The Complete Bootcamp.jpg",
+    certificate_url: imgUdemyNode,
   },
   {
     title: "Programming in Python",
     from: "Meta",
-    certificate_url: "src/assets/certificates/Programming in Python .jpeg",
+    certificate_url: imgMetaPython,
   },
   {
     title: "Requirements Gathering for Secure Software Development",
     from: "University of Colorado",
-    certificate_url:
-      "src/assets/certificates/Requirements Gathering for Secure Software Development .jpeg",
+    certificate_url: imgColoradoReq,
   },
   {
     title: "The Complete ASP.NET Core 9 Course for Busy Developers",
     from: "Udemy",
-    certificate_url:
-      "src/assets/certificates/The complete ASP.NET Core 9 course for busy developers .jpg",
+    certificate_url: imgUdemyAspNet,
   },
-  {
-    title: "Version Control",
-    from: "Meta",
-    certificate_url: "src/assets/certificates/Version Control .jpeg",
-  },
+  { title: "Version Control", from: "Meta", certificate_url: imgMetaVC },
 ];
 
 export default function Cer() {
   const [active, setActive] = useState<number | null>(null);
 
-  // Preload big images to avoid jank when opening
   useEffect(() => {
     groups.forEach((g) => {
       const img = new Image();
       img.src = g.certificate_url;
     });
   }, []);
-
-  // Keyboard controls while modal is open
-  useEffect(() => {
-    if (active == null) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setActive(null);
-      if (e.key === "ArrowRight")
-        setActive((i) => (i == null ? 0 : (i + 1) % groups.length));
-      if (e.key === "ArrowLeft")
-        setActive((i) =>
-          i == null ? 0 : (i - 1 + groups.length) % groups.length
-        );
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [active]);
 
   const openItem = active != null ? groups[active] : null;
 
@@ -91,7 +70,6 @@ export default function Cer() {
         Certificates
       </h2>
 
-      {/* Thumbnails: lightweight, no hover to open */}
       <div className="relative flex overflow-x-auto gap-4 pb-2 no-scrollbar">
         {groups.map((g, i) => (
           <button
@@ -120,16 +98,14 @@ export default function Cer() {
         ))}
       </div>
 
-      {/* Fullscreen modal — opens ONLY on click */}
       {openItem && (
         <div
           className="fixed inset-0 z-50 bg-black/80 backdrop-blur-[2px] flex items-center justify-center p-4"
           onClick={(e) => {
-            if (e.target === e.currentTarget) setActive(null); // close on backdrop click
+            if (e.target === e.currentTarget) setActive(null);
           }}
         >
           <div className="relative w-full max-w-5xl transform-gpu">
-            {/* Title bar pinned above image */}
             <div className="absolute -top-12 left-0 right-0 flex justify-center pointer-events-none">
               <div className="px-4 py-2 rounded-full bg-white/95 shadow">
                 <h3 className="text-sm md:text-base font-semibold text-zinc-900 text-center">
@@ -140,8 +116,6 @@ export default function Cer() {
                 </p>
               </div>
             </div>
-
-            {/* Big image */}
             <div className="rounded-2xl overflow-hidden border shadow-2xl">
               <img
                 src={openItem.certificate_url}
@@ -150,8 +124,6 @@ export default function Cer() {
                 draggable={false}
               />
             </div>
-
-            {/* Controls */}
             <div className="mt-3 flex items-center justify-between text-zinc-200">
               <div className="flex gap-2">
                 <button
