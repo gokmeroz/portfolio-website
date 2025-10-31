@@ -24,21 +24,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "npm"
+          cache: npm
 
       - name: Install deps
         run: npm ci
+        # working-directory: ./<subfolder>   # <-- uncomment & set if your project isn't at repo root
 
-      - name: Build (Vite)
+      - name: Build
         run: npm run build
-
-      # Install AWS CLI v2 (ensures 'aws' is available)
-      - name: Install AWS CLI
-        run: |
-          curl -sSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip -q awscliv2.zip
-          sudo ./aws/install --update
-          aws --version
+        # working-directory: ./<subfolder>
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -49,27 +43,27 @@ jobs:
 
       # Upload immutable assets first (long cache)
       - name: Sync assets (immutable)
-        run: |
-          aws s3 sync ./dist s3://$S3_BUCKET \
-            --delete \
-            --exclude index.html \
+        uses: aws-actions/aws-cli-action@v2
+        with:
+          aws-cli-command: >
+            s3 sync ./dist s3://${{ secrets.S3_BUCKET }}
+            --delete
+            --exclude index.html
             --cache-control "public,max-age=31536000,immutable"
-        env:
-          S3_BUCKET: ${{ secrets.S3_BUCKET }}
 
-      # Upload index.html with no-cache so content updates immediately
+      # Upload index.html with no-cache so text changes show instantly
       - name: Upload index.html (no-cache)
-        run: |
-          aws s3 cp ./dist/index.html s3://$S3_BUCKET/index.html \
-            --cache-control "no-cache, no-store, must-revalidate" \
+        uses: aws-actions/aws-cli-action@v2
+        with:
+          aws-cli-command: >
+            s3 cp ./dist/index.html s3://${{ secrets.S3_BUCKET }}/index.html
+            --cache-control "no-cache, no-store, must-revalidate"
             --content-type "text/html"
-        env:
-          S3_BUCKET: ${{ secrets.S3_BUCKET }}
 
       - name: Invalidate CloudFront
-        run: |
-          aws cloudfront create-invalidation \
-            --distribution-id $CLOUDFRONT_DISTRIBUTION_ID \
+        uses: aws-actions/aws-cli-action@v2
+        with:
+          aws-cli-command: >
+            cloudfront create-invalidation
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
             --paths "/*"
-        env:
-          CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
