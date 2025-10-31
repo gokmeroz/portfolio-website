@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon --watch src --ext ts,tsx,js,jsx,css,html --exec vite",
     "build": "tsc -b && vite build",
+    "deploy": "npm run build && aws s3 sync dist/ s3://gokmeroz.com --delete --exclude index.html --cache-control 'public,max-age=31536000,immutable' && aws s3 cp dist/index.html s3://gokmeroz.com/index.html --cache-control 'no-cache, no-store, must-revalidate' --content-type 'text/html' && aws cloudfront create-invalidation --distribution-id E2C5C0OZ7LMCFU --paths '/*'",
     "lint": "eslint .",
     "preview": "vite preview"
   },
