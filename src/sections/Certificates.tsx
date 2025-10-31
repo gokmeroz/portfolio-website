@@ -1,55 +1,58 @@
 // src/sections/Certificates.tsx
 import { useEffect, useState } from "react";
 
-// Import images so Vite bundles them
-import imgMetaIntroBE from "@/assets/certificates/meta-intro-backend.jpeg";
-import imgMetaIntroDB from "@/assets/certificates/meta-intro-databases.jpeg";
-import imgMichiganSQL from "@/assets/certificates/michigan-sql.jpeg";
-import imgUdemyNode from "@/assets/certificates/udemy-node-express-mongodb.jpg";
-import imgMetaPython from "@/assets/certificates/meta-programming-python.jpeg";
-import imgColoradoReq from "@/assets/certificates/colorado-requirements-secure-dev.jpeg";
-import imgUdemyAspNet from "@/assets/certificates/udemy-aspnet-core-9.jpg";
-import imgMetaVC from "@/assets/certificates/meta-version-control.jpeg";
+// // Import images so Vite bundles them
+// import imgMetaIntroBE from "@/assets/certificates/meta-intro-backend.jpeg";
+// import imgMetaIntroDB from "@/assets/certificates/meta-intro-databases.jpeg";
+// import imgMichiganSQL from "@/assets/certificates/michigan-sql.jpeg";
+// import imgUdemyNode from "@/assets/certificates/udemy-node-express-mongodb.jpg";
+// import imgMetaPython from "@/assets/certificates/meta-programming-python.jpeg";
+// import imgColoradoReq from "@/assets/certificates/colorado-requirements-secure-dev.jpeg";
+// import imgUdemyAspNet from "@/assets/certificates/udemy-aspnet-core-9.jpg";
+// import imgMetaVC from "@/assets/certificates/meta-version-control.jpeg";
 
-type Cert = { title: string; from: string; certificate_url: string };
-
-const groups: Cert[] = [
+// src/sections/Certificates.tsx
+const groups = [
   {
     title: "Introduction to Back-End Development",
     from: "Meta",
-    certificate_url: imgMetaIntroBE,
+    certificate_url: "/certificates/meta-intro-backend.jpeg",
   },
   {
     title: "Introduction to Databases for Back-End Development",
     from: "Meta",
-    certificate_url: imgMetaIntroDB,
+    certificate_url: "/certificates/meta-intro-databases.jpeg",
   },
   {
     title: "Introduction to Structured Query Language (SQL)",
     from: "University of Michigan",
-    certificate_url: imgMichiganSQL,
+    certificate_url: "/certificates/michigan-sql.jpeg",
   },
   {
     title: "Node.js, Express, MongoDB & More — The Complete Bootcamp",
     from: "Udemy",
-    certificate_url: imgUdemyNode,
+    certificate_url: "/certificates/udemy-node-express-mongodb.jpg",
   },
   {
     title: "Programming in Python",
     from: "Meta",
-    certificate_url: imgMetaPython,
+    certificate_url: "/certificates/meta-programming-python.jpeg",
   },
   {
     title: "Requirements Gathering for Secure Software Development",
     from: "University of Colorado",
-    certificate_url: imgColoradoReq,
+    certificate_url: "/certificates/colorado-requirements-secure-dev.jpeg",
   },
   {
     title: "The Complete ASP.NET Core 9 Course for Busy Developers",
     from: "Udemy",
-    certificate_url: imgUdemyAspNet,
+    certificate_url: "/certificates/udemy-aspnet-core-9.jpg",
   },
-  { title: "Version Control", from: "Meta", certificate_url: imgMetaVC },
+  {
+    title: "Version Control",
+    from: "Meta",
+    certificate_url: "/certificates/meta-version-control.jpeg",
+  },
 ];
 
 export default function Cer() {
