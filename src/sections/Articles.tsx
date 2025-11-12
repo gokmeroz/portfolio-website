@@ -51,7 +51,7 @@ export default function Articles() {
       <p>
         Follow me on Medium for more →{" "}
         <a
-          href="https://medium.com/@gokmeroz"
+          href="https://medium.com/@goekmeroz"
           className="underline underline-offset-4"
           target="_blank"
           rel="noreferrer"
