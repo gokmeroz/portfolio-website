@@ -56,7 +56,7 @@ export default function Articles() {
           target="_blank"
           rel="noreferrer"
         >
-          medium.com/@gokmeroz
+          medium.com/@goekmeroz
         </a>
       </p>
     </section>
