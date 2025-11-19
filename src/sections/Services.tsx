@@ -90,7 +90,7 @@ export default function Services() {
             </h2>
             <div className="hr-accent mt-3 text-sm text-white/70 max-w-md">
               Backend-leaning full-stack solutions with data-driven features and
-              fintech-grade reliability. Clean code, measurable outcomes.
+              fintech grade reliability. Clean code, measurable outcomes.
             </div>
           </div>
           {/* Optional CTA */}

@@ -83,13 +83,13 @@ function ProjectCard({ p }: { p: Project }) {
         <h3 className="text-lg font-bold">{p.title}</h3>
         <ul className="mt-2 space-y-1 text-neutral-300">
           <li>
-            <span className="font-semibold">WHY?</span> {p.why}
+            <span className="font-semibold">WHY</span> {p.why}
           </li>
           <li>
-            <span className="font-semibold">HOW?</span> {p.how}
+            <span className="font-semibold">HOW</span> {p.how}
           </li>
           <li>
-            <span className="font-semibold">WHAT?</span> {p.what}
+            <span className="font-semibold">WHAT</span> {p.what}
           </li>
         </ul>
         <div className="mt-3 text-sm">
@@ -104,7 +104,7 @@ function ProjectCard({ p }: { p: Project }) {
             href={p.links.what}
             className="underline underline-offset-4 opacity-80 hover:opacity-100"
           >
-            what?
+            WHAT
           </a>
         )}
         {p.links.code && (
@@ -112,7 +112,7 @@ function ProjectCard({ p }: { p: Project }) {
             href={p.links.code}
             className="underline underline-offset-4 opacity-80 hover:opacity-100"
           >
-            CODE?
+            CODE
           </a>
         )}
         {p.links.live && (
@@ -120,7 +120,7 @@ function ProjectCard({ p }: { p: Project }) {
             href={p.links.live}
             className="underline underline-offset-4 opacity-80 hover:opacity-100"
           >
-            LIVE?
+            LIVE
           </a>
         )}
       </div>

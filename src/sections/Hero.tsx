@@ -57,8 +57,8 @@ export default function Hero() {
           mind and a bit of an obsession for building things that actually work.
           I’m the kind of guy who can lose hours debugging a line of code, but
           also forget to eat because I’m too focused on perfecting the UI or the
-          backend logic. It’s not always healthy — but it’s definitely who I am.
-          I’ve always been drawn to technology and problem-solving — not because
+          backend logic. It’s not always healthy but it’s definitely who I am.
+          I’ve always been drawn to technology and problem-solving not because
           of some big career plan, but because creating something out of nothing
           feels almost magical. Over the years, I’ve found my comfort zone
           somewhere between backend engineering and AI, mostly working with
@@ -83,7 +83,7 @@ export default function Hero() {
           studying German grammar because why not make life harder for myself. I
           love learning languages too; I speak English fluently, German at a
           solid level, and I’m always playing around with phrases from other
-          languages I pick up online. Music-wise, my playlists are all over the
+          languages I pick up online. Musicwise, my playlists are all over the
           place — one moment I’m listening to chill german rap or Turkish folks
           musics, the next it’s 2000s hip-hop or film soundtracks while I code.
           And yes, I do have a habit of looping the same track for hours if it

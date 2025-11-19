@@ -1,17 +1,6 @@
 // src/sections/Certificates.tsx
 import { useEffect, useState } from "react";
 
-// // Import images so Vite bundles them
-// import imgMetaIntroBE from "@/assets/certificates/meta-intro-backend.jpeg";
-// import imgMetaIntroDB from "@/assets/certificates/meta-intro-databases.jpeg";
-// import imgMichiganSQL from "@/assets/certificates/michigan-sql.jpeg";
-// import imgUdemyNode from "@/assets/certificates/udemy-node-express-mongodb.jpg";
-// import imgMetaPython from "@/assets/certificates/meta-programming-python.jpeg";
-// import imgColoradoReq from "@/assets/certificates/colorado-requirements-secure-dev.jpeg";
-// import imgUdemyAspNet from "@/assets/certificates/udemy-aspnet-core-9.jpg";
-// import imgMetaVC from "@/assets/certificates/meta-version-control.jpeg";
-
-// src/sections/Certificates.tsx
 const groups = [
   {
     title: "Introduction to Back-End Development",
