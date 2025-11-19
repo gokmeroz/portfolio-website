@@ -65,39 +65,39 @@ export default function Hero() {
           Node.js, C#/.NET, and Python. I love the feeling of designing a
           system, testing its limits, and seeing it actually handle real-world
           data. Outside of coding though, I’m a pretty layered person. I like
-          comics and drawing caricatures. Moreover, I’m big on sports — I follow
+          comics and drawing caricatures. Moreover, I’m big on sports, I follow
           football religiously (yes, I’m a die-hard Fenerbahçe fan through and
           through), and I’ve got a soft spot for combat sports like boxing, bjj
           and MMA. I hit the gym regularly, not because I’m chasing aesthetics,
           but because it’s one of the few times my brain shuts off from code and
           just focuses on movement and rhythm. I’m also super into finance and
-          investing — it started out as curiosity during high school, but now
+          investing, it started out as curiosity during high school, but now
           it’s one of my daily hobbies. I track crypto markets, U.S. stocks, and
           sometimes play around with short-term trades just to understand the
           psychology behind it all. I’ve even built a personal finance app
           (because of course I did) called Nummoria, where I can visualize my
           income, expenses, and investments with clean UI and smart analytics.
           When I’m not at my desk or the gym, I enjoy diving into completely
-          random interests — one week it’s learning about urban design and
+          random interests, one week it’s learning about urban design and
           architecture, the next it’s reading about behavioral economics or
           studying German grammar because why not make life harder for myself. I
           love learning languages too; I speak English fluently, German at a
           solid level, and I’m always playing around with phrases from other
           languages I pick up online. Musicwise, my playlists are all over the
-          place — one moment I’m listening to chill german rap or Turkish folks
+          place, one moment I’m listening to chill german rap or Turkish folks
           musics, the next it’s 2000s hip-hop or film soundtracks while I code.
           And yes, I do have a habit of looping the same track for hours if it
           fits the mood of my current project. On weekends, I try to keep things
-          simple — long walks, night drives through the city, maybe a coffee
+          simple, long walks, night drives through the city, maybe a coffee
           somewhere quiet where I can just think or sketch ideas. I’m not really
           a big party person; I value a few deep conversations over a hundred
           small ones. People say I come off as a bit cold at first, but once I
           open up, I’m the type to remember every detail about what someone told
-          me months ago. At my core, I’m someone who believes in balance —
-          between ambition and peace, between tech and art, between logic and
-          emotion. I don’t like rushing things that matter. Whether it’s a
-          relationship, a career move, or a side project, I’d rather take my
-          time and make it mine.{" "}
+          me months ago. At my core, I’m someone who believes in balance between
+          ambition and peace, between tech and art, between logic and emotion. I
+          don’t like rushing things that matter. Whether it’s a relationship, a
+          career move, or a side project, I’d rather take my time and make it
+          mine.{" "}
         </p>
         <h3>Code. Build. Invest. Repeat. </h3>
       </div>
