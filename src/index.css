@@ -1,148 +1,355 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
-@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
-
-/* ======================================================
-   🎨 THEME: Forest Terminal
-   Palette inspired by deep greens, earthy browns, and ivory tones.
-   Works perfectly with the Spider-Man font aesthetic.
-====================================================== */
 @theme {
-  /* --font-sans: "Abril Fatface", sans-serif; */
-  /* Creative & bold */
-  --font-sans: "Ithaca", sans-serif;
-  /* ==============================
-     Core Palette
-  ============================== */
-  /* 🎨 Backgrounds */
-  --color-bg-base: #fff9f2; /* Soft ivory page background — gentle on eyes */
-  --color-surface: #fdfbf8; /* Slightly lighter surface tone for contrast between sections */
+  --font-sans: "Inter", sans-serif;
 
-  /* 🖋️ Text Colors */
-  --color-text-base: #161514; /* Deep neutral — main text color */
-  --color-text-muted: #db2316; /* Warm brown — for subtitles, dates, muted info */
+  /* Core palette: NYC Night HUD */
+  --color-bg-base: #05070b;
+  --color-surface: rgba(10, 14, 20, 0.85);
+  --color-surface-2: rgba(14, 20, 28, 0.95);
 
-  /* 🌿 Accents */
-  --color-accent: #2e6e27; /* Forest green — brand color, links, buttons */
-  --color-accent-2: #55a543; /* Bright green hover — interactive highlight */
+  --color-text-base: #eaf4ff;
+  --color-text-muted: #6b8399;
 
-  /* 🧱 Borders / Structure */
-  --color-border: #4b3218; /* Earth brown — dividers, outlines, navbar background */
+  --color-accent: #e11d2e;
+  --color-accent-2: #2563eb;
+  --color-accent-3: #38bdf8;
+
+  --color-border: rgba(37, 99, 235, 0.18);
+  --color-border-strong: rgba(225, 29, 46, 0.35);
+
+  --shadow-hud:
+    0 0 0 1px rgba(37, 99, 235, 0.15),
+    0 0 20px rgba(37, 99, 235, 0.08),
+    0 0 40px rgba(225, 29, 46, 0.06);
 }
 
-/* ======================================================
-   🧱 Base Layer Styles
-====================================================== */
 @layer base {
+  html {
+    color-scheme: dark;
+  }
+
   html:focus-within {
     scroll-behavior: smooth;
   }
 
   body {
-    @apply font-sans bg-[var(--color-bg-base)] text-[var(--color-text-base)] antialiased;
+    @apply font-sans text-[var(--color-text-base)] antialiased;
+    min-height: 100vh;
     line-height: 1.65;
+    background-color: var(--color-bg-base);
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      radial-gradient(
+        circle at top,
+        rgba(37, 99, 235, 0.12),
+        transparent 30%
+      ),
+      radial-gradient(
+        circle at 80% 20%,
+        rgba(225, 29, 46, 0.1),
+        transparent 24%
+      ),
+      linear-gradient(180deg, #0a0d12 0%, #05070b 45%, #030407 100%);
+    background-size:
+      30px 30px,
+      30px 30px,
+      auto,
+      auto,
+      auto;
+    background-attachment: fixed;
   }
 
-  /* Global Links */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.025) 0px,
+        rgba(255, 255, 255, 0.025) 1px,
+        transparent 2px,
+        transparent 4px
+      );
+    opacity: 0.08;
+    mix-blend-mode: soft-light;
+  }
+
   a {
     color: var(--color-accent-2);
     text-decoration: none;
     font-weight: 600;
-    transition: color 0.2s ease;
-  }
-  a:hover {
-    color: var(--color-accent-2);
+    transition:
+      color 0.2s ease,
+      text-shadow 0.2s ease;
   }
 
-  /* Headings */
+  a:hover {
+    color: var(--color-accent);
+    text-shadow: 0 0 10px rgba(225, 29, 46, 0.28);
+  }
+
   h1,
   h2,
-  h3 {
-    color: var(--color-text-base);
-    letter-spacing: 0.01em;
-  }
-
-  /* Paragraphs and Lists */
-  p,
-  ul,
-  li {
+  h3,
+  h4,
+  h5,
+  h6 {
     color: var(--color-text-base);
     letter-spacing: 0.02em;
   }
 
-  /* Muted Text Utility */
-  .text-muted {
-    color: var(--color-text-muted);
+  p,
+  ul,
+  li,
+  span {
+    letter-spacing: 0.01em;
   }
 
-  /* Selection highlight */
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  input,
+  textarea,
+  select {
+    color: var(--color-text-base);
+    background: rgba(9, 13, 19, 0.88);
+    border: 1px solid var(--color-border);
+    border-radius: 0.9rem;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border-color: var(--color-accent-2);
+    box-shadow:
+      0 0 0 1px rgba(37, 99, 235, 0.28),
+      0 0 16px rgba(37, 99, 235, 0.12);
+  }
+
   ::selection {
-    background-color: var(--color-accent);
-    color: #fff9f2;
+    background-color: rgba(37, 99, 235, 0.24);
+    color: #ffffff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #070b10;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      rgba(37, 99, 235, 0.75),
+      rgba(225, 29, 46, 0.75)
+    );
+    border-radius: 999px;
   }
 }
 
-/* ======================================================
-   🧩 Helpers & Utility Classes
-====================================================== */
+/* Utilities */
 
-/* Centered container */
 .container-mx {
   @apply mx-auto max-w-6xl px-4 sm:px-6 lg:px-8;
 }
 
-/* Divider line */
+.text-muted {
+  color: var(--color-text-muted);
+}
+
 .hr-soft {
+  height: 1px;
+  margin: 2rem 0;
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(20, 19, 18, 0.25),
+    rgba(37, 99, 235, 0.35),
+    rgba(225, 29, 46, 0.22),
     transparent
   );
-  height: 1px;
-  margin: 2rem 0;
 }
 
-/* Card element — used for sections, project blocks, etc. */
 .card {
-  @apply rounded-2xl p-6 border shadow-sm transition;
-  background: var(--color-surface);
-  border-color: var(--color-border);
+  @apply rounded-2xl p-6 transition;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    rgba(14, 20, 28, 0.94),
+    rgba(9, 13, 19, 0.88)
+  );
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-hud);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(37, 99, 235, 0.06),
+      transparent 32%,
+      transparent 68%,
+      rgba(225, 29, 46, 0.05)
+    );
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.025);
+}
+
 .card:hover {
-  box-shadow: 0 6px 18px rgba(75, 50, 24, 0.15);
+  transform: translateY(-2px);
+  border-color: var(--color-border-strong);
+  box-shadow:
+    0 0 0 1px rgba(225, 29, 46, 0.15),
+    0 0 24px rgba(37, 99, 235, 0.1),
+    0 0 42px rgba(225, 29, 46, 0.08);
 }
 
-/* Accent button */
 .btn-accent {
-  @apply inline-flex items-center justify-center font-semibold rounded-2xl px-5 py-3 transition;
-  color: #fff9f2;
-  background: var(--color-accent);
+  @apply inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold transition;
+  color: white;
+  background: linear-gradient(
+    135deg,
+    var(--color-accent),
+    #9f1239
+  );
+  box-shadow: 0 4px 14px rgba(225, 29, 46, 0.35);
 }
+
 .btn-accent:hover {
-  background: var(--color-accent-2);
-  color: #0b0f0c;
-  transform: scale(1.02);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(225, 29, 46, 0.5);
 }
 
-/* Navbar background + blur style */
 .nav-surface {
-  background: var(--color-border);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  color: var(--color-bg-base);
+  background: rgba(7, 11, 16, 0.78);
+  border: 1px solid rgba(37, 99, 235, 0.14);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.26),
+    0 0 18px rgba(37, 99, 235, 0.05);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--color-text-base);
 }
 
-/* Optional footer styling */
 .footer {
-  background: var(--color-border);
-  color: var(--color-bg-base);
   @apply py-8 text-center text-sm tracking-wide;
+  color: var(--color-text-muted);
+  background: linear-gradient(
+    180deg,
+    rgba(8, 12, 18, 0.92),
+    rgba(4, 6, 10, 0.98)
+  );
+  border-top: 1px solid rgba(37, 99, 235, 0.14);
 }
+
+.hud-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-hud);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.hud-panel::before,
+.hud-panel::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: var(--color-accent-2);
+  opacity: 0.65;
+}
+
+.hud-panel::before {
+  top: 10px;
+  left: 10px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+
+.hud-panel::after {
+  right: 10px;
+  bottom: 10px;
+  border-right: 2px solid;
+  border-bottom: 2px solid;
+}
+
+.scanline {
+  position: relative;
+  overflow: hidden;
+}
+
+.scanline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(37, 99, 235, 0.05) 50%,
+    transparent 100%
+  );
+  animation: scanline-move 5s linear infinite;
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(37, 99, 235, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.glow-text {
+  text-shadow:
+    0 0 8px rgba(37, 99, 235, 0.35),
+    0 0 18px rgba(225, 29, 46, 0.2);
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+@keyframes scanline-move {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
 }

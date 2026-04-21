@@ -1,144 +1,235 @@
 // src/sections/Works.tsx
 type Project = {
   title: string;
-  logoText: string;
+  logoSrc: string;
   why: string;
   what: string;
   how: string;
   techs: string[];
-  links: { what?: string; code?: string; live?: string };
+  links: {
+    what?: string;
+    code?: string;
+    live?: string;
+  };
 };
 
 const projects: Project[] = [
   {
-    title: "NUMMORIA ~ Personalized Finance Tracker",
-    logoText: "/logos/nummoria_logo.png",
-    why: "Personal finance tools are either too basic to be useful or too complex for everyday tracking. Most people want to understand where their money goes, not study accounting. I built Nummoria to simplify that gap — a clean, intuitive app where income, expenses, and investments live together under one interface. The goal is clarity, not spreadsheets: see balances per account, visualize categories, track crypto, stocks, or land investments, and plan recurring transactions without friction. Instead of hiding insights behind complexity, Nummoria makes financial awareness part of your daily routine. It started as a personal need for better control, and evolved into a full-stack system designed for long-term use and AI-powered budgeting.",
-    how: "Nummoria runs on a Node.js + Express backend with MongoDB/Mongoose for data persistence, structured as modular routes and controllers (auth, accounts, transactions, investments, reports). Authentication supports JWT for API access and OAuth via Google for instant signup/login. The frontend, built with React (Vite + TailwindCSS), provides a fast and responsive dashboard experience, including charts, summaries, and dynamic filtering by account or currency. ESLint + Prettier enforce code consistency; Docker can spin up MongoDB for local or production deployment. All communication between backend and frontend flows through a secure REST API; environment variables control credentials, and CORS rules limit origins. Planned AI integration (via OpenAI API) will analyze transactions, detect spending trends, and recommend budget allocations automatically. The codebase is fully open-source under MIT license, emphasizing simplicity, scalability, and transparency.",
-    what: "The live app offers user registration, authentication (email/Google), profile management (name, profession, currency), and account types (checking, savings, credit, cash). Users can log income, expenses, and investments with category tagging and frequency scheduling. Reports visualize totals by category, currency, and account through pie and bar charts, giving immediate clarity on spending habits. The investment module supports stocks, crypto, gold, and real estate with symbol-based tracking (e.g., BTC-USD, AAPL). Recurring transactions ensure monthly patterns stay updated automatically. Upcoming releases will add an AI Financial Expert Agent to generate personalized insights, predict cash flow, and suggest optimizations. In short, Nummoria transforms raw financial data into usable knowledge — simple enough for daily use, powerful enough to replace multiple disconnected tools.",
-    techs: ["React.js", "Node.js", "MongoDB", "TailwindCSS", "Docker"],
+    title: "NUMMORIA ~ AI-Powered Personal Finance System",
+    logoSrc: "/logos/nummoria_logo.png",
+    why: "Most finance apps fail at one of two extremes: they’re either overly simplistic or unnecessarily complex. Users do not want accounting software — they want clarity. Nummoria was built to bridge that gap. It provides a unified, intuitive system where income, expenses, and investments coexist seamlessly. Instead of forcing users into spreadsheets or fragmented tools, it delivers a clear financial picture through structured data, visual insights, and frictionless tracking. What began as a personal need for control evolved into a scalable system designed to make financial awareness effortless and consistent.",
+    how: "Nummoria is built as a modular full-stack system. The backend leverages Node.js and Express with MongoDB/Mongoose, organized into domain-driven modules such as auth, accounts, transactions, investments, and analytics. It supports JWT-based authentication alongside OAuth with Google and Apple for seamless onboarding. The frontend is developed with React, Vite, and TailwindCSS, delivering a high-performance dashboard with real-time summaries, filtering, and data visualization. Communication is handled through a secure REST API with strict CORS policies and environment-based configuration. The architecture is designed for extensibility, enabling AI integration to analyze transaction patterns, detect behavioral trends, and generate actionable financial insights.",
+    what: "The platform enables users to manage their complete financial lifecycle. Core features include secure authentication, multi-account management, and structured tracking of income, expenses, and investments. Users can categorize transactions, schedule recurring entries, and analyze their financial behavior through interactive charts and summaries. The investment module supports multiple asset classes such as stocks, crypto, commodities, and real estate with symbol-based tracking. Reporting tools provide breakdowns by category, account, and currency, turning raw financial data into actionable insight. Upcoming iterations introduce an AI Financial Advisor capable of forecasting cash flow, identifying inefficiencies, and recommending optimizations.",
+    techs: [
+      "React",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "TailwindCSS",
+      "JWT",
+      "OAuth",
+      "Docker",
+    ],
     links: {
       code: "https://github.com/gokmeroz/nummoria",
-      live: "https://www.nummoria-finance.com",
+      live: "https://www.nummoria.com",
     },
   },
   {
     title: "Sports Academies Management Mobile App",
-    logoText: "/logos/sports-academy-managment-mobile-app.png",
-    why: "Running a sports academy usually means juggling spreadsheets, WhatsApp groups, paper forms, and manual payments across multiple tools. Owners need an at-a-glance picture of teams, sessions, attendance, and finances; coaches want fast check-in and access to drills; parents want clear schedules and updates; players want progress tracking. This app unifies those flows into one mobile-first product with role-based access (player/parent/coach/admin), clean calendars, one-tap attendance, match sheets, drill libraries, and push notifications. It reduces admin time, prevents miscommunication, and makes day-to-day operations measurable instead of chaotic.",
-    how: "Technically, it’s a React Native + Expo mobile app backed by a Node.js/Express API and MongoDB (Mongoose). The system is multi-tenant by design (every document scoped with clubId) so multiple academies can operate in isolation. On the backend, we follow a vertical slice structure (modules for users, teams, sessions, attendance, matches, drills, stats, media, notifications, messages, health) with joi validation, JWT auth (access/refresh), role guards, and security middleware (helmet, CORS whitelist, rate limiting). File uploads (avatars, drill clips) use Multer; push notifications are via Firebase (firebase-admin on server, expo-notifications on mobile) with topics per club/team/user. Navigation uses @react-navigation/native; AsyncStorage persists tokens; and the UI prefers offline-friendly patterns like optimistic updates.",
-    what: "Phase 1 delivers the operational core: role-based onboarding, team & session scheduling with calendar views, one-tap attendance, player/coach profiles, and actionable push notifications (session reminders, changes, messages). Phase 2 adds drill libraries, match lineups, per-player stats, and parent/coach messaging threads. The long-term goal is a lean SaaS with analytics and multi-branch support — simple, affordable, and reliable for small academies worldwide.",
-    techs: ["Node.js", "React Native", "TailwindCSS", "MongoDB", "Expo"],
+    logoSrc: "/logos/sports-academy-managment-mobile-app.png",
+    why: "Running a sports academy usually means juggling spreadsheets, WhatsApp groups, paper forms, and manual payments across multiple tools. Owners need an at-a-glance picture of teams, sessions, attendance, and finances. Coaches want fast check-in and access to drills. Parents want clear schedules and updates. Players want progress tracking. This app unifies those flows into one mobile-first product with role-based access, clean calendars, one-tap attendance, match sheets, drill libraries, and push notifications. It reduces admin time, prevents miscommunication, and makes day-to-day operations measurable instead of chaotic.",
+    how: "Technically, it is a React Native and Expo mobile app backed by a Node.js, Express, and MongoDB stack. The system is multi-tenant by design, with each document scoped by clubId so multiple academies can operate in isolation. On the backend, the project follows a vertical-slice structure with modules for users, teams, sessions, attendance, matches, drills, stats, media, notifications, and messaging. Validation is handled through Joi, authentication through JWT, and security through middleware such as Helmet, CORS allowlists, and rate limiting. File uploads use Multer, while push notifications are delivered with Firebase and Expo Notifications.",
+    what: "Phase 1 delivers the operational core: role-based onboarding, team and session scheduling with calendar views, one-tap attendance, player and coach profiles, and actionable push notifications such as session reminders, changes, and messages. Phase 2 expands into drill libraries, match lineups, per-player statistics, and parent-coach messaging threads. The long-term goal is a lean SaaS product with analytics and multi-branch support for small academies worldwide.",
+    techs: [
+      "React Native",
+      "Expo",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Firebase",
+      "JWT",
+      "Multer",
+    ],
     links: {
       code: "https://github.com/gokmeroz/sports-academy-managment-mobile-app",
-      live: "#",
     },
   },
   {
     title: "High-Frequency Trading of Bitcoin and Other Coins",
-    logoText: "/logos/hft_btc.jpg",
-    why: "In volatile crypto markets, even milliseconds matter. We set out to design a system that detects and executes profitable trades automatically — faster than human decision-making — to showcase how algorithmic trading can optimize returns in real-time conditions.",
-    how: "Built collaboratively as our university capstone project with my teammates Fazlı Altun and Hakan Emir Arslan, we combined machine learning and real-time data pipelines using Binance APIs. The backend runs on Python for predictive modeling and trade signal generation, while the frontend — built with React, TypeScript, and Tailwind — visualizes live market data, performance metrics, and trade history.",
-    what: "The final model achieved consistent simulated profitability across various market scenarios, demonstrating how intelligent strategies can outperform simple momentum or mean-reversion tactics. Beyond grades, this project taught us scalability, latency optimization, and the art of translating math into money.",
+    logoSrc: "/logos/hft_btc.jpg",
+    why: "In volatile crypto markets, even milliseconds matter. This project explored how an automated system could detect and execute profitable trades faster than human decision-making. The goal was to demonstrate how algorithmic trading and machine learning could be combined to optimize returns under real-time market conditions.",
+    how: "Built collaboratively as a university capstone project with my teammates Fazlı Altun and Hakan Emir Arslan, the system combined machine learning models and real-time market pipelines through Binance APIs. The backend was developed in Python for predictive modeling and trade signal generation, while the frontend used React, TypeScript, and TailwindCSS to visualize live market data, trade history, and performance metrics.",
+    what: "The final model achieved consistent simulated profitability across different market scenarios, demonstrating how intelligent strategies can outperform simpler momentum or mean-reversion baselines. Beyond the academic result, the project deepened our understanding of scalability, latency, model evaluation, and the challenge of turning quantitative logic into usable trading decisions.",
     techs: [
       "Python",
-      "JavaScript",
       "React",
       "TypeScript",
-      "Tailwind",
-      "Coingecko API",
+      "TailwindCSS",
+      "Binance API",
+      "CoinGecko API",
       "Machine Learning",
     ],
     links: {
       code: "https://github.com/fazlialtunn/hft-bitcoin-capstone",
-      live: "#",
     },
   },
 ];
 
-function Divider() {
+function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent my-8" />
+    <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--color-text-muted)]">
+      {children}
+    </span>
   );
 }
 
-function ProjectCard({ p }: { p: Project }) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-4 md:gap-6 items-start">
-      {/* Logo */}
-      <div className="flex items-center gap-3">
-        <img
-          src={p.logoText}
-          alt={`${p.title} logo`}
-          className="h-10 w-10 rounded-full object-contain border border-white/10"
-          onError={(e) => {
-            (e.currentTarget as HTMLImageElement).src =
-              "/logos/nummoria_logo.png";
-          }}
-        />
-      </div>
+function ActionLink({
+  href,
+  children,
+  variant = "default",
+}: {
+  href: string;
+  children: React.ReactNode;
+  variant?: "default" | "primary";
+}) {
+  const isExternal = href.startsWith("http");
 
-      {/* Content */}
-      <div>
-        <h3 className="text-lg font-bold">{p.title}</h3>
-        <ul className="mt-2 space-y-1 text-neutral-300">
-          <li>
-            <span className="font-semibold">WHY</span> {p.why}
-          </li>
-          <li>
-            <span className="font-semibold">HOW</span> {p.how}
-          </li>
-          <li>
-            <span className="font-semibold">WHAT</span> {p.what}
-          </li>
-        </ul>
-        <div className="mt-3 text-sm">
-          <span className="opacity-80">TECHS USED:</span> {p.techs.join(", ")}
+  return (
+    <a
+      href={href}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noreferrer noopener" : undefined}
+      className={[
+        "inline-flex items-center justify-center rounded-xl px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition",
+        variant === "primary"
+          ? "border border-[var(--color-border-strong)] bg-[var(--color-accent)]/12 text-[var(--color-text-base)] hover:-translate-y-[1px] hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)]/18"
+          : "border border-[var(--color-border)] bg-white/[0.03] text-[var(--color-text-base)] hover:-translate-y-[1px] hover:border-[var(--color-accent-2)] hover:bg-white/[0.06]",
+      ].join(" ")}
+    >
+      {children}
+    </a>
+  );
+}
+
+function TechChip({ label }: { label: string }) {
+  return (
+    <span className="inline-flex items-center rounded-full border border-[var(--color-border)] bg-white/[0.04] px-3 py-1.5 text-[11px] font-medium tracking-[0.04em] text-[var(--color-text-base)] transition hover:border-[var(--color-border-strong)] hover:bg-white/[0.07]">
+      {label}
+    </span>
+  );
+}
+
+function ProjectCard({ project }: { project: Project }) {
+  return (
+    <article className="group relative overflow-hidden rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-hud)] backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-[var(--color-border-strong)]">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--color-accent-2)]/70 to-transparent" />
+      <div className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-[var(--color-accent)]/10 blur-3xl" />
+      <div className="pointer-events-none absolute -left-12 bottom-0 h-28 w-28 rounded-full bg-[var(--color-accent-2)]/10 blur-3xl" />
+
+      <div className="relative grid grid-cols-1 gap-6 lg:grid-cols-[auto_1fr_auto] lg:items-start">
+        {/* Logo */}
+        <div className="flex items-start">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-black/20 p-2 shadow-[0_0_20px_rgba(0,0,0,0.18)]">
+            <img
+              src={project.logoSrc}
+              alt={`${project.title} logo`}
+              className="h-full w-full rounded-xl object-contain"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).src =
+                  "/logos/nummoria_logo.png";
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Main content */}
+        <div className="min-w-0">
+          <h3 className="text-lg font-extrabold tracking-tight text-[var(--color-text-base)] sm:text-xl">
+            {project.title}
+          </h3>
+
+          <div className="mt-5 space-y-5">
+            <div>
+              <SectionLabel>Why</SectionLabel>
+              <p className="mt-2 text-sm leading-7 text-white/78 sm:text-[15px]">
+                {project.why}
+              </p>
+            </div>
+
+            <div>
+              <SectionLabel>How</SectionLabel>
+              <p className="mt-2 text-sm leading-7 text-white/78 sm:text-[15px]">
+                {project.how}
+              </p>
+            </div>
+
+            <div>
+              <SectionLabel>What</SectionLabel>
+              <p className="mt-2 text-sm leading-7 text-white/78 sm:text-[15px]">
+                {project.what}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-5">
+            <SectionLabel>Tech Stack</SectionLabel>
+            <div className="mt-3 flex flex-wrap gap-2.5">
+              {project.techs.map((tech) => (
+                <TechChip key={tech} label={tech} />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="flex flex-row flex-wrap items-start gap-2 lg:w-[110px] lg:flex-col lg:justify-start">
+          {project.links.what && (
+            <ActionLink href={project.links.what}>What</ActionLink>
+          )}
+
+          {project.links.code && (
+            <ActionLink href={project.links.code}>Code</ActionLink>
+          )}
+
+          {project.links.live && project.links.live !== "#" && (
+            <ActionLink href={project.links.live} variant="primary">
+              Live
+            </ActionLink>
+          )}
         </div>
       </div>
-
-      {/* Links */}
-      <div className="flex md:flex-col gap-3 md:gap-2 justify-end md:justify-start text-right md:text-left">
-        {p.links.what && (
-          <a
-            href={p.links.what}
-            className="underline underline-offset-4 opacity-80 hover:opacity-100"
-          >
-            WHAT
-          </a>
-        )}
-        {p.links.code && (
-          <a
-            href={p.links.code}
-            className="underline underline-offset-4 opacity-80 hover:opacity-100"
-          >
-            CODE
-          </a>
-        )}
-        {p.links.live && (
-          <a
-            href={p.links.live}
-            className="underline underline-offset-4 opacity-80 hover:opacity-100"
-          >
-            LIVE
-          </a>
-        )}
-      </div>
-    </div>
+    </article>
   );
+}
+
+function Divider() {
+  return <div className="hr-soft mt-10" />;
 }
 
 export default function Works() {
   return (
-    <section id="projects" className="scroll-mt-24 py-6">
-      <h2 className="text-2xl font-extrabold tracking-tight">
-        Projects &amp; Works
-      </h2>
-      <div className="mt-6 space-y-8">
-        {projects.map((p, i) => (
-          <ProjectCard key={i} p={p} />
+    <section id="projects" className="scroll-mt-24 py-10">
+      <div className="mb-6">
+        <p className="text-[11px] uppercase tracking-[0.28em] text-[var(--color-text-muted)]">
+          Selected Work
+        </p>
+        <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-[var(--color-text-base)] sm:text-3xl">
+          Projects &amp; Works
+        </h2>
+        <p className="mt-3 max-w-3xl text-sm leading-7 text-white/65 sm:text-[15px]">
+          A selection of systems I built across fintech, mobile SaaS, and
+          algorithmic trading — focused on product thinking, scalable backend
+          architecture, and clear user-facing execution.
+        </p>
+      </div>
+
+      <div className="space-y-8">
+        {projects.map((project) => (
+          <ProjectCard key={project.title} project={project} />
         ))}
       </div>
+
       <Divider />
     </section>
   );
