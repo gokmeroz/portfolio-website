@@ -1,13 +1,32 @@
-import { Github, Linkedin, Twitter } from "lucide-react";
+import { FileText, Github, Linkedin, Twitter } from "lucide-react";
 export default function Contact() {
   return (
     <section id="contact" className="scroll-mt-24 py-6">
       <h2 className="text-2xl font-extrabold tracking-tight">Contacts</h2>
 
       <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-6 border border-white/10 rounded-2xl p-6">
-        <a href="mailto:goekmeroz@gmail.com" className="btn-accent">
-          HIRE ME!
-        </a>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <a href="mailto:goekmeroz@gmail.com" className="btn-accent">
+            HIRE ME!
+          </a>
+          <a
+            href="/resume/Goktug-Mert-Ozdogan-Resume.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="pixel-btn"
+          >
+            <FileText size={16} strokeWidth={2} className="mr-2" />
+            Résumé
+          </a>
+          <a
+            href="/resume/Goktug-Mert-Ozdogan-Resume.pdf"
+            download="Goktug-Mert-Ozdogan-Resume.pdf"
+            className="pixel-btn"
+            aria-label="Download résumé PDF"
+          >
+            Download
+          </a>
+        </div>
 
         <div className="flex items-center gap-6 text-sm">
           {/* GitHub */}

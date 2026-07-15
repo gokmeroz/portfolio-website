@@ -13,6 +13,7 @@ import Hero from "./sections/Hero";
 import SpotlightOverlay from "./components/SpotlightOverlay";
 import Certificates from "./sections/Certificates";
 import PixelGuide from "./components/PixelGuide";
+import CityWebBackdrop from "./components/CityWebBackdrop";
 
 export default function App() {
   const [active, setActive] = useState<string>("about");
@@ -44,6 +45,7 @@ export default function App() {
 
   return (
     <div>
+      <CityWebBackdrop />
       <Nav active={active} />
       <PixelGuide />
       <main className="container-mx pt-24 pb-10">

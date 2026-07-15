@@ -76,47 +76,47 @@ const items = [
   },
 ];
 
+function Divider() {
+  return <div className="hr-soft mt-10" />;
+}
+
 export default function Services() {
   return (
-    <div className="bg-night2">
-      <div className="max-w-6xl mx-auto px-4 py-16">
-        <div className="md:flex md:items-end md:justify-between">
-          <div>
-            <p className="uppercase tracking-[0.25em] text-xs text-accent2/80">
-              Services
-            </p>
-            <h2 className="mt-2 text-2xl md:text-3xl font-extrabold">
-              What I Build
-            </h2>
-            <div className="hr-accent mt-3 text-sm text-white/70 max-w-md">
-              Backend-leaning full-stack solutions with data-driven features and
-              fintech grade reliability. Clean code, measurable outcomes.
-            </div>
-          </div>
-          {/* Optional CTA */}
-          {/* <a
-            href="#contact"
-            className="inline-block mt-6 text-xs px-3 py-2 rounded border border-accent text-accent hover:bg-accent hover:text-night transition-colors"
-          >
-            LET’S WORK
-          </a> */}
-        </div>
-
-        <div className="mt-10 grid md:grid-cols-2 gap-6">
-          {items.map((s) => (
-            <article
-              key={s.title}
-              className="p-5 rounded-2xl bg-card border border-white/10 shadow-glow"
-            >
-              <div className="h-9 w-9 flex items-center justify-center rounded border border-accent text-accent">
-                {s.icon}
-              </div>
-              <h3 className="mt-4 text-lg font-semibold">{s.title}</h3>
-              <p className="mt-2 text-sm text-white/70">{s.text}</p>
-            </article>
-          ))}
-        </div>
+    <section className="scroll-mt-24 py-10">
+      <div className="mb-6">
+        <p className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-text-muted)]">
+          Build Menu
+        </p>
+        <h2 className="mt-2 font-display text-[clamp(14px,2.6vw,20px)] text-[var(--color-text-base)]">
+          What I Build
+        </h2>
+        <p className="mt-3 max-w-3xl text-lg leading-7 text-[var(--color-text-base)]/70">
+          Backend-leaning full-stack solutions with data-driven features and
+          fintech-grade reliability. Clean code, measurable outcomes.
+        </p>
       </div>
-    </div>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        {items.map((s, i) => (
+          <article
+            key={s.title}
+            className="fade-up pixel-panel p-6"
+            style={{ animationDelay: `${i * 90}ms` }}
+          >
+            <div className="flex h-9 w-9 items-center justify-center border-2 border-[var(--color-border)] bg-[var(--color-surface-2)] text-[var(--color-accent-2)]">
+              {s.icon}
+            </div>
+            <h3 className="mt-4 font-pixel-ui text-sm tracking-wide text-[var(--color-text-base)]">
+              {s.title}
+            </h3>
+            <p className="mt-2 text-base leading-6 text-[var(--color-text-base)]/70">
+              {s.text}
+            </p>
+          </article>
+        ))}
+      </div>
+
+      <Divider />
+    </section>
   );
 }

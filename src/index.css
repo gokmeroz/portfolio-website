@@ -540,3 +540,93 @@
     animation: none;
   }
 }
+
+/* ---------- NYC skyline + spider-web backdrop ---------- */
+.city-web-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.city-web-backdrop__sky {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 900px 600px at 82% -8%,
+      rgba(76, 212, 255, 0.16),
+      transparent 60%
+    ),
+    linear-gradient(
+      to top,
+      rgba(255, 77, 109, 0.07),
+      transparent 42%
+    );
+}
+
+.city-web-backdrop__moon {
+  position: absolute;
+  top: 7%;
+  right: 9%;
+  width: 54px;
+  height: 54px;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 18px rgba(76, 212, 255, 0.55))
+    drop-shadow(0 0 40px rgba(76, 212, 255, 0.25));
+  animation: moon-glow 3.2s steps(6) infinite;
+}
+
+@keyframes moon-glow {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.city-web-backdrop__skyline {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: min(18vh, 170px);
+  opacity: 0.32;
+  mask-image: linear-gradient(to top, black 20%, transparent 92%);
+  -webkit-mask-image: linear-gradient(to top, black 20%, transparent 92%);
+}
+
+.city-web-strand {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.16;
+}
+
+.city-web-strand line,
+.city-web-strand polygon {
+  fill: none;
+  stroke: var(--color-text-muted);
+  stroke-width: 1.2;
+}
+
+.city-web-strand.top-left {
+  top: -70px;
+  left: -70px;
+  width: 280px;
+  height: 280px;
+}
+
+.city-web-strand.top-right {
+  top: -70px;
+  right: -70px;
+  width: 320px;
+  height: 320px;
+  transform: scaleX(-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .city-web-backdrop__moon {
+    animation: none;
+  }
+}
