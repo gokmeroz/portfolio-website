@@ -1,7 +1,10 @@
 // src/sections/Works.tsx
+import { Plane, type LucideIcon } from "lucide-react";
+
 type Project = {
   title: string;
-  logoSrc: string;
+  logoSrc?: string;
+  icon?: LucideIcon;
   why: string;
   what: string;
   how: string;
@@ -36,23 +39,21 @@ const projects: Project[] = [
     },
   },
   {
-    title: "Sports Academies Management Mobile App",
-    logoSrc: "/logos/sports-academy-managment-mobile-app.png",
-    why: "Running a sports academy usually means juggling spreadsheets, WhatsApp groups, paper forms, and manual payments across multiple tools. Owners need an at-a-glance picture of teams, sessions, attendance, and finances. Coaches want fast check-in and access to drills. Parents want clear schedules and updates. Players want progress tracking. This app unifies those flows into one mobile-first product with role-based access, clean calendars, one-tap attendance, match sheets, drill libraries, and push notifications. It reduces admin time, prevents miscommunication, and makes day-to-day operations measurable instead of chaotic.",
-    how: "Technically, it is a React Native and Expo mobile app backed by a Node.js, Express, and MongoDB stack. The system is multi-tenant by design, with each document scoped by clubId so multiple academies can operate in isolation. On the backend, the project follows a vertical-slice structure with modules for users, teams, sessions, attendance, matches, drills, stats, media, notifications, and messaging. Validation is handled through Joi, authentication through JWT, and security through middleware such as Helmet, CORS allowlists, and rate limiting. File uploads use Multer, while push notifications are delivered with Firebase and Expo Notifications.",
-    what: "Phase 1 delivers the operational core: role-based onboarding, team and session scheduling with calendar views, one-tap attendance, player and coach profiles, and actionable push notifications such as session reminders, changes, and messages. Phase 2 expands into drill libraries, match lineups, per-player statistics, and parent-coach messaging threads. The long-term goal is a lean SaaS product with analytics and multi-branch support for small academies worldwide.",
+    title: "JobPilot — Autopilot for Job Applications",
+    icon: Plane,
+    why: "Job searching at scale is repetitive, error-prone, and easy to lose track of — the same form filled out a hundred times, with no record of what was applied to or why a role got skipped. JobPilot turns that grind into a structured, auditable pipeline: discover roles across job boards and ATS APIs, filter and score them against a real candidate profile, and only touch a submit button after a human has signed off. The goal was never full automation for its own sake — it's automation with a paper trail, built for high-volume job searches without losing control of what gets sent out under your name.",
+    how: "JobPilot is a Python 3.12 pipeline with eight explicit stages — discover, normalize, gate, dedupe, score, review, apply, sync — backed by a SQLite ledger for deduplication. Role fit is scored by the Anthropic Claude API against a CANDIDATE.md profile using a configurable rubric, so nothing about a candidate's background is invented; unmapped fields route straight to manual review instead of being guessed. Playwright drives the actual applications through a BaseFormFiller abstraction with dedicated fillers for Greenhouse, Ashby, Lever, and Workable (LinkedIn and Workday fall back to a manual queue), and a prefetch() hook runs LLM calls before any browser navigation so an in-flight API call can't kill the Playwright session. Every run syncs to Google Sheets for a clean, reviewable application ledger.",
+    what: "In review-first mode, the pipeline stops after scoring and writes a review file so specific jobs get approved before anything is submitted; full-auto mode submits automatically on supported ATS platforms and queues the rest. Every skip is logged with a reason, every application is auditable after the fact, and PII — resume, cover letters, CANDIDATE.md — never leaves the local machine. It's an open-source, self-hosted tool built to bring the same rigor to job hunting as any production pipeline.",
     techs: [
-      "React Native",
-      "Expo",
-      "Node.js",
-      "Express",
-      "MongoDB",
-      "Firebase",
-      "JWT",
-      "Multer",
+      "Python",
+      "Playwright",
+      "Anthropic Claude API",
+      "SQLite",
+      "Google Sheets API",
+      "YAML",
     ],
     links: {
-      code: "https://github.com/gokmeroz/sports-academy-managment-mobile-app",
+      code: "https://github.com/gokmeroz/jobpilot-autopilot-for-job-applications",
     },
   },
   {
@@ -120,9 +121,19 @@ function TechChip({ label }: { label: string }) {
   );
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({
+  project,
+  index,
+}: {
+  project: Project;
+  index: number;
+}) {
+  const Icon = project.icon;
   return (
-    <article className="group relative overflow-hidden rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-hud)] backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-[var(--color-border-strong)]">
+    <article
+      className="fade-up group relative overflow-hidden rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-hud)] backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-[var(--color-border-strong)]"
+      style={{ animationDelay: `${index * 110}ms` }}
+    >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--color-accent-2)]/70 to-transparent" />
       <div className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-[var(--color-accent)]/10 blur-3xl" />
       <div className="pointer-events-none absolute -left-12 bottom-0 h-28 w-28 rounded-full bg-[var(--color-accent-2)]/10 blur-3xl" />
@@ -131,15 +142,22 @@ function ProjectCard({ project }: { project: Project }) {
         {/* Logo */}
         <div className="flex items-start">
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-black/20 p-2 shadow-[0_0_20px_rgba(0,0,0,0.18)]">
-            <img
-              src={project.logoSrc}
-              alt={`${project.title} logo`}
-              className="h-full w-full rounded-xl object-contain"
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src =
-                  "/logos/nummoria_logo.png";
-              }}
-            />
+            {Icon ? (
+              <Icon
+                className="h-7 w-7 text-[var(--color-accent-3)]"
+                strokeWidth={1.75}
+              />
+            ) : (
+              <img
+                src={project.logoSrc}
+                alt={`${project.title} logo`}
+                className="h-full w-full rounded-xl object-contain"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src =
+                    "/logos/nummoria_logo.png";
+                }}
+              />
+            )}
           </div>
         </div>
 
@@ -218,15 +236,15 @@ export default function Works() {
           Projects &amp; Works
         </h2>
         <p className="mt-3 max-w-3xl text-sm leading-7 text-white/65 sm:text-[15px]">
-          A selection of systems I built across fintech, mobile SaaS, and
-          algorithmic trading — focused on product thinking, scalable backend
-          architecture, and clear user-facing execution.
+          A selection of systems I built across fintech, AI-driven
+          automation, and algorithmic trading — focused on product thinking,
+          scalable backend architecture, and clear user-facing execution.
         </p>
       </div>
 
       <div className="space-y-8">
-        {projects.map((project) => (
-          <ProjectCard key={project.title} project={project} />
+        {projects.map((project, i) => (
+          <ProjectCard key={project.title} project={project} index={i} />
         ))}
       </div>
 
