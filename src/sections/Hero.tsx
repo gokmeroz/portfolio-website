@@ -6,53 +6,37 @@ export default function Hero() {
   return (
     <section className="pt-28 container-mx">
       {/* Eyebrow */}
-      <p className="font-mono text-sm text-[color:var(--color-accent-2)]">
-        Hi, my name is
+      <p className="font-pixel-ui text-[11px] uppercase tracking-[0.08em] text-[var(--color-accent-2)]">
+        <span className="text-[var(--color-accent-3)]">&gt;</span> Hi, my name
+        is
       </p>
 
       {/* Name */}
-      <h1 className="mt-3 text-5xl md:text-7xl font-extrabold tracking-tight text-[color:var(--color-text-base)]">
+      <h1
+        className="mt-4 font-display text-[clamp(22px,6vw,44px)] leading-[1.5] text-[var(--color-text-base)]"
+        style={{ textShadow: "3px 3px 0 rgba(255,77,109,0.55)" }}
+      >
         Göktuğ Mert Özdoğan.
       </h1>
 
       {/* Tagline */}
-      <h2 className="mt-2 text-4xl md:text-6xl font-extrabold text-[color:var(--color-text-muted)]">
+      <h2
+        className="mt-4 font-display text-[clamp(17px,4vw,28px)] leading-[1.6] text-[var(--color-accent-2)]"
+        style={{ textShadow: "3px 3px 0 rgba(31,95,120,0.7)" }}
+      >
         I build things.
+        <span className="inline-block w-[0.5em] h-[0.9em] align-[-0.15em] ml-1 bg-[var(--color-accent-3)] animate-pulse" />
       </h2>
 
-      {/* Short intro (keep hero tight; full bio lives in About) */}
-      <p className="mt-6 max-w-2xl text-[color:var(--color-text-base)]">
+      {/* Short intro (keep hero tight; full bio lives below) */}
+      <p className="mt-6 max-w-2xl text-lg text-[var(--color-text-base)]/90">
         I’m a software engineer focused on backend-leaning full-stack work,
         data-driven features, and finance tech. I care about clean, accessible
         digital experiences that actually ship and scale.
       </p>
 
-      {/* Actions */}
-      {/* <div className="mt-8 flex flex-wrap gap-3">
-        <a href="#projects" className="btn-accent">
-          Check out my work
-        </a> */}
-      {/* <a
-          href="#about"
-          className="inline-flex items-center justify-center font-semibold rounded-2xl px-5 py-3 transition border"
-          style={{
-            borderColor: "var(--color-border)",
-            color: "var(--color-accent)",
-          }}
-        >
-          Read my full bio
-        </a> */}
-      {/* </div> */}
-
-      {/* Optional: inline expandable bio (keeps hero clean by default) */}
-      {/* <details className="mt-8 max-w-3xl card">
-        <summary className="cursor-pointer font-semibold">
-          Long version (about me)
-        </summary> */}
-      <div className="mt-4 space-y-4">
-        <p className="mt-3 max-w-3xl">
-          {" "}
-          {/* Hey, I’m Göktuğ Mert Özdoğan, but most people just call me Mert.*/}{" "}
+      <div className="mt-6 space-y-4">
+        <p className="max-w-3xl text-lg leading-7 text-[var(--color-text-base)]/85">
           I’m a software engineer from Istanbul, born and raised with a curious
           mind and a bit of an obsession for building things that actually work.
           I've been coding since I was a kid, starting with simple HTML websites
@@ -101,12 +85,13 @@ export default function Hero() {
           core, I’m someone who believes in balance between ambition and peace,
           between tech and art, between logic and emotion. I don’t like rushing
           things that matter. Whether it’s a relationship, a career move, or a
-          side project, I’d rather take my time and make it mine.{" "}
+          side project, I’d rather take my time and make it mine.
         </p>
-        <h3>Code. Build. Invest. Repeat. </h3>
+        <h3 className="font-pixel-ui text-sm tracking-wide text-[var(--color-accent-3)]">
+          Code. Build. Invest. Repeat.
+        </h3>
       </div>
       <Divider />
-      {/* </details> */}
     </section>
   );
 }

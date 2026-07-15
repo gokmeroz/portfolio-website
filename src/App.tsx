@@ -12,6 +12,7 @@ import Services from "./sections/Services";
 import Hero from "./sections/Hero";
 import SpotlightOverlay from "./components/SpotlightOverlay";
 import Certificates from "./sections/Certificates";
+import PixelGuide from "./components/PixelGuide";
 
 export default function App() {
   const [active, setActive] = useState<string>("about");
@@ -44,6 +45,7 @@ export default function App() {
   return (
     <div>
       <Nav active={active} />
+      <PixelGuide />
       <main className="container-mx pt-24 pb-10">
         <Hero />
         <About />

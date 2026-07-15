@@ -18,36 +18,33 @@ export default function Nav({ active }: { active: string }) {
   };
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50 border-b border-white/5 bg-neutral-950/65 backdrop-blur-md">
-      <div className="container-mx h-14 flex items-center justify-between">
+    <header className="nav-surface fixed top-0 inset-x-0 z-50">
+      <div className="container-mx h-16 flex items-center justify-between flex-wrap gap-3">
         {/* Name (left) */}
         <a
           href="#about"
           onClick={onClick}
-          className="font-semibold tracking-wide"
+          className="font-pixel-ui text-[11px] tracking-wide text-[var(--color-text-base)] whitespace-nowrap"
         >
-          Göktuğ Mert Özdoğan ~ Software Engineer
+          GÖKTUĞ MERT ÖZDOĞAN{" "}
+          <span className="text-[var(--color-accent-3)]">_</span> SOFTWARE
+          ENGINEER
         </a>
 
         {/* Menu (right) */}
-        <nav className="flex items-center gap-6 text-sm">
+        <nav className="flex items-center gap-5 font-pixel-ui text-[10px] uppercase tracking-[0.05em]">
           {LINKS.map((l) => (
             <a
               key={l.id}
               href={`#${l.id}`}
               onClick={onClick}
-              className={`relative pb-1 transition-colors ${
+              className={`pb-1 border-b-[3px] transition-colors ${
                 active === l.id
-                  ? "text-brand-secondary"
-                  : "text-neutral-200 hover:text-brand-secondary"
+                  ? "text-[var(--color-accent-2)] border-[var(--color-accent-2)]"
+                  : "text-[var(--color-text-muted)] border-transparent hover:text-[var(--color-text-base)]"
               }`}
             >
               {l.label}
-              <span
-                className={`absolute left-0 -bottom-0.5 h-[2px] bg-brand-secondary transition-all ${
-                  active === l.id ? "w-full" : "w-0 group-hover:w-full"
-                }`}
-              />
             </a>
           ))}
         </nav>

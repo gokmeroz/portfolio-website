@@ -29,14 +29,20 @@ Both give `index.html` a `no-cache` header and all other assets `immutable`/1-ye
 `main.tsx` → `App.tsx` renders a single scrolling page. **`src/App.jsx` and `src/App.css` are legacy and unused** — the live entry is `App.tsx` / `index.css`.
 
 - **`src/sections/`** — one component per page section (`Hero`, `About`, `Skills`, `Certificates`, `Works`, `Services`, `Contact`, `Articles`), rendered in order by `App.tsx`. Content is hardcoded in each section; there is no CMS or data layer.
-- **`src/components/`** — shared UI: `Nav`, `Footer`, `ScrollTop`, `WorkCard`, `SpotlightOverlay` (mouse-follow cursor glow).
+- **`src/components/`** — shared UI: `Nav`, `Footer`, `ScrollTop`, `WorkCard` (legacy/unused, superseded by the inline `ProjectCard` in `Works.tsx`), `SpotlightOverlay` (mouse-follow cursor glow), `PixelGuide` (fixed-position corner assistant, see below).
 
 ### Section-ID / active-nav convention
 
 `App.tsx` runs an `IntersectionObserver` that tracks scroll position and highlights the current link in `Nav`. It only observes four IDs: **`about`, `projects`, `contact`, `articles`** — these must match the `LINKS` array in `Nav.tsx`. When adding a nav-linked section, wire up both the observed `ids` list in `App.tsx` and `LINKS` in `Nav.tsx`, and give the section element a matching `id`. `App.tsx` also sets `--mx`/`--my` CSS vars from pointer movement for the background glow.
 
-### Styling — "NYC Night HUD" theme
+### Styling — pixel/8-bit arcade theme
 
-Tailwind v4 is configured **CSS-first in `src/index.css`** via an `@theme` block (color tokens like `--color-accent`, `--color-surface`, `--shadow-hud`) plus reusable component classes: `.card`, `.hud-panel`, `.btn-accent`, `.nav-surface`, `.container-mx`, `.scanline`, `.grid-bg`, `.glow-text`. Reuse these classes rather than re-deriving the HUD look inline.
+Tailwind v4 is configured **CSS-first in `src/index.css`** via an `@theme` block. Three pixel fonts are self-hosted from `src/assets/fonts/pixel/` via `@font-face` (not a CDN) and exposed as Tailwind utilities through `@theme` font tokens: `font-display` (Press Start 2P — headlines only, very wide glyphs), `font-sans` (VT323 — the sitewide body default), `font-pixel-ui` (Silkscreen Bold — nav/labels/buttons/chips; ASCII-only, no Turkish glyph coverage).
 
-Note there are **two overlapping color systems**: the `@theme` tokens in `index.css` (dark HUD palette, used by most components) and a separate `brand.primary`/`brand.secondary` green in `tailwind.config.js` (still referenced in `Nav.tsx` as `brand-secondary`). Prefer the `index.css` HUD tokens for new work.
+Color tokens (`--color-accent` coral, `--color-accent-2` cyan, `--color-accent-3` gold, `--color-surface`/`--color-surface-2`, `--color-border`) plus reusable component classes: `.pixel-panel` (notched-corner card via `clip-path`, hard offset shadow — the base unit for skill/project cards), `.pixel-chip`, `.pixel-btn`, `.btn-accent`, `.nav-surface`, `.container-mx`. Reuse these rather than re-deriving the notched-panel look inline.
+
+**Not every section got the full notched-panel treatment** — `Nav`, `Hero`, `Skills`, `Works`, and `PixelGuide` were explicitly redesigned with `.pixel-panel`/pixel fonts. `About`, `Certificates`, `Services`, `Contact`, `Articles`, and `Footer` were left structurally as-is (still plain Tailwind `rounded-*` shapes) and only inherit the new palette/fonts via the global `@theme` tokens and body font cascade. `Services.tsx` references several classes (`bg-night2`, `text-accent2`, `bg-card`, `shadow-glow`, `hr-accent`) that aren't defined anywhere in `index.css` — this predates the pixel theme and the section currently renders unstyled; not yet fixed.
+
+### PixelGuide (`src/components/PixelGuide.tsx`)
+
+A fixed top-left corner widget: a canvas-drawn pixel avatar (an original masked-hero design — deliberately not a copy of any existing IP character), a decorative SVG spider-web, and a "Click me!" callout that permanently dismisses after first open. Clicking opens a small chat panel with a **keyword-matched knowledge base** (not a live LLM) that answers from real site content — projects, skills, experience, contact, hobbies — with a fallback for anything else. When editing site content (projects, skills, contact info), keep `RULES` in this file in sync so the guide doesn't go stale.

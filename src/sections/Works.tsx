@@ -77,9 +77,23 @@ const projects: Project[] = [
   },
 ];
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
+function StatLabel({
+  children,
+  tone,
+}: {
+  children: React.ReactNode;
+  tone: "why" | "how" | "what";
+}) {
+  const color =
+    tone === "why"
+      ? "text-[var(--color-accent-2)]"
+      : tone === "how"
+        ? "text-[var(--color-accent)]"
+        : "text-[var(--color-accent-3)]";
   return (
-    <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--color-text-muted)]">
+    <span
+      className={`font-pixel-ui text-[10px] uppercase tracking-[0.12em] ${color}`}
+    >
       {children}
     </span>
   );
@@ -101,23 +115,10 @@ function ActionLink({
       href={href}
       target={isExternal ? "_blank" : undefined}
       rel={isExternal ? "noreferrer noopener" : undefined}
-      className={[
-        "inline-flex items-center justify-center rounded-xl px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition",
-        variant === "primary"
-          ? "border border-[var(--color-border-strong)] bg-[var(--color-accent)]/12 text-[var(--color-text-base)] hover:-translate-y-[1px] hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)]/18"
-          : "border border-[var(--color-border)] bg-white/[0.03] text-[var(--color-text-base)] hover:-translate-y-[1px] hover:border-[var(--color-accent-2)] hover:bg-white/[0.06]",
-      ].join(" ")}
+      className={`pixel-btn ${variant === "primary" ? "primary" : ""}`}
     >
       {children}
     </a>
-  );
-}
-
-function TechChip({ label }: { label: string }) {
-  return (
-    <span className="inline-flex items-center rounded-full border border-[var(--color-border)] bg-white/[0.04] px-3 py-1.5 text-[11px] font-medium tracking-[0.04em] text-[var(--color-text-base)] transition hover:border-[var(--color-border-strong)] hover:bg-white/[0.07]">
-      {label}
-    </span>
   );
 }
 
@@ -131,17 +132,13 @@ function ProjectCard({
   const Icon = project.icon;
   return (
     <article
-      className="fade-up group relative overflow-hidden rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-[var(--shadow-hud)] backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-[var(--color-border-strong)]"
+      className="fade-up pixel-panel p-6"
       style={{ animationDelay: `${index * 110}ms` }}
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--color-accent-2)]/70 to-transparent" />
-      <div className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-[var(--color-accent)]/10 blur-3xl" />
-      <div className="pointer-events-none absolute -left-12 bottom-0 h-28 w-28 rounded-full bg-[var(--color-accent-2)]/10 blur-3xl" />
-
-      <div className="relative grid grid-cols-1 gap-6 lg:grid-cols-[auto_1fr_auto] lg:items-start">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[auto_1fr_auto] lg:items-start">
         {/* Logo */}
         <div className="flex items-start">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[var(--color-border)] bg-black/20 p-2 shadow-[0_0_20px_rgba(0,0,0,0.18)]">
+          <div className="flex h-14 w-14 items-center justify-center border-[3px] border-[var(--color-border)] bg-[var(--color-surface-2)] p-2">
             {Icon ? (
               <Icon
                 className="h-7 w-7 text-[var(--color-accent-3)]"
@@ -151,7 +148,7 @@ function ProjectCard({
               <img
                 src={project.logoSrc}
                 alt={`${project.title} logo`}
-                className="h-full w-full rounded-xl object-contain"
+                className="h-full w-full object-contain"
                 onError={(e) => {
                   (e.currentTarget as HTMLImageElement).src =
                     "/logos/nummoria_logo.png";
@@ -163,38 +160,42 @@ function ProjectCard({
 
         {/* Main content */}
         <div className="min-w-0">
-          <h3 className="text-lg font-extrabold tracking-tight text-[var(--color-text-base)] sm:text-xl">
+          <h3 className="font-pixel-ui text-sm tracking-wide text-[var(--color-text-base)] sm:text-base">
             {project.title}
           </h3>
 
           <div className="mt-5 space-y-5">
             <div>
-              <SectionLabel>Why</SectionLabel>
-              <p className="mt-2 text-sm leading-7 text-white/78 sm:text-[15px]">
+              <StatLabel tone="why">Why</StatLabel>
+              <p className="mt-2 text-lg leading-7 text-[var(--color-text-base)]/85">
                 {project.why}
               </p>
             </div>
 
             <div>
-              <SectionLabel>How</SectionLabel>
-              <p className="mt-2 text-sm leading-7 text-white/78 sm:text-[15px]">
+              <StatLabel tone="how">How</StatLabel>
+              <p className="mt-2 text-lg leading-7 text-[var(--color-text-base)]/85">
                 {project.how}
               </p>
             </div>
 
             <div>
-              <SectionLabel>What</SectionLabel>
-              <p className="mt-2 text-sm leading-7 text-white/78 sm:text-[15px]">
+              <StatLabel tone="what">What</StatLabel>
+              <p className="mt-2 text-lg leading-7 text-[var(--color-text-base)]/85">
                 {project.what}
               </p>
             </div>
           </div>
 
           <div className="mt-5">
-            <SectionLabel>Tech Stack</SectionLabel>
+            <span className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-text-muted)]">
+              Tech Stack
+            </span>
             <div className="mt-3 flex flex-wrap gap-2.5">
               {project.techs.map((tech) => (
-                <TechChip key={tech} label={tech} />
+                <span key={tech} className="pixel-chip">
+                  {tech}
+                </span>
               ))}
             </div>
           </div>
@@ -229,13 +230,13 @@ export default function Works() {
   return (
     <section id="projects" className="scroll-mt-24 py-10">
       <div className="mb-6">
-        <p className="text-[11px] uppercase tracking-[0.28em] text-[var(--color-text-muted)]">
-          Selected Work
+        <p className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-text-muted)]">
+          Quest Log
         </p>
-        <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-[var(--color-text-base)] sm:text-3xl">
+        <h2 className="mt-2 font-display text-[clamp(14px,2.6vw,20px)] text-[var(--color-text-base)]">
           Projects &amp; Works
         </h2>
-        <p className="mt-3 max-w-3xl text-sm leading-7 text-white/65 sm:text-[15px]">
+        <p className="mt-3 max-w-3xl text-lg leading-7 text-[var(--color-text-base)]/70">
           A selection of systems I built across fintech, AI-driven
           automation, and algorithmic trading — focused on product thinking,
           scalable backend architecture, and clear user-facing execution.
