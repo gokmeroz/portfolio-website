@@ -44,6 +44,49 @@ const RULES: Rule[] = [
   },
   {
     keywords: [
+      "why hire",
+      "why should i hire",
+      "why should you hire",
+      "worth hiring",
+      "make a case",
+      "sell me on",
+      "convince me",
+      "pitch me",
+      "elevator pitch",
+      "why him",
+      "why choose him",
+      "good fit",
+      "good hire",
+      "ceo",
+      "hiring manager",
+      "top reasons",
+    ],
+    reply:
+      "Three reasons: (1) He ships &mdash; shipped a Personnel Absence System to <b>10,000+ employees</b> across <b>800+ branches</b> as an intern at Turkey's largest state bank, then solo-built and shipped <b>Nummoria</b>, a live AI-powered fintech SaaS. (2) He's full-stack and AI-native &mdash; backend-leaning (Node/.NET/Python) with real shipped AI: a Claude-API agent pipeline in <b>JobPilot</b> and GPT-4-powered insights in Nummoria. (3) Low-risk to onboard &mdash; production experience at a major bank plus a government (TUBITAK) research project, and open to relocating on-site anywhere. Best next step: <a href=\"mailto:goekmeroz@gmail.com\">email him</a> or grab his <a href=\"/resume/Goktug-Mert-Ozdogan-Resume.pdf\" target=\"_blank\" rel=\"noreferrer noopener\">r&eacute;sum&eacute;</a>.",
+  },
+  {
+    keywords: [
+      "location",
+      "based",
+      "where is he",
+      "where does he live",
+      "relocate",
+      "relocation",
+      "remote",
+      "onsite",
+      "on-site",
+      "on site",
+      "visa",
+      "sponsorship",
+      "work authorization",
+      "work permit",
+      "citizen",
+    ],
+    reply:
+      "Based in <b>Istanbul, Turkey</b>. Open to relocating and working on-site wherever a role needs him. He's a Turkish citizen, so roles outside Turkey would need visa sponsorship.",
+  },
+  {
+    keywords: [
       "project",
       "work",
       "nummoria",
@@ -124,6 +167,61 @@ const RULES: Rule[] = [
       "Die-hard Fenerbahçe fan, into boxing/BJJ/MMA, hits the gym to shut his brain off from code, and tracks crypto + US stocks for fun. Also speaks English and German.",
   },
   {
+    keywords: [
+      "education",
+      "degree",
+      "university",
+      "college",
+      "bachelor",
+      "b.sc",
+      "bsc",
+      "graduate",
+      "computer engineering",
+      "bahcesehir",
+      "bahçeşehir",
+    ],
+    reply:
+      "B.Sc. in Computer Engineering from <b>Bahçeşehir University</b> in Istanbul, Oct 2021 &ndash; Aug 2025. See the Education block in the About section for the details.",
+  },
+  {
+    keywords: [
+      "available",
+      "availability",
+      "start date",
+      "notice period",
+      "when can he start",
+      "when can you start",
+    ],
+    reply:
+      "He's currently open to new opportunities. For exact timing, the fastest path is a direct email &rarr; <a href=\"mailto:goekmeroz@gmail.com\">goekmeroz@gmail.com</a>.",
+  },
+  {
+    keywords: [
+      "salary",
+      "compensation",
+      "pay",
+      "rate",
+      "day rate",
+      "how much does he cost",
+      "expected salary",
+    ],
+    reply:
+      "That's a conversation best had directly &mdash; <a href=\"mailto:goekmeroz@gmail.com\">email him</a> and he'll get back to you.",
+  },
+  {
+    keywords: [
+      "certificate",
+      "certification",
+      "certifications",
+      "course",
+      "courses",
+      "udemy",
+      "coursera",
+    ],
+    reply:
+      "A handful from Meta, University of Michigan, University of Colorado, and Udemy &mdash; covering backend dev, SQL, secure software requirements, and ASP.NET Core. See the Certificates section for the full set.",
+  },
+  {
     keywords: ["who is", "who's he", "about him", "tell me about", "who is mert"],
     reply:
       "Göktuğ Mert Özdoğan &mdash; a software engineer from Istanbul. Backend-leaning full-stack, big on fintech and increasingly AI/ML. Built Nummoria and JobPilot, among others.",
@@ -143,6 +241,7 @@ const FALLBACK_REPLY =
   "That's outside my save file. Try asking about his <b>projects</b>, <b>skills</b>, <b>experience</b>, or <b>contact</b> &mdash; or tap a shortcut below.";
 
 const CHIPS = [
+  { label: "Why hire him?", query: "why hire him" },
   { label: "Projects", query: "projects" },
   { label: "Skills", query: "skills" },
   { label: "Experience", query: "experience" },
@@ -150,10 +249,26 @@ const CHIPS = [
   { label: "Hobbies", query: "hobbies" },
 ];
 
+function escapeRegExp(text: string): string {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function matchesKeyword(query: string, keyword: string): boolean {
+  const kw = keyword.trim().toLowerCase();
+  // Allow a trailing "s" for plurals, but only for keywords long enough
+  // that the plural can't collide with an unrelated short word (e.g. "hi" -> "his").
+  const suffix = kw.length > 2 ? "s?" : "";
+  const pattern = new RegExp(
+    `(?<![a-z0-9])${escapeRegExp(kw)}${suffix}(?![a-z0-9])`,
+    "i"
+  );
+  return pattern.test(query);
+}
+
 function findReply(raw: string): string {
   const q = ` ${raw.toLowerCase()} `;
   for (const rule of RULES) {
-    if (rule.keywords.some((kw) => q.includes(kw))) return rule.reply;
+    if (rule.keywords.some((kw) => matchesKeyword(q, kw))) return rule.reply;
   }
   return FALLBACK_REPLY;
 }

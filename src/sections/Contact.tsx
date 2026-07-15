@@ -3,6 +3,11 @@ export default function Contact() {
   return (
     <section id="contact" className="scroll-mt-24 py-6">
       <h2 className="text-2xl font-extrabold tracking-tight">Contacts</h2>
+      <p className="mt-2 text-sm text-neutral-300">
+        Based in Istanbul, Turkey — open to relocating and working on-site
+        wherever a role needs me. Visa sponsorship required for positions
+        outside Turkey.
+      </p>
 
       <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-6 border border-white/10 rounded-2xl p-6">
         <div className="flex flex-wrap items-center justify-center gap-3">

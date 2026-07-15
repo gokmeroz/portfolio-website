@@ -1,4 +1,5 @@
 import React from "react";
+import { FileText } from "lucide-react";
 
 const LINKS = [
   { id: "about", label: "About" },
@@ -47,6 +48,15 @@ export default function Nav({ active }: { active: string }) {
               {l.label}
             </a>
           ))}
+          <a
+            href="/resume/Goktug-Mert-Ozdogan-Resume.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="pixel-btn !text-[10px] !px-3 !py-2"
+          >
+            <FileText size={13} strokeWidth={2.25} className="mr-1.5" />
+            Résumé
+          </a>
         </nav>
       </div>
     </header>

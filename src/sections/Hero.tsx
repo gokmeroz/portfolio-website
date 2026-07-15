@@ -1,3 +1,5 @@
+import { FileCheck2, MapPin, Plane } from "lucide-react";
+
 function Divider() {
   return <div className="hr-soft" />;
 }
@@ -30,10 +32,28 @@ export default function Hero() {
 
       {/* Short intro (keep hero tight; full bio lives below) */}
       <p className="mt-6 max-w-2xl text-lg text-[var(--color-text-base)]/90">
-        I’m a software engineer focused on backend-leaning full-stack work,
+        A CS graduate (2025) with 1.5+ years of hands-on experience across
+        enterprise internships and a shipped production fintech app, I’m a
+        software engineer focused on backend-leaning full-stack work,
         data-driven features, and finance tech. I care about clean, accessible
         digital experiences that actually ship and scale.
       </p>
+
+      {/* Location / relocation / work-authorization signal */}
+      <div className="mt-5 flex flex-wrap items-center gap-2.5">
+        <span className="pixel-chip">
+          <MapPin size={12} strokeWidth={2.25} className="mr-1.5" />
+          Istanbul, Turkey
+        </span>
+        <span className="pixel-chip">
+          <Plane size={12} strokeWidth={2.25} className="mr-1.5" />
+          Open to relocation, on-site anywhere the role needs me
+        </span>
+        <span className="pixel-chip">
+          <FileCheck2 size={12} strokeWidth={2.25} className="mr-1.5" />
+          Turkish citizen — visa sponsorship needed outside Turkey
+        </span>
+      </div>
 
       <div className="mt-6 space-y-4">
         <p className="max-w-3xl text-lg leading-7 text-[var(--color-text-base)]/85">
