@@ -56,7 +56,7 @@ export default function Hero() {
       </div>
 
       <div className="mt-6 space-y-4">
-        <p className="max-w-3xl text-lg leading-7 text-[var(--color-text-base)]/85">
+        <p className="max-w-prose text-lg leading-7 text-[var(--color-text-base)]/85">
           I’m a software engineer from Istanbul, born and raised with a curious
           mind and a bit of an obsession for building things that actually work.
           I've been coding since I was a kid, starting with simple HTML websites

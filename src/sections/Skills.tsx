@@ -45,7 +45,7 @@ const groups = [
 
 export default function Skills() {
   return (
-    <section className="max-w-5xl mx-auto px-4 py-16 border-t border-white/5">
+    <section className="py-16 border-t border-white/5">
       <p className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-text-muted)]">
         Inventory
       </p>

@@ -1067,11 +1067,19 @@ export default function PixelGuide() {
 
       {open && (
         <div
-          className="pixel-panel absolute top-[72px] left-0 w-[min(320px,calc(100vw-32px))] flex flex-col"
+          className="fixed inset-0 z-[2] bg-black/60 backdrop-blur-[1px]"
+          aria-hidden="true"
+          onClick={closeGuide}
+        />
+      )}
+
+      {open && (
+        <div
+          className="pixel-panel absolute top-[72px] left-0 z-[3] w-[min(340px,calc(100vw-32px))] max-h-[min(70vh,560px)] flex flex-col overflow-hidden"
           role="dialog"
           aria-label="Ask Mert's pixel guide"
         >
-          <div className="flex items-center gap-2.5 px-3 py-3 border-b-[3px] border-[var(--color-border)] bg-[var(--color-surface-2)]">
+          <div className="flex-none flex items-center gap-2.5 px-3 py-3 border-b-[3px] border-[var(--color-border)] bg-[var(--color-surface-2)]">
             <div className="flex-1 min-w-0">
               <div className="font-pixel-ui text-[11px] tracking-wide text-[var(--color-text-base)]">
                 NPC://MERT-GUIDE
@@ -1092,7 +1100,7 @@ export default function PixelGuide() {
 
           <div
             ref={logRef}
-            className="flex flex-col gap-2.5 p-3 max-h-[260px] overflow-y-auto"
+            className="flex flex-1 min-h-[80px] flex-col gap-2.5 p-3 overflow-y-auto"
           >
             {messages.map((m) => (
               <div
@@ -1108,12 +1116,12 @@ export default function PixelGuide() {
             )}
           </div>
 
-          <div className="flex flex-wrap gap-1.5 px-3 pb-3">
+          <div className="no-scrollbar flex-none flex flex-nowrap gap-1.5 overflow-x-auto px-3 pb-3">
             {CHIPS.map((c) => (
               <button
                 key={c.query}
                 type="button"
-                className="pixel-chip text-[9px]"
+                className="pixel-chip flex-none text-[9px]"
                 onClick={() => handleChip(c.query)}
               >
                 {c.label}
@@ -1122,7 +1130,7 @@ export default function PixelGuide() {
           </div>
 
           <form
-            className="flex gap-2 p-3 border-t-[3px] border-[var(--color-border)] bg-[var(--color-surface-2)]"
+            className="flex-none flex gap-2 p-3 border-t-[3px] border-[var(--color-border)] bg-[var(--color-surface-2)]"
             onSubmit={handleSubmit}
           >
             <input

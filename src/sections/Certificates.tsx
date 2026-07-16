@@ -57,7 +57,7 @@ export default function Cer() {
   const openItem = active != null ? groups[active] : null;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-16 border-t border-black/10">
+    <div className="py-16 border-t border-black/10">
       <h2 className="uppercase tracking-[0.25em] text-xs text-zinc-500 mb-8">
         Certificates
       </h2>
