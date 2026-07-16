@@ -106,6 +106,9 @@
   h6 {
     color: var(--color-text-base);
     letter-spacing: 0.02em;
+    text-shadow:
+      0 2px 0 rgba(5, 3, 12, 0.75),
+      0 0 18px rgba(5, 3, 12, 0.7);
   }
 
   p,
@@ -113,6 +116,7 @@
   li,
   span {
     letter-spacing: 0.01em;
+    text-shadow: 0 0 8px rgba(5, 3, 12, 0.7);
   }
 
   button,
@@ -544,7 +548,7 @@
   }
 }
 
-/* ---------- NYC skyline + spider-web backdrop ---------- */
+/* ---------- Istanbul skyline + spider-web backdrop ---------- */
 .city-web-backdrop {
   position: fixed;
   inset: 0;
@@ -593,11 +597,15 @@
 
 .city-web-backdrop__skyline {
   position: absolute;
-  inset: auto 0 0 0;
-  height: min(18vh, 170px);
-  opacity: 0.32;
-  mask-image: linear-gradient(to top, black 20%, transparent 92%);
-  -webkit-mask-image: linear-gradient(to top, black 20%, transparent 92%);
+  inset: 0;
+  opacity: 0.42;
+  mask-image: linear-gradient(to top, black 0%, black 38%, transparent 78%);
+  -webkit-mask-image: linear-gradient(
+    to top,
+    black 0%,
+    black 38%,
+    transparent 78%
+  );
 }
 
 .city-web-strand {
