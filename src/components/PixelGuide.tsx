@@ -940,6 +940,7 @@ export default function PixelGuide() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [typing, setTyping] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [chipsExpanded, setChipsExpanded] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const logRef = useRef<HTMLDivElement | null>(null);
@@ -1020,6 +1021,7 @@ export default function PixelGuide() {
   function handleChip(query: string) {
     if (!open) openGuide();
     ask(query);
+    setChipsExpanded(false);
   }
 
   return (
@@ -1116,17 +1118,38 @@ export default function PixelGuide() {
             )}
           </div>
 
-          <div className="no-scrollbar flex-none flex flex-nowrap gap-1.5 overflow-x-auto px-3 pb-3">
-            {CHIPS.map((c) => (
+          <div className="flex-none border-t-[3px] border-[var(--color-border)]">
+            <div className="flex items-center justify-between px-3 pt-2">
+              <span className="font-pixel-ui text-[9px] uppercase tracking-wide text-[var(--color-text-muted)]">
+                Shortcuts
+              </span>
               <button
-                key={c.query}
                 type="button"
-                className="pixel-chip flex-none text-[9px]"
-                onClick={() => handleChip(c.query)}
+                className="font-pixel-ui text-[9px] uppercase tracking-wide text-[var(--color-accent-2)] hover:text-[var(--color-accent)]"
+                onClick={() => setChipsExpanded((v) => !v)}
+                aria-expanded={chipsExpanded}
               >
-                {c.label}
+                {chipsExpanded ? "Show less ▲" : "See all ▼"}
               </button>
-            ))}
+            </div>
+            <div
+              className={
+                chipsExpanded
+                  ? "flex flex-wrap gap-1.5 px-3 pt-2 pb-3 max-h-[180px] overflow-y-auto"
+                  : "no-scrollbar flex flex-nowrap gap-1.5 overflow-x-auto px-3 pt-2 pb-3"
+              }
+            >
+              {CHIPS.map((c) => (
+                <button
+                  key={c.query}
+                  type="button"
+                  className="pixel-chip flex-none text-[9px]"
+                  onClick={() => handleChip(c.query)}
+                >
+                  {c.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           <form
