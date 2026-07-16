@@ -295,8 +295,8 @@ export default function CityWebBackdrop() {
               height="22"
               patternUnits="userSpaceOnUse"
             >
-              <rect x="4" y="5" width="4" height="6" fill="var(--color-accent-3)" opacity="0.32" />
-              <rect x="12" y="12" width="4" height="6" fill="var(--color-accent-2)" opacity="0.24" />
+              <rect x="4" y="5" width="4" height="6" fill="var(--color-accent-3)" opacity="0.18" />
+              <rect x="12" y="12" width="4" height="6" fill="var(--color-accent-2)" opacity="0.14" />
             </pattern>
           </defs>
 
