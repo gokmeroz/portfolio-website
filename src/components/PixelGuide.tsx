@@ -977,7 +977,7 @@ export default function PixelGuide() {
         {
           id: messageId++,
           role: "bot",
-          html: "Hey, I'm PixelGuide. Ask how Mert thinks, what he is building toward, what he does outside code, or whether Spider-Man beats Batman &mdash; or tap a shortcut below.",
+          html: "Hey, I'm Spider-Guide. Ask how Mert thinks, what he is building toward, what he does outside code, or whether Spider-Man beats Batman &mdash; or tap a shortcut below.",
         },
       ]);
     }
