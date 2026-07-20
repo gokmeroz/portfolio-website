@@ -755,6 +755,19 @@ const RULES: Rule[] = [
   },
   {
     keywords: [
+      "inzva",
+      "recent activity",
+      "currently working on",
+      "what is he doing now",
+      "what's he up to",
+      "reproducibility",
+      "scientific reproducibility",
+    ],
+    reply:
+      "Right now he's contributing to a team project at <b>inzva AI Projects #10</b> on <b>Agentic AI for Scientific Reproducibility</b> — using autonomous, tool-using agents to verify and validate published research workflows. See the Recent Activity section for details.",
+  },
+  {
+    keywords: [
       "skill",
       "skills",
       "tech",

@@ -8,6 +8,7 @@ import Articles from "./sections/Articles";
 import "./index.css";
 import ScrollTop from "./components/ScrollTop";
 import Skills from "./sections/Skills";
+import RecentActivity from "./sections/RecentActivity";
 import Services from "./sections/Services";
 import Hero from "./sections/Hero";
 import SpotlightOverlay from "./components/SpotlightOverlay";
@@ -52,6 +53,7 @@ export default function App() {
         <Hero />
         <About />
         <Skills />
+        <RecentActivity />
         <Certificates />
         <Works />
         <Services />
