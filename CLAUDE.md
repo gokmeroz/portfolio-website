@@ -1,48 +1,983 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code when working with code in this repository.
 
-## Overview
+## Project Overview
 
-Single-page personal portfolio for G. Mert Özdoğan (gokmeroz.com). React 19 + TypeScript, built with Vite (the `rolldown-vite` variant, pinned via `overrides`), styled with Tailwind CSS v4.
+This repository contains the single-page personal portfolio for **G. Mert Özdoğan**, deployed at **gokmeroz.com**.
+
+The site is designed to present Mert as a software engineer with full-stack, backend, AI/ML, and product-building experience.
+
+### Core stack
+
+* React 19
+* TypeScript
+* Vite
+* `rolldown-vite`, pinned through `overrides`
+* Tailwind CSS v4
+* AWS S3 and CloudFront
+* GitHub Actions
+
+The visual direction is a custom **professional 8-bit/pixel interface**.
+
+The website must feel distinctive and playful without sacrificing:
+
+* recruiter credibility
+* readability
+* responsive behavior
+* accessibility
+* technical polish
+* content clarity
+
+Do not turn the website into a generic SaaS dashboard, conventional corporate portfolio, or visual clone of an existing product.
+
+---
 
 ## Commands
 
-- `npm run dev` — dev server (`nodemon` restarts Vite on changes under `src/`)
-- `npm run build` — type-check (`tsc -b`) then `vite build` to `dist/`
-- `npm run lint` — ESLint over the repo
-- `npm run preview` — serve the production build locally
-- `npm run deploy` — build, then sync to S3 (`s3://gokmeroz.com`) and invalidate CloudFront. **Requires local AWS credentials.** Prefer the GitHub Actions path below over running this by hand.
+* `npm run dev` — starts the development server; `nodemon` restarts Vite when files under `src/` change
+* `npm run build` — runs `tsc -b`, then builds the production bundle with Vite into `dist/`
+* `npm run lint` — runs ESLint over the repository
+* `npm run preview` — serves the production build locally
+* `npm run deploy` — builds, syncs the output to S3, and invalidates CloudFront
 
-There is no test suite.
+There is currently no automated test suite.
+
+Before considering a task complete, run:
+
+```bash
+npm run build
+npm run lint
+```
+
+Do not claim that an implementation is complete when either command fails.
+
+Do not run `npm run deploy` unless explicitly requested.
+
+---
 
 ## Deployment
 
-Two paths hit the same S3 + CloudFront target:
-- **CI (default):** pushing to `main` triggers `.github/workflows/deploy.yml`, which builds and deploys using repo secrets (`S3_BUCKET`, `CLOUDFRONT_DISTRIBUTION_ID`, AWS creds).
-- **Manual:** `npm run deploy` — note the S3 bucket and CloudFront distribution ID (`E2C5C0OZ7LMCFU`) are hardcoded in the `deploy` script in `package.json`.
+Two deployment paths target the same S3 bucket and CloudFront distribution.
 
-Both give `index.html` a `no-cache` header and all other assets `immutable`/1-year cache, so CloudFront must be invalidated for `index.html` changes to appear.
+### CI deployment
 
-## Architecture
+Pushing to `main` triggers:
 
-`main.tsx` → `App.tsx` renders a single scrolling page. **`src/App.jsx` and `src/App.css` are legacy and unused** — the live entry is `App.tsx` / `index.css`.
+```text
+.github/workflows/deploy.yml
+```
 
-- **`src/sections/`** — one component per page section (`Hero`, `About`, `Skills`, `Certificates`, `Works`, `Services`, `Contact`, `Articles`), rendered in order by `App.tsx`. Content is hardcoded in each section; there is no CMS or data layer.
-- **`src/components/`** — shared UI: `Nav`, `Footer`, `ScrollTop`, `WorkCard` (legacy/unused, superseded by the inline `ProjectCard` in `Works.tsx`), `SpotlightOverlay` (mouse-follow cursor glow), `PixelGuide` (fixed-position corner assistant, see below).
+The workflow builds and deploys the site using repository secrets:
 
-### Section-ID / active-nav convention
+* `S3_BUCKET`
+* `CLOUDFRONT_DISTRIBUTION_ID`
+* AWS credentials
 
-`App.tsx` runs an `IntersectionObserver` that tracks scroll position and highlights the current link in `Nav`. It only observes four IDs: **`about`, `projects`, `contact`, `articles`** — these must match the `LINKS` array in `Nav.tsx`. When adding a nav-linked section, wire up both the observed `ids` list in `App.tsx` and `LINKS` in `Nav.tsx`, and give the section element a matching `id`. `App.tsx` also sets `--mx`/`--my` CSS vars from pointer movement for the background glow.
+This is the preferred deployment path.
 
-### Styling — pixel/8-bit arcade theme
+### Manual deployment
 
-Tailwind v4 is configured **CSS-first in `src/index.css`** via an `@theme` block. Three pixel fonts are self-hosted from `src/assets/fonts/pixel/` via `@font-face` (not a CDN) and exposed as Tailwind utilities through `@theme` font tokens: `font-display` (Press Start 2P — headlines only, very wide glyphs), `font-sans` (VT323 — the sitewide body default), `font-pixel-ui` (Silkscreen Bold — nav/labels/buttons/chips; ASCII-only, no Turkish glyph coverage).
+```bash
+npm run deploy
+```
 
-Color tokens (`--color-accent` coral, `--color-accent-2` cyan, `--color-accent-3` gold, `--color-surface`/`--color-surface-2`, `--color-border`) plus reusable component classes: `.pixel-panel` (notched-corner card via `clip-path`, hard offset shadow — the base unit for skill/project cards), `.pixel-chip`, `.pixel-btn`, `.btn-accent`, `.nav-surface`, `.container-mx`. Reuse these rather than re-deriving the notched-panel look inline.
+The manual deployment script contains:
 
-**Not every section got the full notched-panel treatment** — `Nav`, `Hero`, `Skills`, `Works`, and `PixelGuide` were explicitly redesigned with `.pixel-panel`/pixel fonts. `About`, `Certificates`, `Services`, `Contact`, `Articles`, and `Footer` were left structurally as-is (still plain Tailwind `rounded-*` shapes) and only inherit the new palette/fonts via the global `@theme` tokens and body font cascade. `Services.tsx` references several classes (`bg-night2`, `text-accent2`, `bg-card`, `shadow-glow`, `hr-accent`) that aren't defined anywhere in `index.css` — this predates the pixel theme and the section currently renders unstyled; not yet fixed.
+* S3 bucket: `s3://gokmeroz.com`
+* CloudFront distribution ID: `E2C5C0OZ7LMCFU`
 
-### PixelGuide (`src/components/PixelGuide.tsx`)
+Both deployment paths configure:
 
-A fixed top-left corner widget: a canvas-drawn pixel avatar (an original masked-hero design — deliberately not a copy of any existing IP character), a decorative SVG spider-web, and a "Click me!" callout that permanently dismisses after first open. Clicking opens a small chat panel with a **keyword-matched knowledge base** (not a live LLM) that answers from real site content — projects, skills, experience, contact, hobbies — with a fallback for anything else. When editing site content (projects, skills, contact info), keep `RULES` in this file in sync so the guide doesn't go stale.
+* `index.html` with `no-cache`
+* versioned assets with `immutable` and a one-year cache duration
+
+CloudFront must therefore be invalidated for updated `index.html` references to become visible reliably.
+
+---
+
+## Application Architecture
+
+The live application entry path is:
+
+```text
+src/main.tsx
+  → src/App.tsx
+  → page sections and shared components
+```
+
+The following files are legacy and unused:
+
+```text
+src/App.jsx
+src/App.css
+```
+
+Do not modify or rely on these files unless explicitly removing legacy code.
+
+### Sections
+
+The components under `src/sections/` represent the main page sections.
+
+Current sections include:
+
+* `Hero`
+* `About`
+* `Skills`
+* `Certificates`
+* `Works`
+* `Services`
+* `Contact`
+* `Articles`
+* `RecentActivity`, when enabled in `App.tsx`
+
+The page is rendered as one continuous scrolling document.
+
+Most content is currently hardcoded inside each section. There is no CMS or centralized content layer.
+
+Do not introduce a CMS, state-management library, backend, or data abstraction unless the task specifically requires one.
+
+### Shared components
+
+Components under `src/components/` include:
+
+* `Nav`
+* `Footer`
+* `ScrollTop`
+* `SpotlightOverlay`
+* `PixelGuide`
+* `WorkCard`
+
+`WorkCard` is legacy or unused and has been superseded by the project-card implementation inside `Works.tsx`.
+
+Before creating a new component, check whether an existing shared component or reusable CSS class already covers the required behavior.
+
+---
+
+## Section IDs and Active Navigation
+
+`App.tsx` uses an `IntersectionObserver` to determine the active navigation item.
+
+The observer currently tracks these IDs:
+
+```text
+about
+projects
+contact
+articles
+```
+
+These values must remain synchronized with the `LINKS` array in:
+
+```text
+src/components/Nav.tsx
+```
+
+When adding a new navigation-linked section:
+
+1. Give the section element a stable `id`.
+2. Add the same ID to the observed IDs in `App.tsx`.
+3. Add the corresponding entry to `LINKS` in `Nav.tsx`.
+4. Confirm that active-state behavior works while scrolling in both directions.
+5. Confirm that anchor navigation does not hide the section heading behind the fixed navigation.
+
+`App.tsx` also updates the CSS variables `--mx` and `--my` from pointer movement for the page-background glow.
+
+Preserve this behavior unless the task explicitly changes the visual effect.
+
+---
+
+# Design Direction
+
+## Pixel Professional System
+
+The site follows a custom design direction called **Pixel Professional**.
+
+It combines:
+
+* pixel-art interface details
+* arcade-inspired typography
+* hard-edged panels and shadows
+* clear modern layout principles
+* recruiter-facing content hierarchy
+* accessible interactions
+* responsive component behavior
+
+The pixel identity is a visual layer, not permission to ignore standard interface engineering.
+
+Every design change must satisfy both requirements:
+
+1. It must belong to the website’s existing pixel-art identity.
+2. It must improve or preserve usability, readability, and professionalism.
+
+---
+
+## Design Principles
+
+### Preserve personality
+
+* Keep the 8-bit and masked-hero identity.
+* Preserve intentional pixel borders, stepped corners, hard shadows, and retro interface details.
+* Avoid replacing the site with standard rounded shadcn-style cards.
+* Avoid generic glassmorphism, excessive gradients, oversized blur effects, and template-like SaaS layouts.
+* Do not imitate copyrighted characters or recognizable third-party visual identities.
+
+### Prioritize content
+
+* Projects, experience, skills, and contact actions must remain easier to notice than decorative elements.
+* Visual effects must not compete with section headings or body text.
+* Recruiters should be able to understand the user’s role, capabilities, and projects quickly.
+* Decorative UI must not hide, truncate, or delay access to important content.
+
+### Maintain readability
+
+* Pixel display fonts should be used selectively.
+* Long paragraphs must use a readable body font.
+* Do not render paragraph-length content entirely in uppercase.
+* Avoid excessively narrow text columns.
+* Avoid extremely long full-width lines on large screens.
+* Text must remain readable at browser zoom levels above 100%.
+
+### Build consistent systems
+
+* Reuse existing design tokens and shared classes.
+* Prefer reusable primitives over section-specific visual inventions.
+* Similar components must have consistent spacing, border treatment, typography, and interaction states.
+* Do not fix one breakpoint while introducing regressions at another.
+
+---
+
+# Styling Architecture
+
+Tailwind CSS v4 is configured CSS-first in:
+
+```text
+src/index.css
+```
+
+Configuration is defined through the `@theme` block rather than a traditional Tailwind configuration file.
+
+Do not create a `tailwind.config.js` or `tailwind.config.ts` unless there is a verified technical requirement that Tailwind v4 CSS-first configuration cannot handle.
+
+---
+
+## Fonts
+
+Three pixel fonts are self-hosted under:
+
+```text
+src/assets/fonts/pixel/
+```
+
+They are registered using `@font-face` and exposed through `@theme`.
+
+### `font-display`
+
+Font:
+
+```text
+Press Start 2P
+```
+
+Use for:
+
+* major page headings
+* occasional section titles
+* short display text
+
+Do not use for:
+
+* paragraphs
+* long labels
+* dense card content
+* mobile text that becomes unreadably small
+
+The font has wide glyphs and can overflow easily. Test headings with long words and narrow viewports.
+
+### `font-sans`
+
+Font:
+
+```text
+VT323
+```
+
+This is currently the sitewide body default.
+
+Use carefully for:
+
+* body copy
+* descriptions
+* supporting text
+
+When readability suffers, prefer introducing or using a more readable body-font token rather than compensating with excessive font size.
+
+### `font-pixel-ui`
+
+Font:
+
+```text
+Silkscreen Bold
+```
+
+Use for:
+
+* navigation
+* compact labels
+* buttons
+* tags
+* chips
+* interface controls
+
+This font has limited glyph coverage and does not reliably support Turkish characters.
+
+Do not use it for dynamic or Turkish-language content unless the text has been verified visually.
+
+---
+
+## Existing Color Tokens
+
+The theme currently includes tokens such as:
+
+```css
+--color-accent
+--color-accent-2
+--color-accent-3
+--color-surface
+--color-surface-2
+--color-border
+```
+
+Current visual roles include:
+
+* `accent` — coral
+* `accent-2` — cyan
+* `accent-3` — gold
+* `surface` and `surface-2` — dark interface surfaces
+* `border` — shared border color
+
+Use semantic tokens instead of raw color literals inside React components.
+
+Do not add new hexadecimal, RGB, or HSL values directly to section JSX unless there is a strong documented reason.
+
+When additional colors are required, define them centrally in `src/index.css`.
+
+Prefer names based on purpose rather than appearance.
+
+Good:
+
+```css
+--color-text-muted
+--color-surface-elevated
+--color-border-strong
+--color-danger
+```
+
+Avoid:
+
+```css
+--color-light-gray-2
+--color-random-blue
+--color-card-green
+```
+
+---
+
+## Existing Reusable Classes
+
+Existing shared classes include:
+
+```text
+.pixel-panel
+.pixel-chip
+.pixel-btn
+.btn-accent
+.nav-surface
+.container-mx
+```
+
+### `.pixel-panel`
+
+The primary card and panel primitive.
+
+It uses:
+
+* notched corners
+* `clip-path`
+* a hard offset shadow
+* pixel-style borders
+
+Use it for visually prominent grouped content rather than recreating the panel treatment inline.
+
+### `.pixel-chip`
+
+Use for:
+
+* skill labels
+* technology tags
+* short metadata
+* compact statuses
+
+### `.pixel-btn`
+
+Use as the base button treatment.
+
+### `.btn-accent`
+
+Use for primary accent actions where appropriate.
+
+### `.nav-surface`
+
+Use for the shared navigation surface.
+
+### `.container-mx`
+
+Use for consistent horizontal page margins and content containment.
+
+Before creating an inline equivalent, inspect these classes and determine whether they can be reused or extended.
+
+---
+
+# Design Tokens
+
+New visual values must come from a controlled token system.
+
+## Spacing
+
+Prefer values from this conceptual spacing scale:
+
+```text
+4px
+8px
+12px
+16px
+24px
+32px
+48px
+64px
+96px
+128px
+```
+
+Use Tailwind utilities that map closely to this scale.
+
+Avoid arbitrary values such as:
+
+```text
+mt-[37px]
+gap-[19px]
+px-[27px]
+```
+
+Arbitrary values are acceptable only when required by:
+
+* pixel-art geometry
+* icon alignment
+* canvas positioning
+* a documented browser workaround
+* an exact visual asset dimension
+
+Do not use arbitrary spacing merely to visually patch an inconsistent layout.
+
+## Layout widths
+
+Use shared layout constraints.
+
+Recommended roles:
+
+```text
+Page container: approximately 1200–1280px maximum
+Reading column: approximately 680–760px maximum
+Compact content column: approximately 520–640px maximum
+```
+
+Do not stretch paragraphs across ultrawide screens.
+
+## Section spacing
+
+Keep section rhythm consistent.
+
+Approximate targets:
+
+```text
+Mobile vertical section spacing: 64px
+Tablet vertical section spacing: 80px
+Desktop vertical section spacing: 96–128px
+```
+
+Do not independently invent top and bottom spacing for every section.
+
+## Borders and shadows
+
+Pixel surfaces should generally use:
+
+* sharp or minimally rounded corners
+* deliberate stepped or notched geometry
+* hard-edged shadows
+* visible borders
+
+Avoid mixing pixel panels with unrelated large `rounded-3xl` cards unless the contrast is intentional and documented.
+
+## Motion
+
+Animations must:
+
+* communicate state or hierarchy
+* remain subtle enough for a professional portfolio
+* avoid blocking interaction
+* avoid causing layout shifts
+* respect `prefers-reduced-motion`
+
+Do not add continuous decorative animation without checking CPU cost and visual distraction.
+
+---
+
+# Responsive Design
+
+Every meaningful visual change must be evaluated at these widths:
+
+```text
+320px
+375px
+768px
+1024px
+1280px
+1440px
+1920px
+```
+
+The exact browser viewport can vary, but these widths represent the minimum review set.
+
+## Responsive rules
+
+* Design mobile behavior deliberately rather than shrinking the desktop layout.
+* Avoid fixed content heights.
+* Avoid fixed widths on text-heavy components.
+* Prefer `min-height` over `height` when content can grow.
+* Allow cards to expand vertically for long content.
+* Use grid layouts only when they collapse cleanly.
+* Do not rely on absolute positioning for primary document flow.
+* Fixed-position widgets must not block navigation, text, buttons, or browser controls.
+* Test long project titles, long technology names, and multiline navigation labels.
+* Confirm that horizontal scrolling is not introduced.
+* Confirm that decorative pseudo-elements remain within the viewport.
+* Confirm that headings do not overflow because of pixel-font glyph width.
+
+Use `clamp()` selectively for responsive typography and spacing when it improves continuity between breakpoints.
+
+Do not add breakpoint-specific fixes without first identifying the underlying layout constraint.
+
+---
+
+# Component System
+
+Prefer a small internal component system over repeated Tailwind class strings.
+
+Potential reusable primitives include:
+
+```text
+Container
+Section
+SectionHeader
+PixelPanel
+Button
+IconButton
+Tag
+StatusBadge
+ProjectCard
+ExperienceCard
+NavigationItem
+PixelGuideShell
+```
+
+Do not create these components merely because they appear on this list. Create them when repeated patterns in the current code justify the abstraction.
+
+## Component requirements
+
+Reusable components should have:
+
+* explicit TypeScript props
+* clear variant names
+* predictable defaults
+* responsive behavior
+* accessible markup
+* visible focus states
+* hover, active, and disabled states where applicable
+* support for multiline content
+* support for long strings
+* no unnecessary internal state
+* no duplicated visual token definitions
+
+Prefer:
+
+```tsx
+<Button variant="primary" size="md">
+  View project
+</Button>
+```
+
+Over repeatedly assembling unrelated class strings in every section.
+
+Avoid overly generic components with dozens of optional props.
+
+---
+
+# shadcn/ui and Radix
+
+The website does not need a wholesale third-party component-library migration.
+
+Radix Primitives or shadcn/ui components may be introduced selectively for behavior that is difficult to implement correctly, such as:
+
+* dialogs
+* popovers
+* dropdown menus
+* tooltips
+* tabs
+* accessible focus management
+
+Rules:
+
+* Do not install large component sets without a concrete use case.
+* Do not apply default shadcn visual styling unchanged.
+* Adapt imported primitives to the Pixel Professional design system.
+* Preserve existing semantic tokens and visual identity.
+* Do not add a dependency when a small accessible native implementation is sufficient.
+* Explain newly introduced packages in the task summary.
+
+Use external libraries for behavior, not for replacing the website’s identity.
+
+---
+
+# Section Migration Status
+
+The following sections currently use more complete pixel-system styling:
+
+* `Nav`
+* `Hero`
+* `Skills`
+* `Works`
+* `PixelGuide`
+
+The following sections still use older structural styling or plain rounded Tailwind surfaces:
+
+* `About`
+* `Certificates`
+* `Services`
+* `Contact`
+* `Articles`
+* `Footer`
+
+When modernizing these sections:
+
+* preserve their content
+* migrate them toward shared tokens and components
+* avoid redesigning all sections simultaneously
+* keep visual hierarchy appropriate to each section
+* prevent every section from becoming an identical grid of `.pixel-panel` cards
+
+Consistency does not require every section to have the same composition.
+
+---
+
+## Known Services Styling Issue
+
+`src/sections/Services.tsx` references several classes that are not defined in `src/index.css`, including:
+
+```text
+bg-night2
+text-accent2
+bg-card
+shadow-glow
+hr-accent
+```
+
+These references predate the current pixel theme and may render without their intended styling.
+
+When fixing `Services.tsx`:
+
+* replace obsolete classes with current semantic tokens or shared components
+* do not recreate missing legacy classes without first checking whether they belong in the current system
+* preserve the section’s content and meaning
+* validate contrast and responsive behavior after migration
+
+---
+
+# PixelGuide
+
+File:
+
+```text
+src/components/PixelGuide.tsx
+```
+
+PixelGuide is a fixed-position assistant rendered near the top-left corner.
+
+It includes:
+
+* a canvas-drawn original masked-hero avatar
+* a decorative SVG web
+* a first-use “Click me!” callout
+* a small expandable chat panel
+* a local keyword-matching knowledge base
+
+PixelGuide is not connected to a live LLM.
+
+Its responses come from hardcoded matching rules based on real portfolio content.
+
+## PixelGuide rules
+
+* Keep `RULES` synchronized with current projects, skills, experience, contact information, and relevant personal content.
+* Do not claim capabilities or experience not represented elsewhere on the site.
+* Keep fallback responses aligned with the supported question categories.
+* Preserve the avatar as an original design.
+* Do not turn it into a direct copy of Spider-Man or another copyrighted character.
+* Ensure the widget remains usable by keyboard.
+* Ensure the open and close controls have accessible labels.
+* Ensure focus is visible.
+* Ensure the panel does not overflow the viewport.
+* Ensure the widget does not block important content.
+* Ensure the design works on short-height laptop screens as well as narrow mobile screens.
+* Avoid fixed dimensions that cause chat content to be clipped.
+* Avoid using viewport-relative positioning without safe offsets.
+* Respect reduced-motion preferences.
+* Preserve the first-open dismissal behavior unless explicitly changing it.
+
+When editing PixelGuide positioning, evaluate the entire page layout rather than treating the widget as an isolated component.
+
+---
+
+# Accessibility
+
+Accessibility is part of implementation quality, not an optional cleanup step.
+
+Required standards:
+
+* Use semantic HTML elements.
+* Use actual `<button>` elements for actions.
+* Use actual `<a>` elements for navigation.
+* Every interactive element must be keyboard reachable.
+* Focus indicators must remain visible.
+* Images and meaningful graphics require appropriate alternative text.
+* Decorative graphics should be hidden from assistive technology when appropriate.
+* Form controls require labels.
+* Text and controls must maintain sufficient contrast.
+* Do not communicate state using color alone.
+* Respect `prefers-reduced-motion`.
+* Avoid unexpected focus changes.
+* Avoid hover-only access to important information.
+* Do not remove outlines unless replacing them with an equally visible focus treatment.
+
+Canvas elements must have an accessible fallback or descriptive label when they communicate meaningful content.
+
+---
+
+# Content Integrity
+
+Do not rewrite factual portfolio content during visual refactors unless explicitly requested.
+
+This includes:
+
+* company names
+* project names
+* role titles
+* employment periods
+* technology stacks
+* project metrics
+* contact details
+* external URLs
+
+Do not invent metrics, users, revenue, model performance, employers, or responsibilities.
+
+When content appears inconsistent, flag it rather than silently guessing.
+
+Avoid replacing specific project descriptions with generic AI-generated marketing language.
+
+The website should sound like an engineer and product builder, not an advertising template.
+
+---
+
+# Code Quality
+
+## TypeScript
+
+* Prefer explicit types for component props and structured content.
+* Avoid `any`.
+* Avoid unnecessary type assertions.
+* Keep union types narrow and meaningful.
+* Keep data structures close to their consumers unless reuse justifies extraction.
+* Preserve strict type-checking compatibility.
+
+## React
+
+* Prefer functional components.
+* Avoid unnecessary state.
+* Avoid effects for values that can be derived during rendering.
+* Clean up event listeners, observers, and timers.
+* Avoid recreating expensive objects during every render when it materially affects performance.
+* Do not introduce global state for local UI concerns.
+* Keep components focused on one clear responsibility.
+
+## CSS and Tailwind
+
+* Reuse design tokens.
+* Reuse shared component classes.
+* Avoid very long duplicated class lists.
+* Avoid arbitrary values unless justified.
+* Avoid `!important`.
+* Avoid inline styles for static design values.
+* Inline styles are acceptable for dynamic canvas values, pointer-derived CSS variables, or computed geometry.
+* Do not mix multiple competing visual systems within one component.
+
+## Dependencies
+
+Before installing a package:
+
+1. Confirm the behavior cannot be implemented cleanly with existing dependencies or browser APIs.
+2. Check bundle-size and maintenance implications.
+3. Use the smallest appropriate package.
+4. Document why it was added.
+5. Do not install a full UI framework for a single primitive.
+
+---
+
+# Performance
+
+This is a static portfolio and should remain lightweight.
+
+* Avoid unnecessary runtime dependencies.
+* Lazy-load heavy optional assets when appropriate.
+* Prevent oversized images from being shipped.
+* Prefer CSS effects over large decorative image files.
+* Avoid excessive canvas redraws.
+* Throttle or optimize pointer-driven effects where needed.
+* Avoid triggering React rerenders on every pointer movement when CSS variables can handle the effect.
+* Prevent layout shifts from fonts, images, or asynchronously sized elements.
+* Preserve Vite asset hashing and cache behavior.
+* Do not sacrifice readability or accessibility for marginal animation effects.
+
+---
+
+# Working Method
+
+## Before editing
+
+For cross-cutting visual or architectural tasks:
+
+1. Inspect the relevant files.
+2. Identify the current pattern.
+3. Identify reusable tokens and components.
+4. Check whether the issue affects multiple sections.
+5. Describe the intended implementation scope.
+6. Avoid editing unrelated files.
+
+Do not begin a repository-wide redesign before understanding the existing architecture.
+
+## During editing
+
+* Make focused changes.
+* Preserve working behavior.
+* Reuse existing conventions.
+* Keep migrations incremental.
+* Avoid combining design refactors, content rewrites, dependency upgrades, and unrelated cleanup in the same change.
+* Do not rewrite entire files when a smaller patch is sufficient.
+* Do not remove comments that still explain non-obvious behavior.
+* Do not modify deployment configuration unless required by the task.
+
+## After editing
+
+Always inspect the final diff.
+
+Then run:
+
+```bash
+npm run build
+npm run lint
+```
+
+Verify:
+
+* no TypeScript errors
+* no lint errors
+* no accidental content changes
+* no unused imports
+* no dead components introduced
+* no obvious mobile overflow
+* no broken navigation IDs
+* no stale PixelGuide knowledge caused by the change
+* no undefined Tailwind classes introduced
+* no unnecessary dependency changes
+
+Summarize:
+
+* files changed
+* behavior changed
+* design-system decisions made
+* validation performed
+* remaining known limitations
+
+---
+
+# Design Review Checklist
+
+Use this checklist after frontend changes.
+
+## Layout
+
+* Does the page work at 320px?
+* Is there horizontal overflow?
+* Are sections aligned to the same container?
+* Are headings and body text constrained appropriately?
+* Do fixed elements avoid covering content?
+* Does the layout remain coherent at 1920px?
+
+## Typography
+
+* Are display fonts used only for short text?
+* Are long descriptions easy to read?
+* Do headings wrap cleanly?
+* Are text sizes and line heights consistent?
+* Are Turkish characters rendered correctly where present?
+
+## Components
+
+* Are repeated patterns implemented consistently?
+* Are button states complete?
+* Are tags and badges visually aligned?
+* Do cards support long content?
+* Are visual variants intentional rather than arbitrary?
+
+## Accessibility
+
+* Can all controls be used with a keyboard?
+* Are focus states visible?
+* Are controls semantically correct?
+* Is contrast sufficient?
+* Does reduced-motion mode remain usable?
+
+## Visual identity
+
+* Does the result still look like gokmeroz.com?
+* Does it preserve the pixel-art identity?
+* Does it avoid looking like an off-the-shelf SaaS template?
+* Is decoration supporting rather than overpowering the content?
+* Does the page feel professional enough for recruiters and engineering managers?
+
+---
+
+# Important Restrictions
+
+Do not:
+
+* modify legacy `App.jsx` or `App.css` as though they were active
+* invent portfolio facts
+* silently rewrite project descriptions during style work
+* introduce undefined Tailwind classes
+* hardcode new colors throughout JSX
+* create one-off spacing systems per section
+* use absolute positioning for primary layout
+* use fixed heights for dynamic text content
+* make every section visually identical
+* replace the pixel identity with default shadcn styling
+* copy existing copyrighted character designs
+* deploy without explicit instruction
+* claim success without running the available validation commands

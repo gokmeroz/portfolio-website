@@ -20,20 +20,23 @@ export default function Nav({ active }: { active: string }) {
 
   return (
     <header className="nav-surface fixed top-0 inset-x-0 z-50">
-      <div className="container-mx h-16 flex items-center justify-between flex-wrap gap-3">
+      <div className="container-mx min-h-16 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 py-2">
         {/* Name (left) */}
         <a
           href="#about"
           onClick={onClick}
-          className="font-pixel-ui text-[11px] tracking-wide text-[var(--color-text-base)] whitespace-nowrap"
+          className="font-pixel-ui text-[10px] tracking-wide text-[var(--color-text-base)] whitespace-nowrap sm:text-[11px]"
         >
-          GÖKTUĞ MERT ÖZDOĞAN{" "}
-          <span className="text-[var(--color-accent-3)]">_</span> SOFTWARE
-          ENGINEER
+          GÖKTUĞ MERT ÖZDOĞAN
+          <span className="hidden sm:inline">
+            {" "}
+            <span className="text-[var(--color-accent-3)]">_</span> SOFTWARE
+            ENGINEER
+          </span>
         </a>
 
         {/* Menu (right) */}
-        <nav className="flex items-center gap-5 font-pixel-ui text-[10px] uppercase tracking-[0.05em]">
+        <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 font-pixel-ui text-[10px] uppercase tracking-[0.05em] sm:gap-5">
           {LINKS.map((l) => (
             <a
               key={l.id}

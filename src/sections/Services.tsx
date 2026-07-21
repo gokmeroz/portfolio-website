@@ -1,3 +1,6 @@
+import Section from "../components/Section";
+import SectionHeader from "../components/SectionHeader";
+
 const items = [
   {
     title: "Backend APIs & Services",
@@ -76,25 +79,14 @@ const items = [
   },
 ];
 
-function Divider() {
-  return <div className="hr-soft mt-10" />;
-}
-
 export default function Services() {
   return (
-    <section className="scroll-mt-24 py-10">
-      <div className="mb-6">
-        <p className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-text-muted)]">
-          Build Menu
-        </p>
-        <h2 className="mt-2 font-display text-[clamp(14px,2.6vw,20px)] text-[var(--color-text-base)]">
-          What I Build
-        </h2>
-        <p className="mt-3 max-w-3xl text-lg leading-7 text-[var(--color-text-base)]/70">
-          Backend-leaning full-stack solutions with data-driven features and
-          fintech-grade reliability. Clean code, measurable outcomes.
-        </p>
-      </div>
+    <Section>
+      <SectionHeader
+        eyebrow="Build Menu"
+        title="What I Build"
+        description="Backend-leaning full-stack solutions with data-driven features and fintech-grade reliability. Clean code, measurable outcomes."
+      />
 
       <div className="grid gap-6 md:grid-cols-2">
         {items.map((s, i) => (
@@ -115,8 +107,6 @@ export default function Services() {
           </article>
         ))}
       </div>
-
-      <Divider />
-    </section>
+    </Section>
   );
 }

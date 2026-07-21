@@ -1,3 +1,6 @@
+import Section from "../components/Section";
+import SectionHeader from "../components/SectionHeader";
+
 type Article = {
   title: string;
   topic: string[];
@@ -20,45 +23,47 @@ const items: Article[] = [
 
 export default function Articles() {
   return (
-    <section id="articles" className="scroll-mt-24 py-6">
-      <h2 className="text-2xl font-extrabold tracking-tight">Articles</h2>
+    <Section id="articles">
+      <SectionHeader eyebrow="Field Notes" title="Articles" />
 
-      <div className="mt-6 space-y-6">
+      <div className="space-y-6">
         {items.map((a, i) => (
-          <article key={i} className="border border-white/10 rounded-2xl p-5">
-            <div className="flex items-center justify-between text-sm text-neutral-400">
-              <span>{a.topic.join(" ~ ")}</span>
-              <span>{a.date}</span>
+          <article key={i} className="pixel-panel p-6">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex flex-wrap gap-2">
+                {a.topic.map((t) => (
+                  <span key={t} className="pixel-chip">
+                    {t}
+                  </span>
+                ))}
+              </div>
+              <span className="font-pixel-ui text-[10px] uppercase tracking-[0.1em] text-[var(--color-text-muted)]">
+                {a.date}
+              </span>
             </div>
-            <h3 className="mt-2 text-lg font-bold">{a.title}</h3>
-            <p className="mt-2 text-neutral-300">{a.excerpt}</p>
-            <div className="mt-3 flex items-center justify-between">
-              <a
-                href={a.source}
-                target="_blank"
-                rel="noreferrer"
-                className="underline underline-offset-4"
-              >
+            <h3 className="mt-4 font-pixel-ui text-sm tracking-wide text-[var(--color-text-base)] sm:text-base">
+              {a.title}
+            </h3>
+            <p className="mt-2 text-lg leading-7 text-[var(--color-text-base)]/85">
+              {a.excerpt}
+            </p>
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+              <a href={a.source} target="_blank" rel="noreferrer" className="pixel-btn">
                 Read more
               </a>
-              <span className="text-sm text-neutral-400">
+              <span className="text-sm text-[var(--color-text-muted)]">
                 source: {new URL(a.source).hostname}
               </span>
             </div>
           </article>
         ))}
       </div>
-      <p>
-        Follow me on Medium for more →{" "}
-        <a
-          href="https://medium.com/@goekmeroz"
-          className="underline underline-offset-4"
-          target="_blank"
-          rel="noreferrer"
-        >
+      <p className="mt-6 text-lg text-[var(--color-text-base)]/85">
+        Follow me on Medium for more &rarr;{" "}
+        <a href="https://medium.com/@goekmeroz" target="_blank" rel="noreferrer">
           medium.com/@goekmeroz
         </a>
       </p>
-    </section>
+    </Section>
   );
 }

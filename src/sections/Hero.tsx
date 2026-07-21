@@ -1,12 +1,8 @@
 import { FileCheck2, MapPin, Plane } from "lucide-react";
 
-function Divider() {
-  return <div className="hr-soft" />;
-}
-
 export default function Hero() {
   return (
-    <section className="pt-28 container-mx">
+    <section className="pt-4 md:pt-6">
       {/* Eyebrow */}
       <p className="font-pixel-ui text-[11px] uppercase tracking-[0.08em] text-[var(--color-accent-2)]">
         <span className="text-[var(--color-accent-3)]">&gt;</span> Hi, my name
@@ -111,7 +107,6 @@ export default function Hero() {
           Code. Build. Invest. Repeat.
         </h3>
       </div>
-      <Divider />
     </section>
   );
 }

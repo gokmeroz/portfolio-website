@@ -1,14 +1,5 @@
-function Divider() {
-  return <div className="hr-soft" />;
-}
-
-function Row({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-3 md:gap-6">
-      {children}
-    </div>
-  );
-}
+import Section from "../components/Section";
+import SectionHeader from "../components/SectionHeader";
 
 function ExperienceItem(props: {
   title: string;
@@ -19,23 +10,38 @@ function ExperienceItem(props: {
 }) {
   const { title, company, location, date, bullets } = props;
   return (
-    <Row>
-      <div>
-        <h3 className="tracking-wide">{title}</h3>
-        <div className="text-neutral-300">
-          <div className="font-semibold">{company}</div>
-          <ul className="list-disc pl-5 mt-2 space-y-1">
-            {bullets.map((b, i) => (
-              <li key={i}>{b}</li>
-            ))}
-          </ul>
+    <article className="pixel-panel p-6">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-accent)]">
+            {company}
+          </p>
+          <h3 className="mt-1.5 font-pixel-ui text-sm tracking-wide text-[var(--color-text-base)] sm:text-base">
+            {title}
+          </h3>
         </div>
+        <p className="shrink-0 font-pixel-ui text-[10px] uppercase tracking-[0.1em] text-[var(--color-text-muted)]">
+          {location} &middot; {date}
+        </p>
       </div>
-      <div className="text-right md:text-left flex md:block items-center justify-between md:justify-end">
-        <div className="text-neutral-300">{location}</div>
-        <div className="font-medium mt-1 md:mt-2">{date}</div>
-      </div>
-    </Row>
+
+      <ul className="mt-4 space-y-3">
+        {bullets.map((bullet) => (
+          <li
+            key={bullet}
+            className="flex gap-3 text-base leading-6 text-[var(--color-text-base)]/75"
+          >
+            <span
+              aria-hidden="true"
+              className="mt-[2px] shrink-0 font-pixel-ui text-[10px] text-[var(--color-accent-2)]"
+            >
+              &gt;
+            </span>
+            <span>{bullet}</span>
+          </li>
+        ))}
+      </ul>
+    </article>
   );
 }
 
@@ -47,26 +53,29 @@ function EducationItem(props: {
 }) {
   const { degree, school, location, date } = props;
   return (
-    <Row>
-      <div>
-        <h3 className="tracking-wide">{degree}</h3>
-        <div className="text-neutral-300">
-          <div className="font-semibold">{school}</div>
+    <article className="pixel-panel p-6">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-accent)]">
+            {school}
+          </p>
+          <h3 className="mt-1.5 font-pixel-ui text-sm tracking-wide text-[var(--color-text-base)] sm:text-base">
+            {degree}
+          </h3>
         </div>
+        <p className="shrink-0 font-pixel-ui text-[10px] uppercase tracking-[0.1em] text-[var(--color-text-muted)]">
+          {location} &middot; {date}
+        </p>
       </div>
-      <div className="text-right md:text-left flex md:block items-center justify-between md:justify-end">
-        <div className="text-neutral-300">{location}</div>
-        <div className="font-medium mt-1 md:mt-2">{date}</div>
-      </div>
-    </Row>
+    </article>
   );
 }
 
 export default function About() {
   return (
-    <section id="about" className="scroll-mt-24">
-      <h2 className="text-2xl font-extrabold tracking-tight">Experience</h2>
-      <div className="mt-6 space-y-8">
+    <Section id="about">
+      <SectionHeader eyebrow="Career Log" title="Experience" />
+      <div className="space-y-6">
         <ExperienceItem
           title="Full-Stack Software Engineering Intern"
           company="Halkbank — One of Turkey's Largest State-Owned Banks"
@@ -78,7 +87,6 @@ export default function About() {
             "Delivered features end-to-end in an enterprise Agile/Scrum environment, participating in sprint planning, code reviews, and production deployments.",
           ]}
         />
-        <Divider />
         <ExperienceItem
           title="Backend Engineer"
           company="Eyehub — TUBITAK Government Research Project 122E085"
@@ -91,7 +99,6 @@ export default function About() {
             "Collaborated directly with university researchers under Prof. Gunet Eroglu, translating clinical requirements into production-grade backend systems on tight academic milestones.",
           ]}
         />
-        <Divider />
         <ExperienceItem
           title="Software Engineering Intern"
           company="ComPro — IBM Platinum Partner"
@@ -105,10 +112,8 @@ export default function About() {
         />
       </div>
 
-      <h2 className="mt-14 text-2xl font-extrabold tracking-tight">
-        Education
-      </h2>
-      <div className="mt-6">
+      <div className="mt-12">
+        <SectionHeader eyebrow="Academy Log" title="Education" />
         <EducationItem
           degree="B.Sc. in Computer Engineering"
           school="Bahçeşehir University"
@@ -116,6 +121,6 @@ export default function About() {
           date="Oct 2021 - Aug 2025"
         />
       </div>
-    </section>
+    </Section>
   );
 }

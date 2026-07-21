@@ -982,6 +982,15 @@ export default function PixelGuide() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeGuide();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open]);
+
   function openGuide() {
     setOpen(true);
     if (!seen) {

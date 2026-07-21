@@ -1,53 +1,52 @@
 import { Mail, Github, Linkedin, Twitter } from "lucide-react";
+import Section from "../components/Section";
+import SectionHeader from "../components/SectionHeader";
+
 export default function Contact() {
   return (
-    <section id="contact" className="scroll-mt-24 py-6">
-      <h2 className="text-2xl font-extrabold tracking-tight">Contacts</h2>
-      <p className="mt-2 text-sm text-neutral-300">
-        Based in Istanbul, Turkey — open to relocating and working on-site
-        wherever a role needs me. Visa sponsorship required for positions
-        outside Turkey.
-      </p>
+    <Section id="contact">
+      <SectionHeader
+        eyebrow="Connect"
+        title="Contact"
+        description="Based in Istanbul, Turkey — open to relocating and working on-site wherever a role needs me. Visa sponsorship required for positions outside Turkey."
+      />
 
-      <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-6 border border-white/10 rounded-2xl p-6">
-        <div className="flex flex-wrap items-center justify-center gap-3">
-          <a href="mailto:goekmeroz@gmail.com" className="btn-accent">
-            <Mail size={16} strokeWidth={2} className="mr-2" />
-            PRESS START TO CHAT
-          </a>
-        </div>
+      <div className="pixel-panel flex flex-col items-center justify-between gap-6 p-6 md:flex-row">
+        <a href="mailto:goekmeroz@gmail.com" className="btn-accent">
+          <Mail size={16} strokeWidth={2} className="mr-2" />
+          PRESS START TO CHAT
+        </a>
 
-        <div className="flex items-center gap-6 text-sm">
-          {/* GitHub */}
+        <div className="flex flex-wrap items-center justify-center gap-2.5">
           <a
             href="https://github.com/gokmeroz"
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-2 underline underline-offset-4 opacity-80 hover:opacity-100"
+            className="pixel-chip"
           >
-            <Github size={18} strokeWidth={2} />
-            <span>GitHub</span>
+            <Github size={14} strokeWidth={2.25} className="mr-1.5" />
+            GitHub
           </a>
           <a
-            className="underline underline-offset-4 opacity-80 hover:opacity-100"
             href="https://linkedin.com/in/goktugmertozdogan"
             target="_blank"
             rel="noreferrer"
+            className="pixel-chip"
           >
-            <Linkedin size={18} strokeWidth={2} />
-            <span>LinkedIn</span>
+            <Linkedin size={14} strokeWidth={2.25} className="mr-1.5" />
+            LinkedIn
           </a>
           <a
-            className="underline underline-offset-4 opacity-80 hover:opacity-100"
             href="https://x.com/gokmeroz_dev"
             target="_blank"
             rel="noreferrer"
+            className="pixel-chip"
           >
-            <Twitter size={18} strokeWidth={2} />
-            <span>X</span>
+            <Twitter size={14} strokeWidth={2.25} className="mr-1.5" />
+            X
           </a>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

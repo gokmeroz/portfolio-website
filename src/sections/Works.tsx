@@ -1,5 +1,7 @@
 // src/sections/Works.tsx
 import { Plane, type LucideIcon } from "lucide-react";
+import Section from "../components/Section";
+import SectionHeader from "../components/SectionHeader";
 
 type Project = {
   title: string;
@@ -222,34 +224,20 @@ function ProjectCard({
   );
 }
 
-function Divider() {
-  return <div className="hr-soft mt-10" />;
-}
-
 export default function Works() {
   return (
-    <section id="projects" className="scroll-mt-24 py-10">
-      <div className="mb-6">
-        <p className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-text-muted)]">
-          Quest Log
-        </p>
-        <h2 className="mt-2 font-display text-[clamp(14px,2.6vw,20px)] text-[var(--color-text-base)]">
-          Projects &amp; Works
-        </h2>
-        <p className="mt-3 max-w-3xl text-lg leading-7 text-[var(--color-text-base)]/70">
-          A selection of systems I built across fintech, AI-driven
-          automation, and algorithmic trading — focused on product thinking,
-          scalable backend architecture, and clear user-facing execution.
-        </p>
-      </div>
+    <Section id="projects">
+      <SectionHeader
+        eyebrow="Quest Log"
+        title="Projects & Works"
+        description="A selection of systems I built across fintech, AI-driven automation, and algorithmic trading — focused on product thinking, scalable backend architecture, and clear user-facing execution."
+      />
 
       <div className="space-y-8">
         {projects.map((project, i) => (
           <ProjectCard key={project.title} project={project} index={i} />
         ))}
       </div>
-
-      <Divider />
-    </section>
+    </Section>
   );
 }

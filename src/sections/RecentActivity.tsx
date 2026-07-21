@@ -1,4 +1,6 @@
 // src/sections/RecentActivity.tsx
+import Section from "../components/Section";
+import SectionHeader from "../components/SectionHeader";
 
 type Activity = {
   title: string;
@@ -161,21 +163,12 @@ function ActivityCard({
 
 export default function RecentActivity() {
   return (
-    <section className="py-10">
-      <div className="mb-6">
-        <p className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-text-muted)]">
-          Research Log
-        </p>
-
-        <h2 className="mt-2 font-display text-[clamp(14px,2.6vw,20px)] text-[var(--color-text-base)]">
-          Recent Activity
-        </h2>
-
-        <p className="mt-3 max-w-3xl text-lg leading-7 text-[var(--color-text-base)]/70">
-          Current research and collaborative engineering work beyond my shipped
-          products.
-        </p>
-      </div>
+    <Section>
+      <SectionHeader
+        eyebrow="Research Log"
+        title="Recent Activity"
+        description="Current research and collaborative engineering work beyond my shipped products."
+      />
 
       <div className="space-y-8">
         {activities.map((activity, index) => (
@@ -186,8 +179,6 @@ export default function RecentActivity() {
           />
         ))}
       </div>
-
-      <div className="hr-soft mt-10" />
-    </section>
+    </Section>
   );
 }

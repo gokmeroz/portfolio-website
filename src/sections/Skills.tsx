@@ -1,3 +1,6 @@
+import Section from "../components/Section";
+import SectionHeader from "../components/SectionHeader";
+
 const groups = [
   {
     title: "Languages & Tools",
@@ -45,15 +48,10 @@ const groups = [
 
 export default function Skills() {
   return (
-    <section className="py-16 border-t border-white/5">
-      <p className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-text-muted)]">
-        Inventory
-      </p>
-      <h2 className="mt-2 font-display text-[clamp(14px,2.4vw,18px)] text-[var(--color-text-base)]">
-        Skills
-      </h2>
+    <Section>
+      <SectionHeader eyebrow="Inventory" title="Skills" />
 
-      <div className="mt-6 grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2">
         {groups.map((g, gi) => (
           <div
             key={g.title}
@@ -79,6 +77,6 @@ export default function Skills() {
           </div>
         ))}
       </div>
-    </section>
+    </Section>
   );
 }

@@ -49,7 +49,7 @@ export default function App() {
       <CityWebBackdrop />
       <Nav active={active} />
       <PixelGuide />
-      <main className="container-mx pt-24 pb-10">
+      <main className="container-mx flex flex-col gap-16 pt-24 pb-16 md:gap-20 md:pb-20 lg:gap-28">
         <Hero />
         <About />
         <Skills />
@@ -59,15 +59,10 @@ export default function App() {
         <Services />
         <Contact />
         <Articles />
-        <ScrollTop />
         <Footer />
-        <SpotlightOverlay
-          coreSize={5}
-          glowSize={24}
-          lerp={0.2}
-          trailCount={10}
-        />
       </main>
+      <ScrollTop />
+      <SpotlightOverlay coreSize={5} glowSize={24} lerp={0.2} trailCount={10} />
     </div>
   );
 }

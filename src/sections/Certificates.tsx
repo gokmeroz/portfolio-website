@@ -1,5 +1,7 @@
 // src/sections/Certificates.tsx
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Section from "../components/Section";
+import SectionHeader from "../components/SectionHeader";
 
 const groups = [
   {
@@ -44,8 +46,10 @@ const groups = [
   },
 ];
 
-export default function Cer() {
+export default function Certificates() {
   const [active, setActive] = useState<number | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     groups.forEach((g) => {
@@ -54,37 +58,58 @@ export default function Cer() {
     });
   }, []);
 
+  useEffect(() => {
+    if (active == null) return;
+    closeButtonRef.current?.focus();
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setActive(null);
+      } else if (e.key === "ArrowLeft") {
+        setActive((i) => (i == null ? 0 : (i - 1 + groups.length) % groups.length));
+      } else if (e.key === "ArrowRight") {
+        setActive((i) => (i == null ? 0 : (i + 1) % groups.length));
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [active]);
+
+  function closeModal() {
+    setActive(null);
+    triggerRef.current?.focus();
+  }
+
   const openItem = active != null ? groups[active] : null;
 
   return (
-    <div className="py-16 border-t border-black/10">
-      <h2 className="uppercase tracking-[0.25em] text-xs text-zinc-500 mb-8">
-        Certificates
-      </h2>
+    <Section>
+      <SectionHeader eyebrow="Achievements" title="Certificates" />
 
-      <div className="relative flex overflow-x-auto gap-4 pb-2 no-scrollbar">
+      <div className="relative flex gap-4 overflow-x-auto pb-2 no-scrollbar">
         {groups.map((g, i) => (
           <button
             key={g.title + i}
-            onClick={() => setActive(i)}
-            className="group flex-shrink-0 outline-none"
-            aria-label={`${g.title} — ${g.from}`}
+            onClick={(e) => {
+              triggerRef.current = e.currentTarget;
+              setActive(i);
+            }}
+            className="group relative flex-shrink-0 border-[3px] border-[var(--color-border)] outline-none transition-colors hover:border-[var(--color-border-strong)] focus-visible:border-[var(--color-accent-2)]"
+            aria-label={`View certificate: ${g.title} — ${g.from}`}
           >
-            <div className="relative">
-              <img
-                src={g.certificate_url}
-                alt={g.title}
-                loading="lazy"
-                className="h-32 w-56 md:h-40 md:w-72 object-cover rounded-xl border shadow-sm transition-transform duration-200 transform-gpu group-hover:scale-[1.01]"
-              />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent text-white px-3 py-2 rounded-b-xl">
-                <p className="text-[11px] md:text-xs font-medium line-clamp-1">
-                  {g.title}
-                </p>
-                <p className="text-[10px] md:text-[11px] text-zinc-300">
-                  {g.from}
-                </p>
-              </div>
+            <img
+              src={g.certificate_url}
+              alt=""
+              loading="lazy"
+              className="h-32 w-56 object-cover transition-transform duration-200 group-hover:scale-[1.02] md:h-40 md:w-72"
+            />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--color-bg-base)] to-transparent px-3 py-2">
+              <p className="line-clamp-1 font-pixel-ui text-[10px] text-[var(--color-text-base)]">
+                {g.title}
+              </p>
+              <p className="mt-0.5 text-sm text-[var(--color-text-muted)]">
+                {g.from}
+              </p>
             </div>
           </button>
         ))}
@@ -92,54 +117,73 @@ export default function Cer() {
 
       {openItem && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-[2px] flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-[2px]"
           onClick={(e) => {
-            if (e.target === e.currentTarget) setActive(null);
+            if (e.target === e.currentTarget) closeModal();
           }}
         >
-          <div className="relative w-full max-w-5xl transform-gpu">
-            <div className="absolute -top-12 left-0 right-0 flex justify-center pointer-events-none">
-              <div className="px-4 py-2 rounded-full bg-white/95 shadow">
-                <h3 className="text-sm md:text-base font-semibold text-zinc-900 text-center">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${openItem.title} — ${openItem.from}`}
+            className="pixel-panel relative flex w-full max-w-4xl flex-col overflow-hidden"
+          >
+            <div className="flex-none flex items-start justify-between gap-3 border-b-[3px] border-[var(--color-border)] bg-[var(--color-surface-2)] px-4 py-3">
+              <div className="min-w-0">
+                <h3 className="font-pixel-ui text-xs text-[var(--color-text-base)] sm:text-sm">
                   {openItem.title}
                 </h3>
-                <p className="text-xs md:text-sm text-zinc-600 text-center -mt-0.5">
+                <p className="mt-1 text-sm text-[var(--color-text-muted)]">
                   {openItem.from}
                 </p>
               </div>
+              <button
+                ref={closeButtonRef}
+                type="button"
+                onClick={closeModal}
+                aria-label="Close certificate viewer"
+                className="flex-none w-[30px] h-[30px] border-2 border-[var(--color-border)] bg-[var(--color-surface)] font-pixel-ui text-xs text-[var(--color-text-base)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+              >
+                &#10005;
+              </button>
             </div>
-            <div className="rounded-2xl overflow-hidden border shadow-2xl">
+
+            <div className="flex items-center justify-center bg-[var(--color-bg-base)] p-2">
               <img
                 src={openItem.certificate_url}
-                alt={openItem.title}
-                className="w-full max-h-[78vh] object-contain bg-white"
+                alt={`${openItem.title} certificate from ${openItem.from}`}
+                className="max-h-[65vh] w-full object-contain"
                 draggable={false}
               />
             </div>
-            <div className="mt-3 flex items-center justify-between text-zinc-200">
+
+            <div className="flex-none flex items-center justify-between gap-3 border-t-[3px] border-[var(--color-border)] bg-[var(--color-surface-2)] px-4 py-3">
               <div className="flex gap-2">
                 <button
+                  type="button"
                   onClick={() =>
                     setActive((i) =>
                       i == null ? 0 : (i - 1 + groups.length) % groups.length
                     )
                   }
-                  className="px-3 py-1 rounded bg-white/10 hover:bg-white/20"
+                  className="pixel-btn !text-[10px]"
                 >
-                  ◀ Prev
+                  &#9664; Prev
                 </button>
                 <button
+                  type="button"
                   onClick={() =>
                     setActive((i) => (i == null ? 0 : (i + 1) % groups.length))
                   }
-                  className="px-3 py-1 rounded bg-white/10 hover:bg-white/20"
+                  className="pixel-btn !text-[10px]"
                 >
-                  Next ▶
+                  Next &#9654;
                 </button>
               </div>
               <button
-                onClick={() => setActive(null)}
-                className="px-3 py-1 rounded bg-white/10 hover:bg-white/20"
+                type="button"
+                onClick={closeModal}
+                className="pixel-btn !text-[10px]"
               >
                 Close (Esc)
               </button>
@@ -147,6 +191,6 @@ export default function Cer() {
           </div>
         </div>
       )}
-    </div>
+    </Section>
   );
 }
