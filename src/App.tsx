@@ -15,6 +15,7 @@ import SpotlightOverlay from "./components/SpotlightOverlay";
 import Certificates from "./sections/Certificates";
 import PixelGuide from "./components/PixelGuide";
 import CityWebBackdrop from "./components/CityWebBackdrop";
+import BootSequence from "./components/BootSequence";
 
 export default function App() {
   const [active, setActive] = useState<string>("about");
@@ -46,6 +47,7 @@ export default function App() {
 
   return (
     <div>
+      <BootSequence />
       <CityWebBackdrop />
       <Nav active={active} />
       <PixelGuide />

@@ -552,6 +552,85 @@
   }
 }
 
+/* ---------- Boot sequence intro ---------- */
+.boot-sequence {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  background: var(--color-bg-base);
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.25s steps(3);
+}
+
+.boot-sequence.is-dismissing {
+  opacity: 0;
+}
+
+.boot-sequence__lines {
+  display: flex;
+  min-height: 120px;
+  max-width: min(90vw, 480px);
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.boot-sequence__line {
+  font-family: var(--font-pixel-ui);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--color-accent-2);
+}
+
+.boot-sequence__line:last-child {
+  color: var(--color-text-base);
+}
+
+.boot-sequence__cursor {
+  display: inline-block;
+  align-self: center;
+  width: 10px;
+  height: 16px;
+  margin-top: 4px;
+  background: var(--color-accent-3);
+  animation: boot-cursor-blink 0.8s steps(2) infinite;
+}
+
+@keyframes boot-cursor-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.boot-sequence__hint {
+  font-family: var(--font-pixel-ui);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-sequence {
+    transition: none;
+  }
+  .boot-sequence__cursor {
+    animation: none;
+  }
+}
+
 /* ---------- Istanbul skyline + spider-web backdrop ---------- */
 .city-web-backdrop {
   position: fixed;
