@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { FileCheck2, MapPin, Plane } from "lucide-react";
 
 export default function Hero() {
+  const [bioExpanded, setBioExpanded] = useState(false);
+
   return (
     <section className="pt-4 md:pt-6">
       {/* Eyebrow */}
@@ -52,7 +55,12 @@ export default function Hero() {
       </div>
 
       <div className="mt-6 space-y-4">
-        <p className="max-w-prose text-lg leading-7 text-[var(--color-text-base)]/85">
+        <p
+          id="bio-long"
+          className={`max-w-prose text-lg leading-7 text-[var(--color-text-base)]/85 ${
+            bioExpanded ? "" : "line-clamp-5"
+          }`}
+        >
           I’m a software engineer from Istanbul, born and raised with a curious
           mind and a bit of an obsession for building things that actually work.
           I've been coding since I was a kid, starting with simple HTML websites
@@ -103,6 +111,16 @@ export default function Hero() {
           things that matter. Whether it’s a relationship, a career move, or a
           side project, I’d rather take my time and make it mine.
         </p>
+        <button
+          type="button"
+          onClick={() => setBioExpanded((expanded) => !expanded)}
+          aria-expanded={bioExpanded}
+          aria-controls="bio-long"
+          className="inline-flex items-center gap-1.5 font-pixel-ui text-[11px] uppercase tracking-[0.08em] text-[var(--color-accent-2)] transition-colors hover:text-[var(--color-accent-3)]"
+        >
+          {bioExpanded ? "Show less" : "Read more"}
+          <span aria-hidden="true">{bioExpanded ? "▲" : "▼"}</span>
+        </button>
         <h3 className="font-pixel-ui text-sm tracking-wide text-[var(--color-accent-3)]">
           Code. Build. Invest. Repeat.
         </h3>
