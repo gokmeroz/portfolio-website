@@ -13,6 +13,7 @@ import Services from "./sections/Services";
 import Hero from "./sections/Hero";
 import SpotlightOverlay from "./components/SpotlightOverlay";
 import Certificates from "./sections/Certificates";
+import InterviewMert from "./sections/InterviewMert";
 import SpiderGuide from "./components/SpiderGuide";
 import CityWebBackdrop from "./components/CityWebBackdrop";
 import BootSequence from "./components/BootSequence";
@@ -60,6 +61,7 @@ export default function App() {
         <RecentActivity />
         <Certificates />
         <Works />
+        <InterviewMert />
         <Services />
         <Contact />
         <Articles />

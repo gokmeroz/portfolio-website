@@ -1097,6 +1097,30 @@
   }
 }
 
+/* ---------- Interview Mert modal ---------- */
+.interview-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 2rem);
+  background: rgba(10, 6, 20, 0.82);
+}
+
+.interview-modal__panel {
+  width: 100%;
+  max-width: 760px;
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.interview-modal__challenge {
+  border-top: 2px dashed var(--color-border);
+  padding-top: 1.5rem;
+}
+
 /* ---------- Terminal mode easter egg ---------- */
 .terminal-mode {
   position: fixed;
