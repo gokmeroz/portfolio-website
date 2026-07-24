@@ -1,4 +1,5 @@
 // src/sections/Works.tsx
+import { useState } from "react";
 import { Plane, type LucideIcon } from "lucide-react";
 import Section from "../components/Section";
 import SectionHeader from "../components/SectionHeader";
@@ -11,6 +12,11 @@ type Project = {
   what: string;
   how: string;
   techs: string[];
+  explain: {
+    normal: string;
+    technical: string;
+    impact: string[];
+  };
   links: {
     what?: string;
     code?: string;
@@ -35,6 +41,17 @@ const projects: Project[] = [
       "OAuth",
       "Docker",
     ],
+    explain: {
+      normal:
+        "Nummoria helps you see where your money actually goes — income, expenses, and investments in one place, with tracking that doesn't feel like spreadsheet busywork.",
+      technical:
+        "React + Vite frontend backed by a Node.js/Express REST API, MongoDB via Mongoose, JWT and Google/Apple OAuth for auth, domain-driven modules for accounts, transactions, and investments, containerized with Docker.",
+      impact: [
+        "Live production app at nummoria.com.",
+        "Designed, built, and shipped solo — architecture, backend, frontend, and deployment.",
+        "Multi-asset investment tracking (stocks, crypto, commodities, real estate) built from scratch.",
+      ],
+    },
     links: {
       code: "https://github.com/gokmeroz/nummoria",
       live: "https://www.nummoria.com",
@@ -54,6 +71,17 @@ const projects: Project[] = [
       "Google Sheets API",
       "YAML",
     ],
+    explain: {
+      normal:
+        "JobPilot applies to jobs for you — it finds roles, checks if they're a real fit, and only submits after a human signs off, so nothing goes out under your name without review.",
+      technical:
+        "Python 3.12 pipeline with 8 explicit stages (discover → normalize → gate → dedupe → score → review → apply → sync), a SQLite dedup ledger, Claude API scoring against a CANDIDATE.md profile, and Playwright-driven ATS form fillers for Greenhouse, Ashby, Lever, and Workable.",
+      impact: [
+        "Open-sourced on GitHub, self-hosted by design.",
+        "Runs review-first by default — every skip and submission is logged with a reason for a fully auditable trail.",
+        "Resume, cover letters, and candidate profile never leave the local machine.",
+      ],
+    },
     links: {
       code: "https://github.com/gokmeroz/jobpilot-autopilot-for-job-applications",
     },
@@ -73,6 +101,17 @@ const projects: Project[] = [
       "CoinGecko API",
       "Machine Learning",
     ],
+    explain: {
+      normal:
+        "An automated trading system that watches crypto markets in real time and tries to catch profitable trades faster than a human could.",
+      technical:
+        "Python backend for predictive modeling and trade-signal generation over real-time Binance market data, with a React/TypeScript/TailwindCSS dashboard for live prices, trade history, and performance metrics.",
+      impact: [
+        "Built as a 3-person university capstone with Fazlı Altun and Hakan Emir Arslan.",
+        "Achieved consistent simulated profitability across market scenarios, outperforming simple momentum and mean-reversion baselines.",
+        "Shared ownership across model design, market-data pipeline, and dashboard.",
+      ],
+    },
     links: {
       code: "https://github.com/fazlialtunn/hft-bitcoin-capstone",
     },
@@ -124,6 +163,72 @@ function ActionLink({
   );
 }
 
+type ExplainMode = "normal" | "technical" | "impact";
+
+const EXPLAIN_MODES: { key: ExplainMode; label: string }[] = [
+  { key: "normal", label: "Explain Normally" },
+  { key: "technical", label: "Explain Technically" },
+  { key: "impact", label: "Business Impact" },
+];
+
+function ExplainToggle({
+  explain,
+  panelId,
+}: {
+  explain: Project["explain"];
+  panelId: string;
+}) {
+  const [mode, setMode] = useState<ExplainMode>("normal");
+
+  return (
+    <div className="mt-5 border-t-2 border-[var(--color-border)] pt-5">
+      <div
+        role="group"
+        aria-label="Explanation depth"
+        className="flex flex-wrap gap-2"
+      >
+        {EXPLAIN_MODES.map(({ key, label }) => (
+          <button
+            key={key}
+            type="button"
+            aria-pressed={mode === key}
+            aria-controls={panelId}
+            onClick={() => setMode(key)}
+            className={`pixel-chip cursor-pointer ${mode === key ? "is-active" : ""}`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      <div id={panelId} aria-live="polite" className="mt-3">
+        {mode === "impact" ? (
+          <ul className="space-y-2">
+            {explain.impact.map((line) => (
+              <li
+                key={line}
+                className="flex gap-3 text-lg leading-7 text-[var(--color-text-base)]/85"
+              >
+                <span
+                  aria-hidden="true"
+                  className="mt-[6px] shrink-0 font-pixel-ui text-[10px] text-[var(--color-accent-2)]"
+                >
+                  &gt;
+                </span>
+                <span>{line}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-lg leading-7 text-[var(--color-text-base)]/85">
+            {mode === "normal" ? explain.normal : explain.technical}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function ProjectCard({
   project,
   index,
@@ -132,6 +237,7 @@ function ProjectCard({
   index: number;
 }) {
   const Icon = project.icon;
+  const explainPanelId = `explain-panel-${index}`;
   return (
     <article
       className="fade-up pixel-panel p-6"
@@ -188,6 +294,8 @@ function ProjectCard({
               </p>
             </div>
           </div>
+
+          <ExplainToggle explain={project.explain} panelId={explainPanelId} />
 
           <div className="mt-5">
             <span className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-text-muted)]">

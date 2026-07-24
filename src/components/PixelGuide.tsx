@@ -897,6 +897,26 @@ const RULES: Rule[] = [
 const FALLBACK_REPLY =
   "That question is not mapped yet. Try asking how he <b>thinks</b>, what his <b>main quest</b> is, whether he likes <b>Spider-Man</b>, what he does outside <b>coding</b>, or why you should <b>hire</b> him.";
 
+const ULTRA_LINES = [
+  "You found the secret button-masher achievement. Mert builds the same way &mdash; relentless until it actually works.",
+  "Achievement unlocked: <b>Persistence Overdrive</b>. Same energy he brings to a 2am debugging session.",
+  "ULTRA FORM: backend depth, product instinct, and way too many open tabs &mdash; now in 4x resolution.",
+  "You just did to this button what Mert does to hard problems: refused to stop until something happened.",
+];
+
+const DUST_OFFSETS = [
+  { x: -26, y: -8 },
+  { x: 24, y: -14 },
+  { x: -18, y: 22 },
+  { x: 20, y: 20 },
+  { x: -8, y: -26 },
+  { x: 10, y: 26 },
+];
+
+const MASH_THRESHOLD = 5;
+const MASH_WINDOW_MS = 1200;
+const ULTRA_AUTO_DISMISS_MS = 4200;
+
 const CHIPS = [
   { label: "Why hire him?", query: "why hire him" },
   { label: "How does he think?", query: "how does he think" },
@@ -954,11 +974,17 @@ export default function PixelGuide() {
   const [typing, setTyping] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [chipsExpanded, setChipsExpanded] = useState(false);
+  const [swingIn, setSwingIn] = useState(false);
+  const [ultraMode, setUltraMode] = useState(false);
+  const [ultraLine, setUltraLine] = useState("");
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const ultraCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const logRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const typingTimer = useRef<number | null>(null);
+  const mashTimestamps = useRef<number[]>([]);
+  const ultraDismissTimer = useRef<number | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -969,6 +995,38 @@ export default function PixelGuide() {
       ctx.fillRect(x * SCALE, y * SCALE, w * SCALE, h * SCALE);
     });
   }, []);
+
+  // One-time-per-tab-session swing-in entrance; skipped for reduced motion.
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const alreadySeen = sessionStorage.getItem("pixel-guide-swing-seen") === "1";
+    sessionStorage.setItem("pixel-guide-swing-seen", "1");
+    if (!reduced && !alreadySeen) setSwingIn(true);
+  }, []);
+
+  useEffect(() => {
+    if (!ultraMode) return;
+    const canvas = ultraCanvasRef.current;
+    const ctx = canvas?.getContext("2d");
+    if (!ctx || !canvas) return;
+    BUST_RECTS.forEach(([x, y, w, h, color]) => {
+      ctx.fillStyle = color;
+      ctx.fillRect(x * SCALE, y * SCALE, w * SCALE, h * SCALE);
+    });
+  }, [ultraMode]);
+
+  useEffect(() => {
+    if (!ultraMode) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") dismissUltra();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    ultraDismissTimer.current = window.setTimeout(dismissUltra, ULTRA_AUTO_DISMISS_MS);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      if (ultraDismissTimer.current) window.clearTimeout(ultraDismissTimer.current);
+    };
+  }, [ultraMode]);
 
   useEffect(() => {
     if (logRef.current) {
@@ -1010,6 +1068,33 @@ export default function PixelGuide() {
     setOpen(false);
   }
 
+  function dismissUltra() {
+    setUltraMode(false);
+  }
+
+  function triggerUltraMode() {
+    setOpen(false);
+    setUltraLine(ULTRA_LINES[Math.floor(Math.random() * ULTRA_LINES.length)]);
+    setUltraMode(true);
+  }
+
+  function handleBadgeClick() {
+    const now = Date.now();
+    const recent = mashTimestamps.current.filter((t) => now - t < MASH_WINDOW_MS);
+    recent.push(now);
+    mashTimestamps.current = recent;
+    if (recent.length >= MASH_THRESHOLD) {
+      mashTimestamps.current = [];
+      triggerUltraMode();
+      return;
+    }
+    if (open) {
+      closeGuide();
+    } else {
+      openGuide();
+    }
+  }
+
   function ask(raw: string) {
     const text = raw.trim();
     if (!text) return;
@@ -1047,7 +1132,26 @@ export default function PixelGuide() {
   }
 
   return (
-    <div className="fixed z-[200] top-[80px] left-4 sm:left-4 font-sans">
+    <div
+      className={`pixel-guide-root fixed z-[200] top-[80px] left-4 sm:left-4 font-sans ${
+        swingIn ? "is-swinging-in" : ""
+      }`}
+    >
+      {swingIn &&
+        DUST_OFFSETS.map((offset, i) => (
+          <span
+            key={i}
+            className="pixel-guide-dust"
+            aria-hidden="true"
+            style={
+              {
+                "--dust-x": `${offset.x}px`,
+                "--dust-y": `${offset.y}px`,
+              } as React.CSSProperties
+            }
+          />
+        ))}
+
       {/* decorative web */}
       <svg
         className="pixel-guide-web absolute -top-[38px] -left-[38px] w-[128px] h-[128px] pointer-events-none opacity-55"
@@ -1069,10 +1173,10 @@ export default function PixelGuide() {
 
       <button
         type="button"
-        className="pixel-guide-badge relative z-[1]"
+        className={`pixel-guide-badge relative z-[1] ${!seen ? "is-spotlight" : ""}`}
         aria-label="Open Mert's pixel guide to ask a question"
         aria-expanded={open}
-        onClick={() => (open ? closeGuide() : openGuide())}
+        onClick={handleBadgeClick}
       >
         <canvas ref={canvasRef} width={48} height={40} />
         {!seen && (
@@ -1084,7 +1188,28 @@ export default function PixelGuide() {
 
       {!seen && (
         <div className="pixel-guide-callout absolute top-2 left-[76px] z-[2]">
-          <span className="pixel-guide-callout-arrow" />
+          <svg
+            className="pixel-guide-callout-strand"
+            width="22"
+            height="16"
+            viewBox="0 0 22 16"
+            aria-hidden="true"
+          >
+            <line
+              className="pixel-guide-callout-strand-line"
+              pathLength="1"
+              x1="0"
+              y1="10"
+              x2="18"
+              y2="5"
+            />
+            <circle
+              className="pixel-guide-callout-strand-dot"
+              cx="18"
+              cy="5"
+              r="2"
+            />
+          </svg>
           <span className="pixel-guide-callout-text">Click me!</span>
         </div>
       )}
@@ -1192,6 +1317,44 @@ export default function PixelGuide() {
               Send
             </button>
           </form>
+        </div>
+      )}
+
+      {ultraMode && (
+        <div
+          className="pixel-guide-ultra-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Ultra mode unlocked"
+          onClick={dismissUltra}
+        >
+          <div className="pixel-guide-ultra-flash" aria-hidden="true" />
+          <div
+            className="pixel-guide-ultra-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="pixel-guide-ultra-canvas-wrap">
+              <canvas
+                ref={ultraCanvasRef}
+                width={48}
+                height={40}
+                className="pixel-guide-ultra-canvas"
+              />
+            </div>
+            <p className="pixel-guide-ultra-title">ULTRA MODE</p>
+            <p
+              className="pixel-guide-ultra-line"
+              dangerouslySetInnerHTML={{ __html: ultraLine }}
+            />
+            <button
+              type="button"
+              className="pixel-btn primary"
+              onClick={dismissUltra}
+            >
+              Continue
+            </button>
+            <p className="pixel-guide-ultra-hint">Tap anywhere or press Esc</p>
+          </div>
         </div>
       )}
     </div>
