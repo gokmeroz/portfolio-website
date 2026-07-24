@@ -3,6 +3,7 @@ import SectionHeader from "../components/SectionHeader";
 
 const groups = [
   {
+    id: "skills-languages-tools",
     title: "Languages & Tools",
     items: [
       "TypeScript",
@@ -20,6 +21,7 @@ const groups = [
     ],
   },
   {
+    id: "skills-frameworks",
     title: "Frameworks & Libraries",
     items: [
       "React",
@@ -32,6 +34,7 @@ const groups = [
     ],
   },
   {
+    id: "skills-ai-ml",
     title: "AI / ML & Automation",
     isNew: true,
     items: [
@@ -48,13 +51,14 @@ const groups = [
 
 export default function Skills() {
   return (
-    <Section>
+    <Section id="skills">
       <SectionHeader eyebrow="Inventory" title="Skills" />
 
       <div className="grid gap-6 md:grid-cols-2">
         {groups.map((g, gi) => (
           <div
             key={g.title}
+            id={g.id}
             className={`fade-up pixel-panel p-6 ${
               g.isNew ? "is-new md:col-span-2" : ""
             }`}

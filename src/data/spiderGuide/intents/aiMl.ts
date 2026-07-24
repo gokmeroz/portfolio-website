@@ -1,0 +1,175 @@
+import type { GuideIntent } from "../../../lib/spiderGuide/types";
+
+export const aiMlIntents: GuideIntent[] = [
+  {
+    id: "reprobot-overview",
+    category: "ai-ml",
+    topic: "reprobot",
+    title: "ReproBot overview",
+    patterns: [
+      "What is ReproBot?",
+      "Tell me about ReproBot.",
+      "What is he doing at inzva?",
+      "What is his AI research project?",
+    ],
+    keywords: ["reprobot", "inzva", "ai", "research", "project"],
+    answer:
+      "ReproBot is an ongoing project at inzva AI Projects #10 — a multi-agent AI pipeline that turns machine learning research papers into executable replication workflows. It's designed to extract experimental details, generate code, run experiments safely, and compare reproduced results against the paper's published claims. He's an AI Project Contributor, working on it since June 2026 — it's still in progress, not a finished product.",
+    actions: [{ type: "navigate", target: "recent-activity" }],
+    followUpIntentIds: ["reprobot-agents", "reprobot-tech-stack", "reprobot-status"],
+    priority: 8,
+    recruiterRelevant: true,
+  },
+  {
+    id: "reprobot-agents",
+    category: "ai-ml",
+    topic: "reprobot",
+    title: "ReproBot's agent architecture",
+    patterns: [
+      "How does ReproBot coordinate its agents?",
+      "Explain ReproBot's agent architecture.",
+      "What agents does ReproBot use?",
+      "What is the Reader Agent?",
+      "What do the Coder and Runner agents do?",
+    ],
+    keywords: ["reprobot", "agent", "reader", "coder", "runner", "critic", "orchestrator", "architecture"],
+    requiredKeywords: ["reprobot"],
+    answer:
+      "Five roles: the Reader Agent extracts methods, datasets, metrics, claims, figures, tables, and hyperparameters from research PDFs using document-parsing and vision-language tooling. The Coder and Runner Agents generate PyTorch and Hugging Face experiment scripts and execute them inside Docker, capturing metrics, logs, and error traces. The Critic and Orchestrator compare reproduced results with the paper's claims and coordinate targeted code revisions through an iterative feedback loop.",
+    actions: [{ type: "highlight", target: "activity-reprobot" }],
+    followUpIntentIds: ["reprobot-tech-stack", "reprobot-evaluation-plan", "reprobot-status"],
+    priority: 7,
+    recruiterRelevant: true,
+  },
+  {
+    id: "reprobot-tech-stack",
+    category: "ai-ml",
+    topic: "reprobot",
+    title: "ReproBot tech stack",
+    patterns: [
+      "What technologies does ReproBot use?",
+      "What is ReproBot built with?",
+      "Does ReproBot use LangChain?",
+    ],
+    keywords: ["reprobot", "pytorch", "hugging", "face", "langchain", "docker", "tech", "stack"],
+    answer:
+      "Python, PyTorch, and Hugging Face for the generated experiments, LangChain for agent orchestration, and Docker to run everything in isolated, reproducible environments — plus LLM/VLM tooling for the document-understanding side.",
+    followUpIntentIds: ["reprobot-agents", "reprobot-evaluation-plan", "ml-skills-stack"],
+    priority: 5,
+  },
+  {
+    id: "reprobot-evaluation-plan",
+    category: "ai-ml",
+    topic: "reprobot",
+    title: "ReproBot evaluation plan",
+    patterns: [
+      "How will ReproBot be evaluated?",
+      "What is the ReproBot evaluation plan?",
+      "How does ReproBot measure success?",
+    ],
+    keywords: ["reprobot", "evaluation", "benchmark", "metric", "measure"],
+    answer:
+      "The plan is to benchmark across 20 image-classification papers, measuring replication success, metric gaps against the published results, and running ablations on the refinement loop itself. This part is planned, not completed yet — ReproBot is an ongoing project.",
+    followUpIntentIds: ["reprobot-status", "reprobot-agents", "reprobot-overview"],
+    priority: 4,
+  },
+  {
+    id: "reprobot-status",
+    category: "ai-ml",
+    topic: "reprobot",
+    title: "Is ReproBot finished",
+    patterns: [
+      "Is ReproBot finished?",
+      "Is ReproBot complete?",
+      "What is the status of ReproBot?",
+    ],
+    keywords: ["finished", "complete", "status", "done", "reprobot"],
+    answer:
+      "No — it's an ongoing project (June 2026 onward) at inzva AI Projects #10. He's actively contributing to the agent pipeline; the full evaluation across 20 papers is still planned, not run yet.",
+    followUpIntentIds: ["reprobot-overview", "reprobot-evaluation-plan", "ai-ml-direction"],
+    priority: 5,
+  },
+  {
+    id: "ai-ml-direction",
+    category: "ai-ml",
+    title: "His AI/ML direction and experience level",
+    patterns: [
+      "Does Mert know machine learning?",
+      "Is he an AI engineer?",
+      "What is his AI/ML experience?",
+      "How much AI experience does he have?",
+    ],
+    keywords: ["ai", "ml", "machine", "learning", "experience", "engineer"],
+    answer:
+      "AI/ML is the next layer of his engineering path, not a career reset — he already knows how to build products and backend systems, and is now deepening the modeling, evaluation, agent, and MLOps skills needed to make intelligent features reliable in production. ReproBot is the current proof point; Nummoria's planned AI Financial Advisor is another direction, not yet built.",
+    actions: [{ type: "filter-skills", category: "ai-ml" }],
+    followUpIntentIds: ["reprobot-overview", "why-ai-ml", "ml-skills-stack"],
+    priority: 7,
+    recruiterRelevant: true,
+  },
+  {
+    id: "why-ai-ml",
+    category: "ai-ml",
+    title: "Why he's moving into AI/ML",
+    patterns: [
+      "Why is he interested in AI?",
+      "Why machine learning?",
+      "Why is he moving into AI/ML?",
+    ],
+    keywords: ["why", "ai", "ml", "interested", "machine", "learning"],
+    answer:
+      "He's most interested in the systems where intelligence has to survive contact with production — APIs, data pipelines, evaluation, retries, observability, security, real user behavior. He wants deeper distributed-systems and high-throughput backend experience alongside that, not AI demos that only work in a notebook.",
+    followUpIntentIds: ["reprobot-overview", "ai-ml-direction", "system-design-for-ai"],
+    priority: 4,
+  },
+  {
+    id: "ai-tool-usage",
+    category: "ai-ml",
+    title: "How he uses AI tools while developing",
+    patterns: [
+      "Does he use AI while developing?",
+      "Is he AI-native?",
+      "Does he use Claude or Codex?",
+      "Does he use coding agents?",
+    ],
+    keywords: ["ai", "claude", "codex", "agent", "agents", "tool", "coding"],
+    answer:
+      "As a force multiplier, not an autopilot button. He uses coding agents for exploration, implementation, review, and automation, but keeps architecture, validation, security, and product judgment human-owned. JobPilot is built on the same principle — the Claude API scores role fit against a real candidate profile, but it never invents facts about his background, and anything uncertain routes to manual review.",
+    actions: [{ type: "open-project", projectId: "jobpilot" }],
+    followUpIntentIds: ["jobpilot-overview", "learning-style", "ai-ml-direction"],
+    priority: 5,
+  },
+  {
+    id: "ml-skills-stack",
+    category: "ai-ml",
+    title: "ML skills and libraries",
+    patterns: [
+      "What machine learning libraries does he know?",
+      "Does he know PyTorch?",
+      "Does he know scikit-learn?",
+    ],
+    keywords: ["pytorch", "scikit-learn", "pandas", "numpy", "library", "libraries"],
+    answer:
+      "PyTorch, scikit-learn, Pandas, and NumPy, plus the Anthropic Claude API for LLM-driven features and Hugging Face and LangChain in ReproBot's agent pipeline. This group is the newest addition to his stack, marked accordingly on the skills list.",
+    actions: [{ type: "filter-skills", category: "ai-ml" }],
+    followUpIntentIds: ["reprobot-tech-stack", "ai-ml-direction", "nummoria-ai-usage"],
+    priority: 4,
+  },
+  {
+    id: "nummoria-ai-usage",
+    category: "ai-ml",
+    topic: "nummoria",
+    title: "AI plans inside Nummoria",
+    patterns: [
+      "Does Nummoria use AI?",
+      "What AI features does Nummoria have?",
+      "Is there an AI advisor in Nummoria?",
+    ],
+    keywords: ["nummoria", "ai", "advisor", "financial", "insights"],
+    answer:
+      "Nummoria's architecture is built for it — the domain-driven backend is designed to extend into transaction-pattern analysis and behavioral-trend detection. An AI Financial Advisor that forecasts cash flow and recommends optimizations is on the roadmap but not built yet; today the AI angle is architectural readiness, not a shipped feature.",
+    actions: [{ type: "open-project", projectId: "nummoria" }],
+    followUpIntentIds: ["nummoria-architecture", "ai-ml-direction", "nummoria-status"],
+    priority: 4,
+  },
+];

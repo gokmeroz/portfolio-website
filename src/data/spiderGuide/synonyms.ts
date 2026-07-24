@@ -1,0 +1,33 @@
+// Canonical term -> alternate phrasings. Used during matching to expand a
+// visitor's query so "most impressive project" can still find the intent
+// whose keywords say "strongest".
+export const SYNONYMS: Record<string, string[]> = {
+  ai: ["artificial intelligence", "machine intelligence"],
+  ml: ["machine learning"],
+  backend: ["back end", "server side", "server-side"],
+  frontend: ["front end", "client side", "client-side"],
+  project: ["product", "application", "app", "system", "build", "thing he made", "thing he built"],
+  job: ["role", "position", "opportunity"],
+  experience: ["background", "work history", "career history"],
+  strongest: ["best", "top", "most impressive", "strongest one"],
+  architecture: ["system design", "structure", "technical design"],
+  hire: ["interview", "recruit", "recruiting"],
+  relocate: ["relocation", "move abroad", "work abroad", "moving"],
+  contact: ["reach", "email him", "get in touch", "reach out"],
+  goal: ["goals", "ambition", "plan", "future", "long term"],
+  team: ["teammate", "colleague", "collaborate", "collaboration"],
+  scale: ["scaling", "scalability", "grow", "growth"],
+  secure: ["security", "auth", "authentication", "safety"],
+  finish: ["complete", "done", "status", "finished", "shipped"],
+  reprobot: ["repro bot", "repro-bot"],
+  nummoria: ["numoria", "nummoria app", "finance app"],
+  jobpilot: ["job pilot", "job-pilot"],
+  fenerbahce: ["fenerbahçe", "fener"],
+  weakness: ["improve", "working on", "development area", "growth area"],
+  motivation: ["motivates", "drives him", "what drives"],
+  personality: ["what is he like", "character", "type of person"],
+  salary: ["compensation", "pay", "rate", "cost"],
+  visa: ["sponsorship", "work authorization", "work permit"],
+  resume: ["cv", "résumé"],
+  degree: ["education", "university", "college", "bachelor"],
+};

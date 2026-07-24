@@ -3,6 +3,7 @@ import Section from "../components/Section";
 import SectionHeader from "../components/SectionHeader";
 
 type Activity = {
+  id: string;
   title: string;
   org: string;
   role: string;
@@ -16,6 +17,7 @@ type Activity = {
 
 const activities: Activity[] = [
   {
+    id: "reprobot",
     title: "ReproBot — Automated ML Paper Replication",
     org: "inzva AI Projects #10",
     role: "AI Project Contributor",
@@ -139,6 +141,7 @@ function ActivityCard({
   if (activity.link) {
     return (
       <a
+        id={`activity-${activity.id}`}
         href={activity.link}
         target="_blank"
         rel="noreferrer noopener"
@@ -153,6 +156,7 @@ function ActivityCard({
 
   return (
     <article
+      id={`activity-${activity.id}`}
       className={cardClassName}
       style={{ animationDelay: `${index * 110}ms` }}
     >
@@ -163,7 +167,7 @@ function ActivityCard({
 
 export default function RecentActivity() {
   return (
-    <Section>
+    <Section id="recent-activity">
       <SectionHeader
         eyebrow="Research Log"
         title="Recent Activity"

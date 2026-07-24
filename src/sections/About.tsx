@@ -2,15 +2,16 @@ import Section from "../components/Section";
 import SectionHeader from "../components/SectionHeader";
 
 function ExperienceItem(props: {
+  id: string;
   title: string;
   company: string;
   location: string;
   date: string;
   bullets: string[];
 }) {
-  const { title, company, location, date, bullets } = props;
+  const { id, title, company, location, date, bullets } = props;
   return (
-    <article className="pixel-panel p-6">
+    <article id={id} className="pixel-panel p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-accent)]">
@@ -77,6 +78,7 @@ export default function About() {
       <SectionHeader eyebrow="Career Log" title="Experience" />
       <div className="space-y-6">
         <ExperienceItem
+          id="exp-halkbank"
           title="Full-Stack Software Engineering Intern"
           company="Halkbank — One of Turkey's Largest State-Owned Banks"
           location="Istanbul, Turkey"
@@ -88,6 +90,7 @@ export default function About() {
           ]}
         />
         <ExperienceItem
+          id="exp-eyehub"
           title="Backend Engineer"
           company="Eyehub — TUBITAK Government Research Project 122E085"
           location="Istanbul, Turkey"
@@ -100,6 +103,7 @@ export default function About() {
           ]}
         />
         <ExperienceItem
+          id="exp-compro"
           title="Software Engineering Intern"
           company="ComPro — IBM Platinum Partner"
           location="Istanbul, Turkey"

@@ -5,6 +5,7 @@ import Section from "../components/Section";
 import SectionHeader from "../components/SectionHeader";
 
 type Project = {
+  id: "nummoria" | "jobpilot" | "hft-btc";
   title: string;
   logoSrc?: string;
   icon?: LucideIcon;
@@ -26,6 +27,7 @@ type Project = {
 
 const projects: Project[] = [
   {
+    id: "nummoria",
     title: "NUMMORIA ~ AI-Powered Personal Finance System",
     logoSrc: "/logos/nummoria_logo.png",
     why: "Most finance apps fail at one of two extremes: they’re either overly simplistic or unnecessarily complex. Users do not want accounting software — they want clarity. Nummoria was built to bridge that gap. It provides a unified, intuitive system where income, expenses, and investments coexist seamlessly. Instead of forcing users into spreadsheets or fragmented tools, it delivers a clear financial picture through structured data, visual insights, and frictionless tracking. What began as a personal need for control evolved into a scalable system designed to make financial awareness effortless and consistent.",
@@ -58,6 +60,7 @@ const projects: Project[] = [
     },
   },
   {
+    id: "jobpilot",
     title: "JobPilot — Autopilot for Job Applications",
     icon: Plane,
     why: "Job searching at scale is repetitive, error-prone, and easy to lose track of — the same form filled out a hundred times, with no record of what was applied to or why a role got skipped. JobPilot turns that grind into a structured, auditable pipeline: discover roles across job boards and ATS APIs, filter and score them against a real candidate profile, and only touch a submit button after a human has signed off. The goal was never full automation for its own sake — it's automation with a paper trail, built for high-volume job searches without losing control of what gets sent out under your name.",
@@ -87,6 +90,7 @@ const projects: Project[] = [
     },
   },
   {
+    id: "hft-btc",
     title: "High-Frequency Trading of Bitcoin and Other Coins",
     logoSrc: "/logos/hft_btc.jpg",
     why: "In volatile crypto markets, even milliseconds matter. This project explored how an automated system could detect and execute profitable trades faster than human decision-making. The goal was to demonstrate how algorithmic trading and machine learning could be combined to optimize returns under real-time market conditions.",
@@ -240,6 +244,7 @@ function ProjectCard({
   const explainPanelId = `explain-panel-${index}`;
   return (
     <article
+      id={`project-${project.id}`}
       className="fade-up pixel-panel p-6"
       style={{ animationDelay: `${index * 110}ms` }}
     >

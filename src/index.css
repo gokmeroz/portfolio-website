@@ -395,6 +395,37 @@
   }
 }
 
+/* ---------- Spider-Guide "spider-sense" highlight pulse ---------- */
+/* Applied to any page element Spider-Guide navigates/points to (project
+   cards, experience cards, skill groups) — an outline pulse, not a flash. */
+.guide-highlight {
+  outline: 3px solid var(--color-accent-2);
+  outline-offset: 4px;
+  animation: guide-highlight-pulse 1.8s steps(8) 1;
+}
+
+@keyframes guide-highlight-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(76, 212, 255, 0);
+  }
+  20%,
+  60% {
+    box-shadow: 0 0 0 6px rgba(76, 212, 255, 0.35);
+  }
+  40%,
+  80% {
+    box-shadow: 0 0 0 2px rgba(76, 212, 255, 0.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guide-highlight {
+    animation: none;
+    box-shadow: 0 0 0 4px rgba(76, 212, 255, 0.35);
+  }
+}
+
 /* ---------- Pixel Guide widget (fixed corner assistant) ---------- */
 .pixel-guide-badge {
   position: relative;
@@ -625,6 +656,169 @@
   border-color: var(--color-accent-2);
 }
 
+/* ---------- Spider-Guide: autocomplete ---------- */
+.pixel-guide-suggestions {
+  position: absolute;
+  bottom: 100%;
+  left: 12px;
+  right: 12px;
+  z-index: 4;
+  max-height: 220px;
+  overflow-y: auto;
+  border: 2px solid var(--color-border);
+  border-bottom: none;
+  background: var(--color-surface);
+  box-shadow: 4px -4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.pixel-guide-suggestion {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  text-align: left;
+  color: var(--color-text-base);
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+}
+
+.pixel-guide-suggestion:last-child {
+  border-bottom: none;
+}
+
+.pixel-guide-suggestion.is-active,
+.pixel-guide-suggestion:hover {
+  background: var(--color-surface-2);
+}
+
+.pixel-guide-suggestion-category {
+  font-family: var(--font-pixel-ui);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.pixel-guide-suggestion-label {
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.pixel-guide-suggestion-match {
+  background: none;
+  color: var(--color-accent-2);
+  font-weight: 700;
+}
+
+/* ---------- Spider-Guide: results, follow-ups, scan state ---------- */
+.pixel-guide-result-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.pixel-guide-status-label {
+  font-family: var(--font-pixel-ui);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent-2);
+}
+
+.pixel-guide-category-chip {
+  font-family: var(--font-pixel-ui);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent-3);
+  border: 1px solid var(--color-accent-3);
+  padding: 1px 6px;
+}
+
+.pixel-guide-msg--matched {
+  animation: guide-highlight-pulse 1.2s steps(8) 1;
+}
+
+.pixel-guide-scan {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pixel-guide-scan-label {
+  font-family: var(--font-pixel-ui);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+}
+
+.pixel-guide-scan-dots {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.pixel-guide-scan-dots i {
+  width: 4px;
+  height: 4px;
+  background: var(--color-accent-2);
+  animation: guide-scan-blink 0.9s steps(2) infinite;
+}
+
+.pixel-guide-scan-dots i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.pixel-guide-scan-dots i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes guide-scan-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0.2;
+  }
+}
+
+.pixel-guide-followups,
+.pixel-guide-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.pixel-guide-followup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 9px;
+  text-align: left;
+  font-size: 14px;
+  color: var(--color-text-base);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  cursor: pointer;
+  transition: border-color 0.15s steps(2);
+}
+
+.pixel-guide-followup:hover,
+.pixel-guide-followup:focus-visible {
+  border-color: var(--color-accent-2);
+}
+
+.pixel-guide-followup-strand {
+  flex: none;
+  width: 12px;
+  height: 2px;
+  background: var(--color-accent-3);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .pixel-guide-badge,
   .pixel-guide-badge.is-spotlight,
@@ -640,6 +834,10 @@
     animation: none;
     opacity: 1;
     transform: scale(1);
+  }
+  .pixel-guide-msg--matched,
+  .pixel-guide-scan-dots i {
+    animation: none;
   }
 }
 

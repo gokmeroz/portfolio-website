@@ -13,7 +13,7 @@ import Services from "./sections/Services";
 import Hero from "./sections/Hero";
 import SpotlightOverlay from "./components/SpotlightOverlay";
 import Certificates from "./sections/Certificates";
-import PixelGuide from "./components/PixelGuide";
+import SpiderGuide from "./components/SpiderGuide";
 import CityWebBackdrop from "./components/CityWebBackdrop";
 import BootSequence from "./components/BootSequence";
 import TerminalMode from "./components/TerminalMode";
@@ -52,7 +52,7 @@ export default function App() {
       <TerminalMode />
       <CityWebBackdrop />
       <Nav active={active} />
-      <PixelGuide />
+      <SpiderGuide />
       <main className="container-mx flex flex-col gap-16 pt-24 pb-16 md:gap-20 md:pb-20 lg:gap-28">
         <Hero />
         <About />

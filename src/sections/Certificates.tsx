@@ -83,7 +83,7 @@ export default function Certificates() {
   const openItem = active != null ? groups[active] : null;
 
   return (
-    <Section>
+    <Section id="certificates">
       <SectionHeader eyebrow="Achievements" title="Certificates" />
 
       <div className="relative flex gap-4 overflow-x-auto pb-2 no-scrollbar">

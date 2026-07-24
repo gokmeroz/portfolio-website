@@ -145,7 +145,7 @@ Components under `src/components/` include:
 * `Footer`
 * `ScrollTop`
 * `SpotlightOverlay`
-* `PixelGuide`
+* `SpiderGuide` (module under `src/components/SpiderGuide/`, see the Spider-Guide section below)
 * `WorkCard`
 
 `WorkCard` is legacy or unused and has been superseded by the project-card implementation inside `Works.tsx`.
@@ -587,7 +587,7 @@ StatusBadge
 ProjectCard
 ExperienceCard
 NavigationItem
-PixelGuideShell
+SpiderGuideShell
 ```
 
 Do not create these components merely because they appear on this list. Create them when repeated patterns in the current code justify the abstraction.
@@ -656,7 +656,7 @@ The following sections currently use more complete pixel-system styling:
 * `Hero`
 * `Skills`
 * `Works`
-* `PixelGuide`
+* `SpiderGuide`
 
 The following sections still use older structural styling or plain rounded Tailwind surfaces:
 
@@ -702,47 +702,70 @@ When fixing `Services.tsx`:
 
 ---
 
-# PixelGuide
+# Spider-Guide
 
-File:
+Spider-Guide (formerly PixelGuide) is a fixed-position interactive portfolio
+guide rendered near the top-left corner. It is an **Interactive Portfolio
+Guide / Personal Knowledge Engine** — never describe it as an AI assistant in
+UI copy or answers.
 
 ```text
-src/components/PixelGuide.tsx
+src/components/SpiderGuide/     UI: SpiderGuide.tsx (orchestrator), SpiderGuideAvatar
+                                 (badge/canvas/callout/ULTRA MODE), SpiderGuidePanel,
+                                 SpiderGuideInput, SpiderGuideSuggestions,
+                                 SpiderGuideResults, SpiderGuideFollowUps
+src/data/spiderGuide/           Knowledge base: intents/*.ts by category, synonyms.ts,
+                                 categories.ts, shortcuts.ts (persona starter questions)
+src/lib/spiderGuide/            Engine: types.ts, normalizeQuery.ts, matchIntent.ts
+                                 (deterministic weighted scorer), suggestQuestions.ts
+                                 (autocomplete), guideContext.ts (session state),
+                                 executeGuideActions.ts (navigate/highlight/open-project/...)
 ```
 
-PixelGuide is a fixed-position assistant rendered near the top-left corner.
+Spider-Guide is entirely non-AI-powered: no external API, no LLM, no network
+calls. Every answer is a pre-written `GuideIntent` in `data/spiderGuide/intents/`,
+matched deterministically by `lib/spiderGuide/matchIntent.ts` against typed
+patterns/keywords with confidence tiers (`matched` / `ambiguous` / `unsupported`).
 
 It includes:
 
-* a canvas-drawn original masked-hero avatar
-* a decorative SVG web
-* a first-use “Click me!” callout
-* a small expandable chat panel
-* a local keyword-matching knowledge base
+* a canvas-drawn original masked-hero avatar, a decorative SVG web, and a
+  spider-strand-draw-in “Click me!” callout (`SpiderGuideAvatar`)
+* a swing-in entrance (once per tab session) and a secret 5-click ULTRA MODE
+  easter egg, both housed in `SpiderGuideAvatar`
+* an expandable panel with autocomplete, contextual follow-ups, persona
+  starter chips, and a visible Reset control (`SpiderGuidePanel` and children)
+* actions that scroll/highlight real sections of the page (`guide-highlight`
+  CSS class + `id` attributes on project cards, experience cards, skill groups)
 
-PixelGuide is not connected to a live LLM.
+## Spider-Guide rules
 
-Its responses come from hardcoded matching rules based on real portfolio content.
-
-## PixelGuide rules
-
-* Keep `RULES` synchronized with current projects, skills, experience, contact information, and relevant personal content.
+* Keep the knowledge base (`data/spiderGuide/intents/`) grounded only in real
+  portfolio content — never invent facts, metrics, or completed status for
+  ongoing work (e.g. ReproBot must stay described as ongoing).
 * Do not claim capabilities or experience not represented elsewhere on the site.
-* Keep fallback responses aligned with the supported question categories.
-* Preserve the avatar as an original design.
-* Do not turn it into a direct copy of Spider-Man or another copyrighted character.
-* Ensure the widget remains usable by keyboard.
-* Ensure the open and close controls have accessible labels.
-* Ensure focus is visible.
-* Ensure the panel does not overflow the viewport.
-* Ensure the widget does not block important content.
-* Ensure the design works on short-height laptop screens as well as narrow mobile screens.
-* Avoid fixed dimensions that cause chat content to be clipped.
-* Avoid using viewport-relative positioning without safe offsets.
-* Respect reduced-motion preferences.
-* Preserve the first-open dismissal behavior unless explicitly changing it.
+* Keep fallback/unsupported responses helpful — never a dead-end "I don't understand".
+* Preserve the avatar as an original design; do not turn it into a direct
+  copy of Spider-Man or another copyrighted character.
+* Ensure the widget remains fully keyboard-usable, including the autocomplete
+  combobox (`aria-expanded`, `aria-activedescendant`, arrow/Enter/Escape).
+* Ensure the open and close controls have accessible labels and focus is visible.
+* Ensure the panel does not overflow the viewport and does not block important content.
+* The panel must stay `position: fixed` (not `absolute`) — Tailwind's
+  `.absolute`/`.fixed` utilities live in `@layer utilities`, which loses to
+  `.pixel-panel`'s unlayered `position: relative` unless overridden with the
+  `!` important-modifier (`!fixed`), so don't drop that modifier.
+* `executeGuideActions`'s `scrollToSection` blurs the active element and uses
+  `behavior: "auto"` (not `"smooth"`) before scrolling — a focused input
+  inside this fixed panel blocks programmatic smooth-scroll in Chrome
+  entirely; keep both workarounds.
+* An intent should request at most one scroll/highlight action; combining
+  e.g. `navigate` + `open-project` in the same intent double-fires
+  `scrollIntoView` in one tick and can leave the page scroll stuck.
+* Respect reduced-motion preferences throughout.
+* Preserve the first-open dismissal behavior (`seen` state) unless explicitly changing it.
 
-When editing PixelGuide positioning, evaluate the entire page layout rather than treating the widget as an isolated component.
+When editing Spider-Guide positioning, evaluate the entire page layout rather than treating the widget as an isolated component.
 
 ---
 
@@ -903,7 +926,7 @@ Verify:
 * no dead components introduced
 * no obvious mobile overflow
 * no broken navigation IDs
-* no stale PixelGuide knowledge caused by the change
+* no stale Spider-Guide knowledge base entries caused by the change
 * no undefined Tailwind classes introduced
 * no unnecessary dependency changes
 
