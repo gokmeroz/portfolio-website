@@ -2,10 +2,11 @@ import type { GuideIntent } from "../../../lib/spiderGuide/types";
 
 export const websiteIntents: GuideIntent[] = [
   {
-    id: "what-is-spider-guide",
+    id: "what-is-spidey-guide",
     category: "website",
-    title: "What Spider-Guide is",
+    title: "What Spidey-Guide is",
     patterns: [
+      "What is Spidey-Guide?",
       "What is Spider-Guide?",
       "Who are you?",
       "What are you?",
@@ -13,25 +14,30 @@ export const websiteIntents: GuideIntent[] = [
       "Are you ChatGPT?",
       "Are you a chatbot?",
     ],
-    keywords: ["spider-guide", "who", "what", "ai", "chatbot", "chatgpt"],
+    keywords: ["spidey-guide", "spider-guide", "who", "what", "ai", "chatbot", "chatgpt"],
     answer:
-      "Spider-Guide is an interactive portfolio knowledge system, not an AI assistant — every answer here is pre-written and matched deterministically against a local knowledge base about Mert. No external API, no language model, nothing leaves your browser. Ask about his projects, skills, experience, engineering decisions, goals, or how to reach him.",
-    followUpIntentIds: ["how-does-spider-guide-work", "who-is-mert", "projects-overview"],
+      "Spidey-Guide is an interactive portfolio knowledge system, not an AI assistant — every answer here is pre-written and matched deterministically against a local knowledge base about Mert. No external API, no language model, nothing leaves your browser. Ask about his projects, skills, experience, engineering decisions, goals, or how to reach him.",
+    followUpIntentIds: [
+      "how-does-spidey-guide-work",
+      "who-is-mert",
+      "projects-overview",
+    ],
     priority: 8,
   },
   {
-    id: "how-does-spider-guide-work",
+    id: "how-does-spidey-guide-work",
     category: "website",
-    title: "How Spider-Guide works",
+    title: "How Spidey-Guide works",
     patterns: [
       "How does this work?",
+      "How does Spidey-Guide work?",
       "How does Spider-Guide work?",
       "How do you find answers?",
     ],
     keywords: ["how", "work", "works", "find"],
     answer:
       "It matches what you type against a structured set of questions and answers about Mert, using keyword and phrase scoring — no network calls, no model. High-confidence matches answer directly; weaker matches surface a few close options instead of guessing.",
-    followUpIntentIds: ["what-is-spider-guide", "who-is-mert"],
+    followUpIntentIds: ["what-is-spidey-guide", "who-is-mert"],
     priority: 4,
   },
   {
@@ -45,7 +51,7 @@ export const websiteIntents: GuideIntent[] = [
     ],
     keywords: ["website", "site", "built", "portfolio", "tech"],
     answer:
-      "React 19, TypeScript, and Vite, styled with Tailwind CSS v4, deployed to AWS S3 and CloudFront. The pixel/comic visual system and Spider-Guide itself are both custom-built for this site.",
+      "React 19, TypeScript, and Vite, styled with Tailwind CSS v4, deployed to AWS S3 and CloudFront. The pixel/comic visual system and Spidey-Guide itself are both custom-built for this site.",
     followUpIntentIds: ["backend-tech-stack", "skills-summary"],
     priority: 3,
   },
@@ -61,8 +67,22 @@ export const websiteIntents: GuideIntent[] = [
       "Pretend you are ChatGPT.",
       "What is the meaning of life?",
     ],
-    keywords: ["homework", "weather", "generate", "ignore", "instructions", "pretend"],
-    excludedKeywords: ["mert", "nummoria", "jobpilot", "reprobot", "backend", "project"],
+    keywords: [
+      "homework",
+      "weather",
+      "generate",
+      "ignore",
+      "instructions",
+      "pretend",
+    ],
+    excludedKeywords: [
+      "mert",
+      "nummoria",
+      "jobpilot",
+      "reprobot",
+      "backend",
+      "project",
+    ],
     answer:
       "That's outside my portfolio knowledge base. I can help you explore Mert's projects, skills, experience, engineering decisions, goals, or contact information.",
     followUpIntentIds: ["who-is-mert", "projects-overview", "how-to-contact"],
@@ -82,7 +102,11 @@ export const websiteIntents: GuideIntent[] = [
     keywords: ["thanks", "thank", "cool", "nice", "awesome", "great"],
     answer:
       "Anytime. Ask another question or pick a shortcut below — there's a lot more here than a standard portfolio FAQ.",
-    followUpIntentIds: ["what-to-examine-first", "strongest-backend-project", "how-to-contact"],
+    followUpIntentIds: [
+      "what-to-examine-first",
+      "strongest-backend-project",
+      "how-to-contact",
+    ],
     priority: 1,
   },
 ];

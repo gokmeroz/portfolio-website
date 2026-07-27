@@ -1,6 +1,6 @@
 // src/data/interviewMert.ts
 // Static, deterministic content for the "Interview Mert" system-design mode.
-// No AI/API calls — every answer here is pre-written, same philosophy as Spider-Guide.
+// No AI/API calls — every answer here is pre-written, same philosophy as Spidey-Guide.
 
 export type InterviewStageKey =
   | "requirements"

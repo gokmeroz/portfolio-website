@@ -1,6 +1,6 @@
 import type { GuideFocusMode, GuideIntent, GuideSessionContext } from "./types";
 
-const STORAGE_KEY = "spider-guide-context";
+const STORAGE_KEY = "spidey-guide-context";
 const MAX_RECENT = 6;
 
 export function createEmptyContext(): GuideSessionContext {

@@ -5,7 +5,7 @@ import SpiderGuideInput from "./SpiderGuideInput";
 import SpiderGuideSuggestions from "./SpiderGuideSuggestions";
 import SpiderGuideResults, { type SpiderGuideLogEntry } from "./SpiderGuideResults";
 
-const LISTBOX_ID = "spider-guide-suggestions";
+const LISTBOX_ID = "spidey-guide-suggestions";
 
 type SpiderGuidePanelProps = {
   open: boolean;
@@ -72,15 +72,16 @@ export default function SpiderGuidePanel({
         className="pixel-panel !fixed top-[152px] left-4 z-[3] w-[min(360px,calc(100vw-32px))] max-h-[min(75vh,600px)] flex flex-col overflow-hidden"
         role="dialog"
         aria-modal="true"
-        aria-label="Spider-Guide: interactive portfolio knowledge system"
+        aria-label="Spidey-Guide: interactive portfolio knowledge system"
       >
         <div className="flex-none flex items-center gap-2.5 px-3 py-3 border-b-[3px] border-[var(--color-border)] bg-[var(--color-surface-2)]">
           <div className="flex-1 min-w-0">
             <div className="font-pixel-ui text-[11px] tracking-wide text-[var(--color-text-base)]">
-              SPIDER-GUIDE ONLINE
+              SPIDEY-GUIDE ONLINE
             </div>
             <div className="mt-1 font-pixel-ui text-[9px] uppercase tracking-wide text-[var(--color-accent-2)]">
-              <span className="text-[#3ef29a]">&#9679;</span> Interactive Portfolio Guide
+              <span className="text-[#3ef29a]">&#9679;</span> Interactive
+              Portfolio Guide
             </div>
           </div>
           {entries.length > 0 && (
@@ -95,7 +96,7 @@ export default function SpiderGuidePanel({
           <button
             type="button"
             className="flex-none w-[26px] h-[26px] border-2 border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-base)] font-pixel-ui text-xs hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
-            aria-label="Close Spider-Guide"
+            aria-label="Close Spidey-Guide"
             onClick={onClose}
           >
             &#10005;
@@ -105,8 +106,9 @@ export default function SpiderGuidePanel({
         {entries.length === 0 ? (
           <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
             <p className="text-base leading-6 text-[var(--color-text-base)]/85">
-              Explore Mert's work through hundreds of supported questions &mdash; a Personal Knowledge
-              Engine for his backend, AI/ML, projects, and career.
+              Explore Mert's work through hundreds of supported questions
+              &mdash; a Personal Knowledge Engine for his backend, AI/ML,
+              projects, and career.
             </p>
 
             <div>
@@ -142,7 +144,10 @@ export default function SpiderGuidePanel({
                     className="pixel-guide-followup"
                     onClick={() => onSelectIntent(intent)}
                   >
-                    <span className="pixel-guide-followup-strand" aria-hidden="true" />
+                    <span
+                      className="pixel-guide-followup-strand"
+                      aria-hidden="true"
+                    />
                     {intent.title}
                   </button>
                 ))}

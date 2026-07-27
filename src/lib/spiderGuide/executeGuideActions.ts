@@ -2,7 +2,7 @@ import type { GuideAction, GuideAnalyticsHandler, GuideExternalLinkId } from "./
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
-// The only URLs Spider-Guide is ever allowed to open — every one of these
+// The only URLs Spidey-Guide is ever allowed to open — every one of these
 // already exists elsewhere in the site (Nav, Contact, Works, RecentActivity).
 // Intent data can only reference these by id, never by raw URL.
 const ALLOWLISTED_LINKS: Record<GuideExternalLinkId, string> = {
@@ -48,7 +48,7 @@ function prefersReducedMotion(): boolean {
 function scrollToSection(id: string): void {
   const el = document.getElementById(id);
   if (!el) return;
-  // A focused element inside Spider-Guide's fixed-position panel (the query
+  // A focused element inside Spidey-Guide's fixed-position panel (the query
   // input, most often) blocks programmatic window scrolling in Chrome until
   // it loses focus — blur first so navigate/highlight actions actually move
   // the page. The visitor can click back into the input immediately after.

@@ -76,8 +76,9 @@ export default function SpiderGuideAvatar({ open, seen, onToggleOpen }: SpiderGu
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const alreadySeen = sessionStorage.getItem("spider-guide-swing-seen") === "1";
-    sessionStorage.setItem("spider-guide-swing-seen", "1");
+    const alreadySeen =
+      sessionStorage.getItem("spidey-guide-swing-seen") === "1";
+    sessionStorage.setItem("spidey-guide-swing-seen", "1");
     if (!reduced && !alreadySeen) setSwingIn(true);
   }, []);
 
@@ -164,7 +165,7 @@ export default function SpiderGuideAvatar({ open, seen, onToggleOpen }: SpiderGu
       <button
         type="button"
         className={`pixel-guide-badge relative z-[1] ${!seen ? "is-spotlight" : ""}`}
-        aria-label="Open Spider-Guide, Mert's interactive portfolio guide"
+        aria-label="Open Spidey-Guide, Mert's interactive portfolio guide"
         aria-expanded={open}
         onClick={handleBadgeClick}
       >
@@ -213,7 +214,10 @@ export default function SpiderGuideAvatar({ open, seen, onToggleOpen }: SpiderGu
           onClick={dismissUltra}
         >
           <div className="pixel-guide-ultra-flash" aria-hidden="true" />
-          <div className="pixel-guide-ultra-content" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="pixel-guide-ultra-content"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="pixel-guide-ultra-canvas-wrap">
               <canvas
                 ref={ultraCanvasRef}
@@ -227,7 +231,11 @@ export default function SpiderGuideAvatar({ open, seen, onToggleOpen }: SpiderGu
               className="pixel-guide-ultra-line"
               dangerouslySetInnerHTML={{ __html: ultraLine }}
             />
-            <button type="button" className="pixel-btn primary" onClick={dismissUltra}>
+            <button
+              type="button"
+              className="pixel-btn primary"
+              onClick={dismissUltra}
+            >
               Continue
             </button>
             <p className="pixel-guide-ultra-hint">Tap anywhere or press Esc</p>

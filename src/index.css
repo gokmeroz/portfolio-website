@@ -6,23 +6,99 @@
   font-display: swap;
 }
 
+/* Inter — body text. Self-hosted (latin + latin-ext for full Turkish
+   character support: ğ ş ı İ ç ö ü), so it renders identically for every
+   visitor regardless of what's installed on their machine. */
 @font-face {
-  font-family: "VT323";
-  src: url("./assets/fonts/pixel/VT323.ttf") format("truetype");
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
   font-display: swap;
+  src: url("./assets/fonts/inter/Inter-latin-400.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
 @font-face {
-  font-family: "Silkscreen";
-  font-weight: 700;
-  src: url("./assets/fonts/pixel/SilkscreenBold.ttf") format("truetype");
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
   font-display: swap;
+  src: url("./assets/fonts/inter/Inter-latin-ext-400.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F,
+    U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./assets/fonts/inter/Inter-latin-500.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./assets/fonts/inter/Inter-latin-ext-500.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F,
+    U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./assets/fonts/inter/Inter-latin-600.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./assets/fonts/inter/Inter-latin-ext-600.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F,
+    U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./assets/fonts/inter/Inter-latin-700.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./assets/fonts/inter/Inter-latin-ext-700.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F,
+    U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
 }
 
 @theme {
-  --font-sans: "VT323", monospace;
+  /* Titles: pixel art. Everything else: Inter. */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-display: "Press Start 2P", monospace;
-  --font-pixel-ui: "Silkscreen", monospace;
+  --font-pixel-ui: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
   /* Core palette: 8-bit arcade night */
   --color-bg-base: #0a0614;
@@ -395,8 +471,8 @@
   }
 }
 
-/* ---------- Spider-Guide "spider-sense" highlight pulse ---------- */
-/* Applied to any page element Spider-Guide navigates/points to (project
+/* ---------- Spidey-Guide "spider-sense" highlight pulse ---------- */
+/* Applied to any page element Spidey-Guide navigates/points to (project
    cards, experience cards, skill groups) — an outline pulse, not a flash. */
 .guide-highlight {
   outline: 3px solid var(--color-accent-2);
@@ -656,7 +732,7 @@
   border-color: var(--color-accent-2);
 }
 
-/* ---------- Spider-Guide: autocomplete ---------- */
+/* ---------- Spidey-Guide: autocomplete ---------- */
 .pixel-guide-suggestions {
   position: absolute;
   bottom: 100%;
@@ -711,7 +787,7 @@
   font-weight: 700;
 }
 
-/* ---------- Spider-Guide: results, follow-ups, scan state ---------- */
+/* ---------- Spidey-Guide: results, follow-ups, scan state ---------- */
 .pixel-guide-result-meta {
   display: flex;
   flex-wrap: wrap;

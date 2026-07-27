@@ -76,7 +76,7 @@ export default function SpiderGuideInput({
         className="pixel-guide-input"
         placeholder="Ask anything about Mert..."
         autoComplete="off"
-        aria-label="Ask Spider-Guide a question"
+        aria-label="Ask Spidey-Guide a question"
         aria-expanded={suggestionsOpen}
         aria-controls={listboxId}
         aria-activedescendant={activeOptionId ?? undefined}

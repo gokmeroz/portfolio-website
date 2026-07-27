@@ -1,4 +1,4 @@
-// Core type contracts for Spider-Guide's deterministic knowledge engine.
+// Core type contracts for Spidey-Guide's deterministic knowledge engine.
 // Nothing in this module talks to a network or an LLM — every answer is
 // pre-written, every match is a scored comparison against local data.
 
@@ -43,7 +43,12 @@ export type GuideExternalLinkId =
 export type GuideProjectId = "nummoria" | "jobpilot" | "hft-btc";
 export type GuideExperienceId = "halkbank" | "eyehub" | "compro";
 export type GuideSkillCategory = "languages-tools" | "frameworks" | "ai-ml";
-export type GuideFocusMode = "backend" | "ai-ml" | "builder" | "explorer" | "recruiter";
+export type GuideFocusMode =
+  | "backend"
+  | "ai-ml"
+  | "builder"
+  | "explorer"
+  | "recruiter";
 
 // Every action is a closed, typed shape — the matcher can never hand the
 // executor an arbitrary string to navigate to or a URL to open.

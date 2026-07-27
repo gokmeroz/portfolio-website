@@ -145,7 +145,7 @@ Components under `src/components/` include:
 * `Footer`
 * `ScrollTop`
 * `SpotlightOverlay`
-* `SpiderGuide` (module under `src/components/SpiderGuide/`, see the Spider-Guide section below)
+* `SpiderGuide` (module under `src/components/SpiderGuide/`, see the Spidey-Guide section below)
 * `WorkCard`
 
 `WorkCard` is legacy or unused and has been superseded by the project-card implementation inside `Works.tsx`.
@@ -702,9 +702,9 @@ When fixing `Services.tsx`:
 
 ---
 
-# Spider-Guide
+# Spidey-Guide
 
-Spider-Guide (formerly PixelGuide) is a fixed-position interactive portfolio
+Spidey-Guide (formerly PixelGuide) is a fixed-position interactive portfolio
 guide rendered near the top-left corner. It is an **Interactive Portfolio
 Guide / Personal Knowledge Engine** — never describe it as an AI assistant in
 UI copy or answers.
@@ -722,7 +722,7 @@ src/lib/spiderGuide/            Engine: types.ts, normalizeQuery.ts, matchIntent
                                  executeGuideActions.ts (navigate/highlight/open-project/...)
 ```
 
-Spider-Guide is entirely non-AI-powered: no external API, no LLM, no network
+Spidey-Guide is entirely non-AI-powered: no external API, no LLM, no network
 calls. Every answer is a pre-written `GuideIntent` in `data/spiderGuide/intents/`,
 matched deterministically by `lib/spiderGuide/matchIntent.ts` against typed
 patterns/keywords with confidence tiers (`matched` / `ambiguous` / `unsupported`).
@@ -738,7 +738,7 @@ It includes:
 * actions that scroll/highlight real sections of the page (`guide-highlight`
   CSS class + `id` attributes on project cards, experience cards, skill groups)
 
-## Spider-Guide rules
+## Spidey-Guide rules
 
 * Keep the knowledge base (`data/spiderGuide/intents/`) grounded only in real
   portfolio content — never invent facts, metrics, or completed status for
@@ -765,7 +765,7 @@ It includes:
 * Respect reduced-motion preferences throughout.
 * Preserve the first-open dismissal behavior (`seen` state) unless explicitly changing it.
 
-When editing Spider-Guide positioning, evaluate the entire page layout rather than treating the widget as an isolated component.
+When editing Spidey-Guide positioning, evaluate the entire page layout rather than treating the widget as an isolated component.
 
 ---
 
@@ -926,7 +926,7 @@ Verify:
 * no dead components introduced
 * no obvious mobile overflow
 * no broken navigation IDs
-* no stale Spider-Guide knowledge base entries caused by the change
+* no stale Spidey-Guide knowledge base entries caused by the change
 * no undefined Tailwind classes introduced
 * no unnecessary dependency changes
 

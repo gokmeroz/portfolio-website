@@ -11,7 +11,7 @@ type InterviewMertModalProps = {
   onClose: () => void;
 };
 
-// reveal steps: N stages, then the diagram, then the Spider-Guide challenge
+// reveal steps: N stages, then the diagram, then the Spidey-Guide challenge
 const DIAGRAM_STEP = STAGE_ORDER.length + 1;
 const CHALLENGE_STEP = STAGE_ORDER.length + 2;
 const TOTAL_STEPS = CHALLENGE_STEP;
@@ -71,7 +71,7 @@ export default function InterviewMertModal({
       ? question?.stages[revealedCount]?.label
       : revealedCount < DIAGRAM_STEP
         ? "Final diagram"
-        : "Spider-Guide's challenge";
+        : "Spidey-Guide's challenge";
 
   return (
     <div
@@ -122,37 +122,38 @@ export default function InterviewMertModal({
             </h3>
 
             <div className="mt-5 space-y-6">
-              {STAGE_ORDER.slice(0, Math.min(revealedCount, STAGE_ORDER.length)).map(
-                (stageKey) => {
-                  const stageData = question.stages.find(
-                    (s) => s.key === stageKey
-                  );
-                  if (!stageData) return null;
-                  return (
-                    <section key={stageData.key} className="fade-up">
-                      <h4 className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-accent-3)]">
-                        {stageData.label}
-                      </h4>
-                      <ul className="mt-2 space-y-2">
-                        {stageData.body.map((line) => (
-                          <li
-                            key={line}
-                            className="flex gap-3 text-lg leading-7 text-[var(--color-text-base)]/85"
+              {STAGE_ORDER.slice(
+                0,
+                Math.min(revealedCount, STAGE_ORDER.length),
+              ).map((stageKey) => {
+                const stageData = question.stages.find(
+                  (s) => s.key === stageKey,
+                );
+                if (!stageData) return null;
+                return (
+                  <section key={stageData.key} className="fade-up">
+                    <h4 className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-accent-3)]">
+                      {stageData.label}
+                    </h4>
+                    <ul className="mt-2 space-y-2">
+                      {stageData.body.map((line) => (
+                        <li
+                          key={line}
+                          className="flex gap-3 text-lg leading-7 text-[var(--color-text-base)]/85"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="mt-[6px] shrink-0 font-pixel-ui text-[10px] text-[var(--color-accent-2)]"
                           >
-                            <span
-                              aria-hidden="true"
-                              className="mt-[6px] shrink-0 font-pixel-ui text-[10px] text-[var(--color-accent-2)]"
-                            >
-                              &gt;
-                            </span>
-                            <span>{line}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </section>
-                  );
-                }
-              )}
+                            &gt;
+                          </span>
+                          <span>{line}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                );
+              })}
 
               {revealedCount >= DIAGRAM_STEP && (
                 <section className="fade-up">
@@ -172,7 +173,7 @@ export default function InterviewMertModal({
               {allRevealed && (
                 <section className="fade-up interview-modal__challenge">
                   <p className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-accent-2)]">
-                    Spider-Guide challenges
+                    Spidey-Guide challenges
                   </p>
                   <p className="mt-2 text-lg leading-7 text-[var(--color-text-base)]/90">
                     &ldquo;{question.challenge.prompt}&rdquo;

@@ -18,7 +18,7 @@ export default function InterviewMert() {
       <SectionHeader
         eyebrow="Whiteboard"
         title="Interview Mert"
-        description="Pick a system-design prompt and watch the answer unfold the way it would in a real interview — requirements, constraints, architecture, bottlenecks, scaling strategy, trade-offs, and a final diagram. Spider-Guide pushes back on one decision along the way."
+        description="Pick a system-design prompt and watch the answer unfold the way it would in a real interview — requirements, constraints, architecture, bottlenecks, scaling strategy, trade-offs, and a final diagram. Spidey-Guide pushes back on one decision along the way."
       />
 
       <div className="pixel-panel p-6">

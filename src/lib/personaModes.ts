@@ -86,7 +86,8 @@ export const MODES: Record<PersonaMode, ModeConfig> = {
     cardTitle: "Recruiting Mert",
     cardDescription: "Experience, impact, résumé, availability, and contact.",
     label: "recruiter",
-    banner: "Recruiter view — experience, skills, and shipped work are up first.",
+    banner:
+      "Recruiter view — experience, skills, and shipped work are up first.",
     order: [
       "hero",
       "about",
@@ -151,7 +152,7 @@ export const MODES: Record<PersonaMode, ModeConfig> = {
     cardTitle: "Exploring the Person",
     cardDescription: "Interests, goals, personality, and interactive bits.",
     label: "explorer",
-    banner: "Personal view — say hi to Spider-Guide in the top-left corner.",
+    banner: "Personal view — say hi to Spidey-Guide in the top-left corner.",
     order: [
       "hero",
       "research",
