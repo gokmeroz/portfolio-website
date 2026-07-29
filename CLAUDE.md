@@ -90,9 +90,10 @@ The manual deployment script contains:
 Both deployment paths configure:
 
 * `index.html` with `no-cache`
-* versioned assets with `immutable` and a one-year cache duration
+* `public/resume/*` (non-hashed filename, so it can't rely on cache-busting via a new URL) with `no-cache`
+* all other, Vite-hashed assets with `immutable` and a one-year cache duration
 
-CloudFront must therefore be invalidated for updated `index.html` references to become visible reliably.
+CloudFront must therefore be invalidated for updated `index.html` and resume references to become visible reliably. Any other new static asset added under `public/` with a fixed, non-hashed filename needs the same `no-cache` treatment in both deploy paths, or it will suffer the same stale-browser-cache problem the resume PDF once did.
 
 ---
 
