@@ -9,9 +9,8 @@ type Project = {
   title: string;
   logoSrc?: string;
   icon?: LucideIcon;
-  why: string;
-  what: string;
-  how: string;
+  description: string;
+  highlights: string[];
   techs: string[];
   explain: {
     normal: string;
@@ -30,9 +29,14 @@ const projects: Project[] = [
     id: "nummoria",
     title: "NUMMORIA ~ AI-Powered Personal Finance System",
     logoSrc: "/logos/nummoria_logo.png",
-    why: "Most finance apps fail at one of two extremes: they’re either overly simplistic or unnecessarily complex. Users do not want accounting software — they want clarity. Nummoria was built to bridge that gap. It provides a unified, intuitive system where income, expenses, and investments coexist seamlessly. Instead of forcing users into spreadsheets or fragmented tools, it delivers a clear financial picture through structured data, visual insights, and frictionless tracking. What began as a personal need for control evolved into a scalable system designed to make financial awareness effortless and consistent.",
-    how: "Nummoria is built as a modular full-stack system. The backend leverages Node.js and Express with MongoDB/Mongoose, organized into domain-driven modules such as auth, accounts, transactions, investments, and analytics. It supports JWT-based authentication alongside OAuth with Google and Apple for seamless onboarding. The frontend is developed with React, Vite, and TailwindCSS, delivering a high-performance dashboard with real-time summaries, filtering, and data visualization. Communication is handled through a secure REST API with strict CORS policies and environment-based configuration. The architecture is designed for extensibility, enabling AI integration to analyze transaction patterns, detect behavioral trends, and generate actionable financial insights.",
-    what: "The platform enables users to manage their complete financial lifecycle. Core features include secure authentication, multi-account management, and structured tracking of income, expenses, and investments. Users can categorize transactions, schedule recurring entries, and analyze their financial behavior through interactive charts and summaries. The investment module supports multiple asset classes such as stocks, crypto, commodities, and real estate with symbol-based tracking. Reporting tools provide breakdowns by category, account, and currency, turning raw financial data into actionable insight. Upcoming iterations introduce an AI Financial Advisor capable of forecasting cash flow, identifying inefficiencies, and recommending optimizations.",
+    description:
+      "Most finance apps are either too simplistic or unnecessarily complex — Nummoria bridges that gap with a unified system where income, expenses, and investments coexist in one place instead of spreadsheets and fragmented tools. It's a full-stack platform (React/Vite/TailwindCSS frontend, Node.js/Express/MongoDB backend) handling the complete financial lifecycle, with a domain-driven architecture built to extend into AI-assisted insights on top of transaction data.",
+    highlights: [
+      "Multi-asset investment tracking across stocks, crypto, commodities, and real estate with symbol-based tracking.",
+      "Domain-driven backend modules for auth, accounts, transactions, investments, and analytics, with JWT and Google/Apple OAuth.",
+      "Interactive dashboard for categorizing transactions, scheduling recurring entries, and visualizing financial behavior.",
+      "Upcoming: an AI Financial Advisor for cash-flow forecasting and inefficiency detection.",
+    ],
     techs: [
       "React",
       "Node.js",
@@ -63,9 +67,14 @@ const projects: Project[] = [
     id: "jobpilot",
     title: "JobPilot — Autopilot for Job Applications",
     icon: Plane,
-    why: "Job searching at scale is repetitive, error-prone, and easy to lose track of — the same form filled out a hundred times, with no record of what was applied to or why a role got skipped. JobPilot turns that grind into a structured, auditable pipeline: discover roles across job boards and ATS APIs, filter and score them against a real candidate profile, and only touch a submit button after a human has signed off. The goal was never full automation for its own sake — it's automation with a paper trail, built for high-volume job searches without losing control of what gets sent out under your name.",
-    how: "JobPilot is a Python 3.12 pipeline with eight explicit stages — discover, normalize, gate, dedupe, score, review, apply, sync — backed by a SQLite ledger for deduplication. Role fit is scored by the Anthropic Claude API against a CANDIDATE.md profile using a configurable rubric, so nothing about a candidate's background is invented; unmapped fields route straight to manual review instead of being guessed. Playwright drives the actual applications through a BaseFormFiller abstraction with dedicated fillers for Greenhouse, Ashby, Lever, and Workable (LinkedIn and Workday fall back to a manual queue), and a prefetch() hook runs LLM calls before any browser navigation so an in-flight API call can't kill the Playwright session. Every run syncs to Google Sheets for a clean, reviewable application ledger.",
-    what: "In review-first mode, the pipeline stops after scoring and writes a review file so specific jobs get approved before anything is submitted; full-auto mode submits automatically on supported ATS platforms and queues the rest. Every skip is logged with a reason, every application is auditable after the fact, and PII — resume, cover letters, CANDIDATE.md — never leaves the local machine. It's an open-source, self-hosted tool built to bring the same rigor to job hunting as any production pipeline.",
+    description:
+      "Job searching at scale is repetitive and easy to lose track of — JobPilot turns it into a structured, auditable pipeline instead of blind automation. It's a Python 3.12 tool that discovers roles across job boards and ATS APIs, scores them against a real candidate profile via the Anthropic Claude API, and only submits after a human signs off — automation with a paper trail, built for high-volume job searches without losing control of what goes out under your name.",
+    highlights: [
+      "Eight-stage pipeline (discover → normalize → gate → dedupe → score → review → apply → sync) backed by a SQLite dedup ledger.",
+      "Playwright-driven ATS form fillers for Greenhouse, Ashby, Lever, and Workable, with LinkedIn/Workday routed to a manual review queue.",
+      "Review-first by default: every skip is logged with a reason, every application is auditable after the fact.",
+      "Open-source and self-hosted — resume, cover letters, and candidate profile never leave the local machine.",
+    ],
     techs: [
       "Python",
       "Playwright",
@@ -93,9 +102,13 @@ const projects: Project[] = [
     id: "hft-btc",
     title: "High-Frequency Trading of Bitcoin and Other Coins",
     logoSrc: "/logos/hft_btc.jpg",
-    why: "In volatile crypto markets, even milliseconds matter. This project explored how an automated system could detect and execute profitable trades faster than human decision-making. The goal was to demonstrate how algorithmic trading and machine learning could be combined to optimize returns under real-time market conditions.",
-    how: "Built collaboratively as a university capstone project with my teammates Fazlı Altun and Hakan Emir Arslan, the system combined machine learning models and real-time market pipelines through Binance APIs. The backend was developed in Python for predictive modeling and trade signal generation, while the frontend used React, TypeScript, and TailwindCSS to visualize live market data, trade history, and performance metrics.",
-    what: "The final model achieved consistent simulated profitability across different market scenarios, demonstrating how intelligent strategies can outperform simpler momentum or mean-reversion baselines. Beyond the academic result, the project deepened our understanding of scalability, latency, model evaluation, and the challenge of turning quantitative logic into usable trading decisions.",
+    description:
+      "In volatile crypto markets, milliseconds matter — this university capstone project, built with teammates Fazlı Altun and Hakan Emir Arslan, explored whether an automated system could detect and execute profitable trades faster than human decision-making. A Python backend handled predictive modeling and trade-signal generation over real-time Binance market data, paired with a React/TypeScript/TailwindCSS dashboard for live prices, trade history, and performance metrics.",
+    highlights: [
+      "Achieved consistent simulated profitability across market scenarios, outperforming simple momentum and mean-reversion baselines.",
+      "Real-time market data pipeline built on the Binance and CoinGecko APIs.",
+      "Shared ownership across model design, market-data pipeline, and dashboard as a 3-person team.",
+    ],
     techs: [
       "Python",
       "React",
@@ -121,28 +134,6 @@ const projects: Project[] = [
     },
   },
 ];
-
-function StatLabel({
-  children,
-  tone,
-}: {
-  children: React.ReactNode;
-  tone: "why" | "how" | "what";
-}) {
-  const color =
-    tone === "why"
-      ? "text-[var(--color-accent-2)]"
-      : tone === "how"
-        ? "text-[var(--color-accent)]"
-        : "text-[var(--color-accent-3)]";
-  return (
-    <span
-      className={`font-pixel-ui text-[10px] uppercase tracking-[0.12em] ${color}`}
-    >
-      {children}
-    </span>
-  );
-}
 
 function ActionLink({
   href,
@@ -277,28 +268,28 @@ function ProjectCard({
             {project.title}
           </h3>
 
-          <div className="mt-5 space-y-5">
-            <div>
-              <StatLabel tone="why">Why</StatLabel>
-              <p className="mt-2 text-lg leading-7 text-[var(--color-text-base)]/85">
-                {project.why}
-              </p>
-            </div>
+          <p className="mt-4 text-lg leading-7 text-[var(--color-text-base)]/85">
+            {project.description}
+          </p>
 
-            <div>
-              <StatLabel tone="how">How</StatLabel>
-              <p className="mt-2 text-lg leading-7 text-[var(--color-text-base)]/85">
-                {project.how}
-              </p>
-            </div>
-
-            <div>
-              <StatLabel tone="what">What</StatLabel>
-              <p className="mt-2 text-lg leading-7 text-[var(--color-text-base)]/85">
-                {project.what}
-              </p>
-            </div>
-          </div>
+          {project.highlights.length > 0 && (
+            <ul className="mt-5 space-y-3">
+              {project.highlights.map((highlight) => (
+                <li
+                  key={highlight}
+                  className="flex gap-3 text-base leading-6 text-[var(--color-text-base)]/75"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="mt-[2px] shrink-0 font-pixel-ui text-[10px] text-[var(--color-accent-2)]"
+                  >
+                    &gt;
+                  </span>
+                  <span>{highlight}</span>
+                </li>
+              ))}
+            </ul>
+          )}
 
           <ExplainToggle explain={project.explain} panelId={explainPanelId} />
 
