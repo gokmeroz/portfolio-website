@@ -1,11 +1,11 @@
 // src/sections/Works.tsx
 import { useState } from "react";
-import { Github, Plane, type LucideIcon } from "lucide-react";
+import { Eye, Github, Plane, type LucideIcon } from "lucide-react";
 import Section from "../components/Section";
 import SectionHeader from "../components/SectionHeader";
 
 type Project = {
-  id: "nummoria" | "jobpilot" | "hft-btc";
+  id: "nummoria" | "jobpilot" | "hft-btc" | "eyehub";
   title: string;
   logoSrc?: string;
   icon?: LucideIcon;
@@ -131,6 +131,34 @@ const projects: Project[] = [
     },
     links: {
       code: "https://github.com/fazlialtunn/hft-bitcoin-capstone",
+    },
+  },
+  {
+    id: "eyehub",
+    title: "Eyehub — TÜBİTAK Dyslexia-Detection Research Platform",
+    icon: Eye,
+    description:
+      "Eyehub is a TÜBİTAK-funded (122E085) research project owned by Prof. Günet Eroğlu at Bahçeşehir University, building a dyslexia-detection mobile app for academic research. I contributed as backend engineer — building the Node.js REST API layer and AWS infrastructure behind it, not the project itself.",
+    highlights: [
+      "Secure Node.js REST APIs supporting mobile synchronization, authentication, and real-time data submission.",
+      "AWS infrastructure on EC2 and Lambda for reliable, concurrent research-data ingestion.",
+      "MongoDB data models with validation and integrity controls for academic analysis and IRB compliance.",
+      "Worked directly with university researchers to translate clinical and academic requirements into production backend workflows on tight milestones.",
+    ],
+    techs: ["Node.js", "AWS", "EC2", "Lambda", "MongoDB"],
+    explain: {
+      normal:
+        "Eyehub is a university research app that helps detect dyslexia — I built the backend keeping it synced, secure, and feeding clean data to the research team, on a project owned by Prof. Gunet Eroğlu.",
+      technical:
+        "Node.js REST API layer on AWS (EC2 + Lambda) for a TÜBİTAK-funded (122E085) dyslexia-detection app — handles mobile sync, authentication, and real-time data submission, with MongoDB-backed research data models validated for academic/IRB compliance.",
+      impact: [
+        "Backend engineer on a TÜBİTAK government-funded research project (122E085), owned by Prof. Gunet Eroğlu at Bahçeşehir University.",
+        "Built and deployed the production API and AWS infrastructure supporting concurrent research-data ingestion.",
+        "Worked directly with university researchers to turn clinical and academic requirements into shipped backend workflows.",
+      ],
+    },
+    links: {
+      code: "https://github.com/eyehub2/eyehub_web",
     },
   },
 ];
