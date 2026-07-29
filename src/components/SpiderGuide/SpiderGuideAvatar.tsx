@@ -64,6 +64,7 @@ export default function SpiderGuideAvatar({ open, seen, onToggleOpen }: SpiderGu
   const [swingIn, setSwingIn] = useState(false);
   const [ultraMode, setUltraMode] = useState(false);
   const [ultraLine, setUltraLine] = useState("");
+  const [scrolledPast, setScrolledPast] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const ultraCanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -81,6 +82,15 @@ export default function SpiderGuideAvatar({ open, seen, onToggleOpen }: SpiderGu
     sessionStorage.setItem("spidey-guide-swing-seen", "1");
     if (!reduced && !alreadySeen) setSwingIn(true);
   }, []);
+
+  useEffect(() => {
+    if (scrolledPast) return;
+    const onScroll = () => {
+      if (window.scrollY > 240) setScrolledPast(true);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [scrolledPast]);
 
   useEffect(() => {
     if (!ultraMode) return;
@@ -177,7 +187,7 @@ export default function SpiderGuideAvatar({ open, seen, onToggleOpen }: SpiderGu
         )}
       </button>
 
-      {!seen && (
+      {!seen && !scrolledPast && (
         <div className="pixel-guide-callout absolute top-2 left-[76px] z-[2]">
           <svg
             className="pixel-guide-callout-strand"
