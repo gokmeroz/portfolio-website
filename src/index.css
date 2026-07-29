@@ -380,6 +380,29 @@
   box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.55);
 }
 
+/* Blinking broadcast-light dot for "Live" project links. */
+.pixel-live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  background: var(--color-border-strong);
+  border: 1px solid var(--color-bg-base);
+  animation: pixel-live-blink 1.2s steps(2) infinite;
+}
+
+@keyframes pixel-live-blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-live-dot {
+    animation: none;
+  }
+}
+
 .btn-accent {
   @apply inline-flex items-center justify-center px-5 py-3 transition;
   font-family: var(--font-pixel-ui);

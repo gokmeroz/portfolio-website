@@ -1,6 +1,6 @@
 // src/sections/Works.tsx
 import { useState } from "react";
-import { Plane, type LucideIcon } from "lucide-react";
+import { Github, Plane, type LucideIcon } from "lucide-react";
 import Section from "../components/Section";
 import SectionHeader from "../components/SectionHeader";
 
@@ -139,10 +139,12 @@ function ActionLink({
   href,
   children,
   variant = "default",
+  kind,
 }: {
   href: string;
   children: React.ReactNode;
   variant?: "default" | "primary";
+  kind?: "code" | "live";
 }) {
   const isExternal = href.startsWith("http");
 
@@ -151,8 +153,14 @@ function ActionLink({
       href={href}
       target={isExternal ? "_blank" : undefined}
       rel={isExternal ? "noreferrer noopener" : undefined}
-      className={`pixel-btn ${variant === "primary" ? "primary" : ""}`}
+      className={`pixel-btn w-[108px] ${variant === "primary" ? "primary" : ""}`}
     >
+      {kind === "code" && (
+        <Github size={8} strokeWidth={2.25} className="mr-1.5" />
+      )}
+      {kind === "live" && (
+        <span className="pixel-live-dot" aria-hidden="true" />
+      )}
       {children}
     </a>
   );
@@ -314,11 +322,13 @@ function ProjectCard({
           )}
 
           {project.links.code && (
-            <ActionLink href={project.links.code}>Code</ActionLink>
+            <ActionLink href={project.links.code} kind="code">
+              Code
+            </ActionLink>
           )}
 
           {project.links.live && project.links.live !== "#" && (
-            <ActionLink href={project.links.live} variant="primary">
+            <ActionLink href={project.links.live} variant="primary" kind="live">
               Live
             </ActionLink>
           )}
