@@ -13,6 +13,9 @@ dist-ssr
 *.local
 AWSCLIV2.pkg
 
+# Resume is managed directly in S3, not the repo — see CLAUDE.md "Resume file"
+public/resume/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

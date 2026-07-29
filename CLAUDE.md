@@ -90,10 +90,26 @@ The manual deployment script contains:
 Both deployment paths configure:
 
 * `index.html` with `no-cache`
-* `public/resume/*` (non-hashed filename, so it can't rely on cache-busting via a new URL) with `no-cache`
 * all other, Vite-hashed assets with `immutable` and a one-year cache duration
 
-CloudFront must therefore be invalidated for updated `index.html` and resume references to become visible reliably. Any other new static asset added under `public/` with a fixed, non-hashed filename needs the same `no-cache` treatment in both deploy paths, or it will suffer the same stale-browser-cache problem the resume PDF once did.
+CloudFront must therefore be invalidated for updated `index.html` to become visible reliably. Any new static asset added under `public/` with a fixed, non-hashed filename needs the same `no-cache` treatment in both deploy paths, or it will suffer the same stale-browser-cache problem the resume PDF once did.
+
+### Resume file (managed outside the repo)
+
+The resume PDF is intentionally **not** tracked in this repository or built by Vite. It is uploaded directly to S3 at `s3://gokmeroz.com/resume/Goktug-Mert-Ozdogan-Resume.pdf` and referenced by a stable, hardcoded URL (`/resume/Goktug-Mert-Ozdogan-Resume.pdf`) from `Nav.tsx`, `TerminalMode.tsx`, and `personaModes.ts`.
+
+Neither deploy path (CI or `npm run deploy`) touches `resume/*` in S3 — both explicitly exclude it from their sync/delete step, so redeploying the site never removes or overwrites the manually uploaded resume.
+
+To update the resume, upload the new file directly and invalidate its CloudFront path:
+
+```bash
+aws s3 cp /path/to/new-resume.pdf s3://gokmeroz.com/resume/Goktug-Mert-Ozdogan-Resume.pdf \
+  --cache-control "no-cache, no-store, must-revalidate" \
+  --content-type "application/pdf"
+aws cloudfront create-invalidation --distribution-id E2C5C0OZ7LMCFU --paths "/resume/*"
+```
+
+Verify with a cache-busted URL (e.g. `.../Goktug-Mert-Ozdogan-Resume.pdf?cb=<random>`) rather than re-opening a previously downloaded local copy, since browsers/OSes readily cache a PDF downloaded under this same filename.
 
 ---
 
