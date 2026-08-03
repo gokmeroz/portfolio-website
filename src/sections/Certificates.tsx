@@ -5,9 +5,9 @@ import SectionHeader from "../components/SectionHeader";
 
 const groups = [
   {
-    title: "Introduction to Back-End Development",
-    from: "Meta",
-    certificate_url: "/certificates/meta-intro-backend.jpeg",
+    title: "Supervised Learning with scikit-learn",
+    from: "DataCamp",
+    certificate_url: "/certificates/supervised-Learning-with-scikit-learn.jpg",
   },
   {
     title: "Introduction to Databases for Back-End Development",
