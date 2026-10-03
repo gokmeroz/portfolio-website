@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import SwingGame from "./pixelScenes/SwingGame";
 
 type Line = { id: number; text: string; kind: "input" | "output" | "error" };
 
@@ -13,6 +14,7 @@ const HELP_LINES = [
   "  open resume                   open resume.pdf",
   "  ./hire_me --visa-sponsorship  contact + visa info",
   "  contact                       email / socials",
+  "  play                          thwip run, a web-swinging mini-game",
   "  clear                         clear the screen",
   "  exit                          leave terminal mode",
 ];
@@ -96,6 +98,7 @@ const KONAMI_SEQUENCE = [
 
 const CLEAR_SENTINEL = "__CLEAR__";
 const EXIT_SENTINEL = "__EXIT__";
+const PLAY_SENTINEL = "__PLAY__";
 
 function runCommand(raw: string): string[] {
   const cmd = raw.trim();
@@ -122,6 +125,7 @@ function runCommand(raw: string): string[] {
     return HIRE_ME_LINES;
   if (lower === "contact" || lower === "cat contact.txt") return CONTACT_LINES;
   if (lower.startsWith("sudo")) return ["Permission denied: nice try."];
+  if (lower === "play" || lower === "./thwip_run") return [PLAY_SENTINEL];
   if (lower === "clear") return [CLEAR_SENTINEL];
   if (lower === "exit" || lower === "logout") return [EXIT_SENTINEL];
   return [`command not found: ${cmd}`, "Type 'help' for a list of commands."];
@@ -142,6 +146,7 @@ export default function TerminalMode() {
   const [lines, setLines] = useState<Line[]>([]);
   const [value, setValue] = useState("");
   const [historyIdx, setHistoryIdx] = useState<number | null>(null);
+  const [gameOpen, setGameOpen] = useState(false);
   const cmdHistoryRef = useRef<string[]>([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const konamiBuffer = useRef<string[]>([]);
@@ -192,6 +197,7 @@ export default function TerminalMode() {
 
   function close() {
     setOpen(false);
+    setGameOpen(false);
     if (triggerRef.current instanceof HTMLElement) triggerRef.current.focus();
   }
 
@@ -212,6 +218,15 @@ export default function TerminalMode() {
     }
     if (result[0] === CLEAR_SENTINEL) {
       setLines([]);
+      return;
+    }
+    if (result[0] === PLAY_SENTINEL) {
+      setGameOpen(true);
+      setLines((prev) => [
+        ...prev,
+        echo,
+        { id: nextId(), text: "Loading thwip_run... press Start, then hold Space to swing.", kind: "output" },
+      ]);
       return;
     }
 
@@ -269,6 +284,15 @@ export default function TerminalMode() {
           </p>
         ))}
       </div>
+
+      {gameOpen && (
+        <div className="terminal-mode__game">
+          <SwingGame />
+          <button type="button" className="pixel-btn" onClick={() => setGameOpen(false)}>
+            Quit game
+          </button>
+        </div>
+      )}
 
       <form className="terminal-mode__input-row" onSubmit={submit}>
         <span className="terminal-mode__prompt">guest@gokmeroz:~$</span>
