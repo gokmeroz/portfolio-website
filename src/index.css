@@ -755,40 +755,26 @@ a.hero-scene__node:focus-visible {
   background: rgba(23, 19, 31, 0.78);
 }
 
-/* Cover: issue tag and the speech bubble with a stepped pixel tail */
+/* Corner tag used by the cover and the card */
 .hero-scene__corner {
   position: absolute;
   top: 10px;
   left: 10px;
 }
 
-.hero-scene__bubble {
+/* Cover: masthead across the top */
+.hero-scene__masthead {
   position: absolute;
   top: 10px;
-  right: 12px;
-  padding: 8px 12px;
+  right: 10px;
+  padding: 6px 10px;
   font-family: var(--font-display);
-  font-size: clamp(9px, 2.6vw, 13px);
+  font-size: clamp(10px, 3vw, 15px);
   line-height: 1.5;
-  color: var(--color-ink);
-  background: var(--color-surface);
+  color: var(--color-on-accent);
+  background: var(--color-accent);
   border: 3px solid var(--color-ink);
   box-shadow: 4px 4px 0 var(--color-ink);
-}
-
-.hero-scene__bubble::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 14px;
-  width: 6px;
-  height: 6px;
-  background: var(--color-surface);
-  box-shadow:
-    -3px 0 0 var(--color-ink),
-    3px 0 0 var(--color-ink),
-    -3px 6px 0 var(--color-ink),
-    0 6px 0 var(--color-ink);
 }
 
 /* Text / controls strip under a window's canvas */
@@ -833,6 +819,19 @@ a.hero-scene__node:focus-visible {
 .hero-scene__stage {
   min-height: 0;
   aspect-ratio: 224 / 168;
+}
+
+/* Cover "issue" pages: a comic page on paper */
+.hero-scene__page {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 14px;
+  padding: 16px;
+  font-size: clamp(13px, 3.2vw, 15px);
+  line-height: 1.55;
+  background-color: var(--color-surface);
+  background-image: var(--dither-ink);
 }
 
 .hero-scene__facts {

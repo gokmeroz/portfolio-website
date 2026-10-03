@@ -55,35 +55,6 @@ export const HERO_STANDING = [
 export const HERO_SWINGING = ["....h.....", "....h.....", ...HERO_STANDING];
 export const HERO_HAND_COLUMN = 4;
 
-// Large portrait of the same hero: hood, one-piece visor, red scarf, gold
-// shoulder trim and chest emblem. 28x24 cells.
-export const PORTRAIT = [
-  "........hhhhhhhhhhhh........",
-  ".......hhhhhhhhhhhhhh.......",
-  "......hhHHHHHHHHHHHHhh......",
-  "......hHHHHHHHHHHHHHHh......",
-  "......hhhhhhhhhhhhhhhh......",
-  "......vvvvvvvvvvvvvvvv......",
-  "......vvvvvvvvvvvvvvvv......",
-  "......vvvvvvvvvvvvvvvv......",
-  "......vvvvvvvvvvvvvvvv......",
-  "......hhhhhhhhhhhhhhhh......",
-  "......hhhhhhhhhhhhhhhh......",
-  ".......hhhhhhhhhhhhhh.......",
-  "........hhhhhhhhhhhh........",
-  "..........nnnnnnnn..........",
-  "..........nnnnnnnn..........",
-  "...rrrrrrrrrrrrrrrrrrrrrr...",
-  "..rrrrrrrrrrrrrrrrrrrrrrrr..",
-  ".ggbbbbbbbbbbbbbbbbbbbbbbgg.",
-  ".ggbbbbbbbbbbggggbbbbbbbbgg.",
-  "ggbbbbbbbbbbggggggbbbbbbbbgg",
-  "ggbbbbbbbbbbbggggbbbbbbbbbgg",
-  "ggbbbbbbbbbbbbbbbbbbbbbbbbgg",
-  "ggbbbbbbbbbbbbbbbbbbbbbbbbgg",
-  "ggbbbbbbbbbbbbbbbbbbbbbbbbgg",
-];
-
 export function prefersReducedMotion(): boolean {
   return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }

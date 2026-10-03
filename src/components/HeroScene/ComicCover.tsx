@@ -1,181 +1,250 @@
 import { useEffect, useRef, useState } from "react";
+import { FileText, Mail } from "lucide-react";
+import { experiences } from "../../data/experience";
+import { projects } from "../../data/projects";
 import {
-  HERO_PALETTE,
-  PORTRAIT,
   SCENE_COLORS,
   SCENE_H,
   SCENE_W,
+  createSky,
+  createSkyline,
+  drawLine,
   drawRooftop,
-  drawSprite,
   hash,
-  prefersReducedMotion,
   type Point,
 } from "../pixelScenes/pixelArt";
+import { useScene } from "../pixelScenes/useScene";
+import { MERT_COLORS as C, PORTRAIT_RUNS, paintOutlined, type Run } from "./mertPortrait";
 
-const PORTRAIT_SCALE = 4;
-const PORTRAIT_W = PORTRAIT[0].length * PORTRAIT_SCALE;
-const PORTRAIT_H = PORTRAIT.length * PORTRAIT_SCALE;
-// Visor glow points, in portrait cells: [column, row]
-const GLOW_CELLS: [number, number][] = [
-  [9, 6],
-  [17, 6],
+const span = (from: number, to: number, cols: [number, number], color: string): Run[] =>
+  Array.from({ length: to - from + 1 }, (_, i): Run => [from + i, cols[0], cols[1], color]);
+
+// Full figure, mid-swing: the head from the portrait, then a body in the
+// same suit — one arm up on the web, the other trailing, knees tucked.
+const HEAD_ROWS = 20;
+const FIGURE_RUNS: Run[] = [
+  // trailing arm and both legs first, so the torso overlaps them
+  ...span(23, 27, [5, 8], C.suitBlue),
+  ...span(28, 31, [3, 6], C.suitBlue),
+  ...span(32, 34, [2, 5], C.suitRed),
+  ...span(37, 42, [8, 14], C.suitBlue),
+  ...span(43, 47, [5, 11], C.suitBlue),
+  ...span(48, 50, [3, 10], C.suitRed),
+  ...span(37, 43, [17, 23], C.suitBlue),
+  ...span(44, 49, [20, 26], C.suitBlue),
+  ...span(50, 52, [21, 29], C.suitRed),
+  // raised arm, glove at the top holding the web
+  ...span(22, 23, [22, 26], C.suitBlue),
+  ...span(18, 21, [25, 28], C.suitBlue),
+  ...span(13, 17, [27, 30], C.suitBlue),
+  ...span(8, 12, [29, 32], C.suitBlue),
+  ...span(4, 7, [30, 33], C.suitRed),
+  // collar and torso, with web lines and the dark emblem
+  [21, 12, 20, C.suitRed],
+  [22, 11, 21, C.suitRed],
+  ...span(23, 36, [9, 23], C.suitRed),
+  ...span(22, 36, [16, 16], C.suitWeb),
+  ...span(24, 36, [12, 12], C.suitWeb),
+  ...span(24, 36, [20, 20], C.suitWeb),
+  ...[26, 33].flatMap((row): Run[] => [
+    [row, 9, 11, C.suitWeb],
+    [row + 1, 13, 15, C.suitWeb],
+    [row + 1, 17, 19, C.suitWeb],
+    [row, 21, 23, C.suitWeb],
+  ]),
+  [28, 16, 16, C.emblem],
+  [29, 15, 17, C.emblem],
+  [30, 14, 18, C.emblem],
+  [29, 16, 16, C.emblem],
+  [31, 15, 17, C.emblem],
+  [32, 16, 16, C.emblem],
+  // head last
+  ...PORTRAIT_RUNS.filter(([row]) => row <= HEAD_ROWS),
 ];
+const FIGURE_SCALE = 2;
+const FIGURE_X = 70;
+const FIGURE_Y = 40;
+// the glove, in figure cells, and where the web is anchored off-canvas
+const GLOVE = { col: 32, row: 4 };
+const WEB_ANCHOR: Point = { x: SCENE_W + 6, y: -30 };
 
-// Every portrait cell in ink — stamped behind the portrait as its outline
-const OUTLINE_PALETTE = Object.fromEntries(
-  Object.keys(HERO_PALETTE).map((key) => [key, SCENE_COLORS.ink])
-);
-
-const RAY_COUNT = 20;
 const ROOFS = Array.from({ length: 12 }, (_, i) => ({
   x: i * 22 - 20,
-  height: 22 + Math.round(hash(i + 40) * 26),
+  height: 18 + Math.round(hash(i + 40) * 22),
 }));
 
-// The cover line cycles through the motto from the hero copy.
-const BUBBLE_LINES = ["Code.", "Build.", "Invest.", "Repeat."];
-const BUBBLE_INTERVAL_MS = 1500;
+const RESUME_URL = "/resume/Goktug-Mert-Ozdogan-Resume.pdf";
+const EMAIL_URL = "mailto:goekmeroz@gmail.com";
 
-function createRays(): HTMLCanvasElement {
-  const canvas = document.createElement("canvas");
-  canvas.width = SCENE_W;
-  canvas.height = SCENE_H;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return canvas;
-  const cx = SCENE_W / 2;
-  const cy = SCENE_H * 0.62;
-  for (let y = 0; y < SCENE_H; y++) {
-    for (let x = 0; x < SCENE_W; x++) {
-      const wedge = Math.floor(((Math.atan2(y - cy, x - cx) + Math.PI) / (Math.PI * 2)) * RAY_COUNT);
-      ctx.fillStyle = wedge % 2 ? SCENE_COLORS.red : SCENE_COLORS.gold;
-      ctx.fillRect(x, y, 1, 1);
-    }
-  }
-  // checker dither over everything keeps it in the page's halftone language
-  ctx.fillStyle = "rgba(23, 19, 31, 0.14)";
-  for (let y = 0; y < SCENE_H; y += 4) {
-    for (let x = (y / 4) % 2 ? 2 : 0; x < SCENE_W; x += 4) ctx.fillRect(x, y, 1, 1);
-  }
-  return canvas;
-}
-
-/**
- * Hero window 2 — a comic-book cover. Sunburst rays, a rooftop strip and a
- * large portrait of the masked hero sit on separate layers that shift in
- * parallax with the pointer, and the visor's glow points track it. Draws
- * one still frame under prefers-reduced-motion.
- */
-export default function ComicCover() {
-  const wrapperRef = useRef<HTMLDivElement | null>(null);
+/** The cover art itself: canvas scene, issue tag and masthead. */
+function CoverArt() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [reducedMotion] = useState(prefersReducedMotion);
-  const [line, setLine] = useState(0);
+  const targetRef = useRef<Point>({ x: 0, y: 0 });
 
+  // Track the pointer across the whole page so the cover leans toward it
   useEffect(() => {
-    if (reducedMotion) return;
-    const timer = window.setInterval(
-      () => setLine((n) => (n + 1) % BUBBLE_LINES.length),
-      BUBBLE_INTERVAL_MS
-    );
-    return () => window.clearInterval(timer);
-  }, [reducedMotion]);
-
-  useEffect(() => {
-    const wrapper = wrapperRef.current;
-    const canvas = canvasRef.current;
-    const ctx = canvas?.getContext("2d");
-    if (!wrapper || !canvas || !ctx) return;
-
-    const rays = createRays();
-    // pointer position as -1..1 from the centre, eased toward `target`
-    const target: Point = { x: 0, y: 0 };
-    const look: Point = { x: 0, y: 0 };
-
-    const draw = () => {
-      ctx.drawImage(rays, 0, 0);
-
-      const roofShift = Math.round(-look.x * 8);
-      ROOFS.forEach((roof, i) => drawRooftop(ctx, roof.x + roofShift, 20, roof.height, i + 40));
-
-      const px = Math.round((SCENE_W - PORTRAIT_W) / 2 + look.x * 4);
-      const py = Math.round(SCENE_H - PORTRAIT_H + 6 + look.y * 2);
-      // ink outline: the portrait stamped one pixel out in each direction
-      [
-        [-2, 0],
-        [2, 0],
-        [0, -2],
-      ].forEach(([ox, oy]) => drawSprite(ctx, PORTRAIT, OUTLINE_PALETTE, px + ox, py + oy, PORTRAIT_SCALE));
-      drawSprite(ctx, PORTRAIT, HERO_PALETTE, px, py, PORTRAIT_SCALE);
-
-      ctx.fillStyle = HERO_PALETTE.g;
-      const glowX = Math.round(look.x * 5);
-      const glowY = Math.round(look.y * 2);
-      GLOW_CELLS.forEach(([col, row]) => {
-        ctx.fillRect(
-          px + col * PORTRAIT_SCALE + glowX,
-          py + row * PORTRAIT_SCALE + glowY,
-          PORTRAIT_SCALE * 2,
-          PORTRAIT_SCALE * 2
-        );
-      });
-    };
-
-    draw();
-    if (reducedMotion) return;
-
     const onPointerMove = (e: PointerEvent) => {
       if (e.pointerType !== "mouse") return;
-      const rect = wrapper.getBoundingClientRect();
-      target.x = Math.max(-1, Math.min(1, ((e.clientX - rect.left) / rect.width) * 2 - 1));
-      target.y = Math.max(-1, Math.min(1, ((e.clientY - rect.top) / rect.height) * 2 - 1));
+      targetRef.current = {
+        x: (e.clientX / window.innerWidth) * 2 - 1,
+        y: (e.clientY / window.innerHeight) * 2 - 1,
+      };
     };
-    // Track the pointer across the whole page so the hero "watches" it
     window.addEventListener("pointermove", onPointerMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onPointerMove);
+  }, []);
 
-    let raf = 0;
-    let onScreen = true;
-    const frame = () => {
-      look.x += (target.x - look.x) * 0.12;
-      look.y += (target.y - look.y) * 0.12;
-      draw();
-      raf = window.requestAnimationFrame(frame);
-    };
-    const sync = () => {
-      window.cancelAnimationFrame(raf);
-      if (onScreen && !document.hidden) raf = window.requestAnimationFrame(frame);
-    };
-    const observer = new IntersectionObserver(([entry]) => {
-      onScreen = entry.isIntersecting;
-      sync();
-    });
-    observer.observe(canvas);
-    document.addEventListener("visibilitychange", sync);
-    sync();
+  useScene(canvasRef, (ctx) => {
+    const sky = createSky();
+    const skyline = createSkyline();
+    const look: Point = { x: 0, y: 0 };
 
-    return () => {
-      window.cancelAnimationFrame(raf);
-      observer.disconnect();
-      document.removeEventListener("visibilitychange", sync);
-      window.removeEventListener("pointermove", onPointerMove);
+    return (dt, time) => {
+      const ease = Math.min(1, dt * 7);
+      look.x += (targetRef.current.x - look.x) * ease;
+      look.y += (targetRef.current.y - look.y) * ease;
+
+      ctx.drawImage(sky, 0, 0);
+      const farShift = Math.round(look.x * -4);
+      ctx.drawImage(skyline, farShift, -6);
+      ctx.drawImage(skyline, farShift - SCENE_W, -6);
+      ctx.drawImage(skyline, farShift + SCENE_W, -6);
+      const roofShift = Math.round(look.x * -10);
+      ROOFS.forEach((roof, i) => drawRooftop(ctx, roof.x + roofShift, 20, roof.height, i + 40));
+
+      // the figure hangs from a fixed anchor, swaying a little
+      const x = Math.round(FIGURE_X + look.x * 6 + Math.sin(time * 1.4) * 4);
+      const y = Math.round(FIGURE_Y + look.y * 3 + Math.cos(time * 2.8) * 1.5);
+
+      // speed lines trailing behind him
+      ctx.fillStyle = SCENE_COLORS.paper;
+      [0, 1, 2, 3].forEach((i) => {
+        const offset = Math.floor(time * 60 + i * 23) % 40;
+        ctx.fillRect(x - 44 - i * 6 + offset / 4, y + 34 + i * 14, 26 - offset / 2, 2);
+      });
+
+      ctx.fillStyle = SCENE_COLORS.paper;
+      drawLine(
+        ctx,
+        { x: x + GLOVE.col * FIGURE_SCALE, y: y + GLOVE.row * FIGURE_SCALE },
+        WEB_ANCHOR,
+        2
+      );
+      paintOutlined(ctx, FIGURE_RUNS, x, y, FIGURE_SCALE);
     };
-  }, [reducedMotion]);
+  });
 
   return (
-    <div ref={wrapperRef} className="relative">
+    <div className="relative">
       <canvas
         ref={canvasRef}
         width={SCENE_W}
         height={SCENE_H}
         role="img"
-        aria-label="Comic-book cover: a pixel portrait of a masked hero in front of sunburst rays and city rooftops."
+        aria-label="Comic-book cover: Mert in a red and blue web-patterned suit, swinging on a web above the Istanbul skyline."
         className="hero-scene__canvas"
       />
-      <span className="caption-box hero-scene__corner" aria-hidden="true">
-        Issue #1
-      </span>
-      <p className="hero-scene__bubble" aria-hidden="true">
-        {reducedMotion ? "I build things." : BUBBLE_LINES[line]}
+      <span className="caption-box hero-scene__corner">Issue #1</span>
+      <p className="hero-scene__masthead" aria-hidden="true">
+        I build things.
       </p>
+    </div>
+  );
+}
+
+// Pages inside the issue. Every line comes from content already on the site.
+const ISSUE_PAGES = ["Who", "Where", "What", "Reach me"];
+
+/**
+ * Hero window — a comic-book cover starring Mert: his pixel self in the
+ * suit, swinging across the Istanbul skyline on layers that shift with the
+ * pointer (one still frame under prefers-reduced-motion). "Open the issue"
+ * turns the window into a four-page comic — who, where, what, reach me —
+ * built from content already on the site.
+ */
+export default function ComicCover() {
+  // -1 = closed (cover showing)
+  const [page, setPage] = useState(-1);
+  const last = ISSUE_PAGES.length - 1;
+
+  if (page === -1) {
+    return (
+      <div>
+        <CoverArt />
+        <div className="hero-scene__caption">
+          <p>Four pages: who I am, where I've worked, what I've built, how to reach me.</p>
+          <button type="button" className="pixel-btn primary shrink-0" onClick={() => setPage(0)}>
+            Open the issue
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="hero-scene__stage hero-scene__page" aria-live="polite">
+        <p className="caption-box">
+          Page {page + 1}/{ISSUE_PAGES.length} · {ISSUE_PAGES[page]}
+        </p>
+
+        {page === 0 && (
+          <p>
+            I’m a software engineer from Istanbul who’s been building things since I was a kid —
+            these days that means backend systems and AI, with Node.js, C#/.NET, and Python as
+            home turf. Outside of code: football, combat sports, comics, and probably too many
+            tabs open on the markets.
+          </p>
+        )}
+
+        {page === 1 && (
+          <ul className="pixel-list">
+            {experiences.map((experience) => (
+              <li key={experience.id}>
+                <strong>{experience.title}</strong>
+                <br />
+                {experience.company} · {experience.date}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {page === 2 && (
+          <ul className="pixel-list">
+            {projects.map((project) => (
+              <li key={project.id}>{project.title}</li>
+            ))}
+          </ul>
+        )}
+
+        {page === 3 && (
+          <div className="flex flex-wrap items-center gap-5">
+            <a href={EMAIL_URL} className="pixel-btn">
+              <Mail size={13} strokeWidth={2.25} className="mr-1.5" />
+              Email me
+            </a>
+            <a href={RESUME_URL} target="_blank" rel="noreferrer" className="pixel-btn primary">
+              <FileText size={13} strokeWidth={2.25} className="mr-1.5" />
+              Download résumé
+            </a>
+          </div>
+        )}
+      </div>
+
+      <div className="hero-scene__caption">
+        <button type="button" className="pixel-btn" onClick={() => setPage(page - 1)}>
+          {page === 0 ? "Cover" : "Back"}
+        </button>
+        {page < last ? (
+          <button type="button" className="pixel-btn primary" onClick={() => setPage(page + 1)}>
+            Next
+          </button>
+        ) : (
+          <button type="button" className="pixel-btn primary" onClick={() => setPage(-1)}>
+            Close issue
+          </button>
+        )}
+      </div>
     </div>
   );
 }
