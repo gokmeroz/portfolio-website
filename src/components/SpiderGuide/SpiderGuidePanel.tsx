@@ -80,7 +80,7 @@ export default function SpiderGuidePanel({
               SPIDEY-GUIDE ONLINE
             </div>
             <div className="mt-1 font-pixel-ui text-[9px] uppercase tracking-wide text-[var(--color-accent-2)]">
-              <span className="text-[#3ef29a]">&#9679;</span> Interactive
+              <span className="text-[var(--color-accent)]">&#9679;</span> Interactive
               Portfolio Guide
             </div>
           </div>

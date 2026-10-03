@@ -132,7 +132,7 @@ export default function InterviewMertModal({
                 if (!stageData) return null;
                 return (
                   <section key={stageData.key} className="fade-up">
-                    <h4 className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-accent-3)]">
+                    <h4 className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-accent-3-ink)]">
                       {stageData.label}
                     </h4>
                     <ul className="mt-2 space-y-2">
@@ -157,12 +157,12 @@ export default function InterviewMertModal({
 
               {revealedCount >= DIAGRAM_STEP && (
                 <section className="fade-up">
-                  <h4 className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-accent-3)]">
+                  <h4 className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-accent-3-ink)]">
                     Final diagram
                   </h4>
                   <pre
                     aria-hidden="true"
-                    className="mt-2 overflow-x-auto border-2 border-[var(--color-border)] bg-[var(--color-surface-2)] p-4 font-sans text-sm leading-6 text-[var(--color-accent-2)]"
+                    className="mt-2 overflow-x-auto border-2 border-[var(--color-border)] bg-[var(--color-surface-2)] p-4 font-mono text-sm leading-6 text-[var(--color-text-base)]"
                   >
                     {question.diagram.ascii}
                   </pre>
