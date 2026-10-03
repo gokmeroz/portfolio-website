@@ -18,7 +18,7 @@ The site is designed to present Mert as a software engineer with full-stack, bac
 * AWS S3 and CloudFront
 * GitHub Actions
 
-The visual direction is a custom **professional 8-bit/pixel interface**.
+The visual direction is a custom **professional pixel comic book**: newsprint-cream paper, ink borders, red/blue/yellow fills, and checker-dither "halftone", with an interactive pixel art panel in the hero.
 
 The website must feel distinctive and playful without sacrificing:
 
@@ -150,7 +150,7 @@ Current sections include:
 
 The page is rendered as one continuous scrolling document.
 
-Most content is currently hardcoded inside each section. There is no CMS or centralized content layer.
+Most content is currently hardcoded inside each section. There is no CMS or centralized content layer. The exception is `src/data/projects.ts`, which holds the project content shared by `Works.tsx` and the hero's arcade cabinet.
 
 Do not introduce a CMS, state-management library, backend, or data abstraction unless the task specifically requires one.
 
@@ -161,7 +161,9 @@ Components under `src/components/` include:
 * `Nav`
 * `Footer`
 * `ScrollTop`
+* `HeroScene`
 * `SpotlightOverlay`
+* `Section` and `SectionHeader`
 * `SpiderGuide` (module under `src/components/SpiderGuide/`, see the Spidey-Guide section below)
 * `WorkCard`
 
@@ -198,7 +200,7 @@ When adding a new navigation-linked section:
 4. Confirm that active-state behavior works while scrolling in both directions.
 5. Confirm that anchor navigation does not hide the section heading behind the fixed navigation.
 
-`App.tsx` also updates the CSS variables `--mx` and `--my` from pointer movement for the page-background glow.
+`App.tsx` also updates the CSS variables `--mx` and `--my` from pointer movement; `body::before` uses them to mask a patch of red dither that follows the pointer.
 
 Preserve this behavior unless the task explicitly changes the visual effect.
 
@@ -233,7 +235,7 @@ Every design change must satisfy both requirements:
 
 ### Preserve personality
 
-* Keep the 8-bit and masked-hero identity.
+* Keep the pixel-comic and masked-hero identity.
 * Preserve intentional pixel borders, stepped corners, hard shadows, and retro interface details.
 * Avoid replacing the site with standard rounded shadcn-style cards.
 * Avoid generic glassmorphism, excessive gradients, oversized blur effects, and template-like SaaS layouts.
@@ -280,176 +282,64 @@ Do not create a `tailwind.config.js` or `tailwind.config.ts` unless there is a v
 
 ## Fonts
 
-Three pixel fonts are self-hosted under:
+Self-hosted under `src/assets/fonts/`, registered with `@font-face` and exposed through `@theme`.
 
-```text
-src/assets/fonts/pixel/
-```
+### `font-display` — Press Start 2P
 
-They are registered using `@font-face` and exposed through `@theme`.
+Use for the hero name, section titles, and short display text (stat numbers, the big contact button). Never for paragraphs or dense card content. The glyphs are wide and overflow easily — test long words at narrow viewports.
 
-### `font-display`
+### `font-sans` — Inter (body default)
 
-Font:
+All reading text, and also longer card titles (role titles, project titles, article titles). Full Turkish coverage.
 
-```text
-Press Start 2P
-```
+### `font-pixel-ui` — Silkscreen Bold
 
-Use for:
-
-* major page headings
-* occasional section titles
-* short display text
-
-Do not use for:
-
-* paragraphs
-* long labels
-* dense card content
-* mobile text that becomes unreadably small
-
-The font has wide glyphs and can overflow easily. Test headings with long words and narrow viewports.
-
-### `font-sans`
-
-Font:
-
-```text
-VT323
-```
-
-This is currently the sitewide body default.
-
-Use carefully for:
-
-* body copy
-* descriptions
-* supporting text
-
-When readability suffers, prefer introducing or using a more readable body-font token rather than compensating with excessive font size.
-
-### `font-pixel-ui`
-
-Font:
-
-```text
-Silkscreen Bold
-```
-
-Use for:
-
-* navigation
-* compact labels
-* buttons
-* tags
-* chips
-* interface controls
-
-This font has limited glyph coverage and does not reliably support Turkish characters.
-
-Do not use it for dynamic or Turkish-language content unless the text has been verified visually.
+Short uppercase labels only: nav links, buttons, chips, panel bars, caption boxes. Its `@font-face` is restricted by `unicode-range` to printable ASCII minus `&`, so Turkish letters and ampersands fall through to Inter per glyph. Do not use it for sentence-length or Turkish-language content.
 
 ---
 
 ## Existing Color Tokens
 
-The theme currently includes tokens such as:
+Defined in the `@theme` block of `src/index.css`:
 
-```css
---color-accent
---color-accent-2
---color-accent-3
---color-surface
---color-surface-2
---color-border
-```
+* `--color-bg-base` — paper; `--color-surface` / `--color-surface-2` — panel paper, lighter and darker
+* `--color-text-base` / `--color-ink` — ink; `--color-text-muted` — secondary text
+* `--color-accent` — red; `--color-accent-2` — blue
+* `--color-accent-3` — yellow, a **fill** color only; use `--color-accent-3-ink` when gold has to be text
+* `--color-on-accent` — text placed on a red or blue fill
+* `--color-border` (ink) and `--color-border-strong` (red)
 
-Current visual roles include:
+The `.theme-night` scope re-declares the same tokens with the original dark arcade palette. It is applied, through their own selectors, to the terminal easter egg, the boot splash, and the ULTRA MODE overlay — anything that should read as a dark "screen". Components inside it need no changes.
 
-* `accent` — coral
-* `accent-2` — cyan
-* `accent-3` — gold
-* `surface` and `surface-2` — dark interface surfaces
-* `border` — shared border color
+Use semantic tokens instead of raw color literals inside React components. The exception is canvas pixel art (`HeroScene`, the Spidey-Guide bust), which keeps its palette in a constant next to the drawing code.
 
-Use semantic tokens instead of raw color literals inside React components.
-
-Do not add new hexadecimal, RGB, or HSL values directly to section JSX unless there is a strong documented reason.
-
-When additional colors are required, define them centrally in `src/index.css`.
-
-Prefer names based on purpose rather than appearance.
-
-Good:
-
-```css
---color-text-muted
---color-surface-elevated
---color-border-strong
---color-danger
-```
-
-Avoid:
-
-```css
---color-light-gray-2
---color-random-blue
---color-card-green
-```
+When additional colors are required, define them centrally in `src/index.css`, named by purpose rather than appearance.
 
 ---
 
 ## Existing Reusable Classes
 
-Existing shared classes include:
-
 ```text
-.pixel-panel
-.pixel-chip
-.pixel-btn
+.pixel-panel   (+ --red / --blue / --gold shadow variants, .is-new)
+.panel-bar     (+ --red / --blue / --gold)
+.block-red / .block-blue / .block-gold
+.caption-box
+.pixel-chip    (+ .is-active)
+.pixel-btn     (+ .primary)
 .btn-accent
-.nav-surface
+.pixel-list
+.nav-surface / .nav-link
 .container-mx
 ```
 
-### `.pixel-panel`
+* `.pixel-panel` — the comic-panel primitive. Its border and hard drop shadow are drawn with `box-shadow` (four one-step shadows leave the corners unfilled, giving a stepped pixel corner without `clip-path`). Consequences: it has no `border`, so child strips sit flush with the edge; leave at least 16px of gap around it; and never animate `box-shadow` on it (`.guide-highlight` animates `outline` for this reason).
+* `.panel-bar` — colored title strip across the top of a panel.
+* `.block-*` — solid dithered color fills for stat cards and call-to-action panels; they set their own text color.
+* `.caption-box` — yellow narration box for eyebrows and short metadata. It sets `display`, so put responsive `hidden` on a wrapper.
+* `.pixel-chip` — tags, skills, toggle buttons. `.pixel-btn` — base button (blue; `.primary` is yellow). `.btn-accent` — the one large call to action.
+* `.pixel-list` — list with square pixel bullets.
 
-The primary card and panel primitive.
-
-It uses:
-
-* notched corners
-* `clip-path`
-* a hard offset shadow
-* pixel-style borders
-
-Use it for visually prominent grouped content rather than recreating the panel treatment inline.
-
-### `.pixel-chip`
-
-Use for:
-
-* skill labels
-* technology tags
-* short metadata
-* compact statuses
-
-### `.pixel-btn`
-
-Use as the base button treatment.
-
-### `.btn-accent`
-
-Use for primary accent actions where appropriate.
-
-### `.nav-surface`
-
-Use for the shared navigation surface.
-
-### `.container-mx`
-
-Use for consistent horizontal page margins and content containment.
+Sections fade in once on scroll via `.reveal` (set by `Section`). It is opacity-only on purpose: a transform on a section would make it the containing block for the fixed-position modals rendered inside it.
 
 Before creating an inline equivalent, inspect these classes and determine whether they can be reused or extended.
 
@@ -665,57 +555,28 @@ Use external libraries for behavior, not for replacing the website’s identity.
 
 ---
 
-# Section Migration Status
+# Section Composition
 
-The following sections currently use more complete pixel-system styling:
+Every section uses the comic system, each with its own composition: Hero (cover text beside the `HeroScene` art panel), About (dashed web-strand timeline), Proof (three color blocks), Skills (color-barred panels), Certificates (card grid with a lightbox), Works (numbered "issue" panels with a two-column body), Interview Mert and Contact (solid color call-to-action blocks), Services (numbered tiles), Articles, Footer (a single panel strip with a caption-box year and pixel-label text).
 
-* `Nav`
-* `Hero`
-* `Skills`
-* `Works`
-* `SpiderGuide`
+Keep that variety — do not flatten sections into identical grids of `.pixel-panel` cards.
 
-The following sections still use older structural styling or plain rounded Tailwind surfaces:
+`HeroScene` (module under `src/components/HeroScene/`) is the hero's art panel. It currently hosts **four shortlisted windows behind a stepper** — the plan is to settle on one and delete the rest plus the stepper. Only the selected window is mounted.
 
-* `About`
-* `Certificates`
-* `Services`
-* `Contact`
-* `Articles`
-* `Footer`
+1. `TowerClimb` — the career timeline as a tower; the hero climbs to the hovered floor and each floor links to that experience card.
+2. `TradingCard` — hero portrait that flips to facts stated elsewhere on the page.
+3. `ComicCover` — sunburst, rooftops and a large hero portrait in pointer parallax.
+4. `ArcadeCabinet` — a CSS cabinet whose screen cycles the projects as title cards with pixel emblems; "Insert coin" loads the one showing into an on-screen reader (story / tech / impact) fed by `src/data/projects.ts`.
 
-When modernizing these sections:
+Shared pixel scenes live in `src/components/pixelScenes/`: `pixelArt.ts` (224×168 canvas helpers, palette, the original masked-hero sprites), `useScene.ts` (animation loop that pauses off screen / in a hidden tab and renders a still frame under `prefers-reduced-motion`), and three scenes used outside the hero:
 
-* preserve their content
-* migrate them toward shared tokens and components
-* avoid redesigning all sections simultaneously
-* keep visual hierarchy appropriate to each section
-* prevent every section from becoming an identical grid of `.pixel-panel` cards
+* `PipelineMachine` — JobPilot's eight stages as a conveyor; opened from the "Run the pipeline" button on the JobPilot project card in `Works.tsx`.
+* `SystemSandbox` — Client → API → Service → DB plus queue/worker, click a node to take it down; shown beside the call to action in `InterviewMert.tsx`.
+* `SwingGame` — hold-to-swing web game; launched by the `play` command in `TerminalMode`. Its difficulty constants were tuned by simulation — re-check playability if the physics change.
 
-Consistency does not require every section to have the same composition.
+These scenes link to section/card ids and restate portfolio facts (stage descriptions, timeline years, project titles); when content or ids change, update them too. Their shared CSS classes are still prefixed `hero-scene__`.
 
----
-
-## Known Services Styling Issue
-
-`src/sections/Services.tsx` references several classes that are not defined in `src/index.css`, including:
-
-```text
-bg-night2
-text-accent2
-bg-card
-shadow-glow
-hr-accent
-```
-
-These references predate the current pixel theme and may render without their intended styling.
-
-When fixing `Services.tsx`:
-
-* replace obsolete classes with current semantic tokens or shared components
-* do not recreate missing legacy classes without first checking whether they belong in the current system
-* preserve the section’s content and meaning
-* validate contrast and responsive behavior after migration
+`SpotlightOverlay` is now only the click feedback (a small "THWIP!" tag at the pointer), and `Nav` draws a scroll-progress web with a spider along its bottom edge via the `--progress` CSS variable.
 
 ---
 
