@@ -16,14 +16,13 @@ import Certificates from "./sections/Certificates";
 import ProfessionalProof from "./sections/ProfessionalProof";
 import InterviewMert from "./sections/InterviewMert";
 import SpiderGuide from "./components/SpiderGuide";
-import CityWebBackdrop from "./components/CityWebBackdrop";
 import BootSequence from "./components/BootSequence";
 import TerminalMode from "./components/TerminalMode";
 
 export default function App() {
   const [active, setActive] = useState<string>("about");
 
-  // mouse-follow glow
+  // pointer-follow halftone patch (body::before in index.css reads --mx/--my)
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
       document.body.style.setProperty("--mx", `${e.clientX}px`);
@@ -52,10 +51,9 @@ export default function App() {
     <div>
       <BootSequence />
       <TerminalMode />
-      <CityWebBackdrop />
       <Nav active={active} />
       <SpiderGuide />
-      <main className="container-mx flex flex-col gap-16 pt-24 pb-16 md:gap-20 md:pb-20 lg:gap-28">
+      <main className="container-mx flex flex-col gap-20 pt-24 pb-16 md:gap-24 md:pb-20 lg:gap-32">
         <Hero />
         <About />
         <ProfessionalProof />
@@ -70,7 +68,7 @@ export default function App() {
         <Footer />
       </main>
       <ScrollTop />
-      <SpotlightOverlay coreSize={5} glowSize={24} lerp={0.2} trailCount={10} />
+      <SpotlightOverlay />
     </div>
   );
 }
