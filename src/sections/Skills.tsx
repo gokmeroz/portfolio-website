@@ -49,29 +49,26 @@ const groups = [
   },
 ];
 
+const BARS = ["panel-bar--red", "panel-bar--blue", "panel-bar--gold"];
+
 export default function Skills() {
   return (
     <Section id="skills">
       <SectionHeader eyebrow="Inventory" title="Skills" />
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-8 md:grid-cols-2">
         {groups.map((g, gi) => (
           <div
             key={g.title}
             id={g.id}
-            className={`fade-up pixel-panel p-6 ${
-              g.isNew ? "is-new md:col-span-2" : ""
-            }`}
-            style={{ animationDelay: `${gi * 90}ms` }}
+            className={`pixel-panel ${g.isNew ? "is-new md:col-span-2" : ""}`}
           >
-            <div className="flex items-center gap-2.5">
-              <h3 className="font-pixel-ui text-xs uppercase tracking-wide text-[var(--color-text-base)]">
-                {g.title}
-              </h3>
+            <div className={`panel-bar ${BARS[gi % BARS.length]}`}>
+              <h3 className="text-inherit">{g.title}</h3>
               {g.isNew && <span className="badge-new">New</span>}
             </div>
 
-            <div className="mt-4 flex flex-wrap gap-2.5">
+            <div className="flex flex-wrap gap-2 p-5">
               {g.items.map((i) => (
                 <span key={i} className="pixel-chip">
                   {i}

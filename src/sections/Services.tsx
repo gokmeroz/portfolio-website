@@ -88,20 +88,24 @@ export default function Services() {
         description="Backend-leaning full-stack solutions with data-driven features and fintech-grade reliability. Clean code, measurable outcomes."
       />
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((s, i) => (
-          <article
-            key={s.title}
-            className="fade-up pixel-panel p-6"
-            style={{ animationDelay: `${i * 90}ms` }}
-          >
-            <div className="flex h-9 w-9 items-center justify-center border-2 border-[var(--color-border)] bg-[var(--color-surface-2)] text-[var(--color-accent-2)]">
-              {s.icon}
+          <article key={s.title} className="service-tile pixel-panel p-5">
+            <div className="flex items-center justify-between">
+              <div className="flex h-10 w-10 items-center justify-center border-2 border-[var(--color-border)] bg-[var(--color-accent-2)] text-[var(--color-on-accent)]">
+                {s.icon}
+              </div>
+              <span
+                aria-hidden="true"
+                className="font-display text-xs text-[var(--color-text-muted)]"
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
             </div>
-            <h3 className="mt-4 font-pixel-ui text-sm tracking-wide text-[var(--color-text-base)]">
+            <h3 className="mt-4 text-base font-extrabold leading-6 text-[var(--color-text-base)]">
               {s.title}
             </h3>
-            <p className="mt-2 text-base leading-6 text-[var(--color-text-base)]/70">
+            <p className="mt-3 text-base leading-6 text-[var(--color-text-base)]">
               {s.text}
             </p>
           </article>

@@ -22,22 +22,23 @@ const cards: ProofCard[] = [
   },
 ];
 
+const BLOCKS = ["block-gold", "block-red", "block-blue"];
+
 export default function ProfessionalProof() {
   return (
     <Section id="proof">
       <SectionHeader eyebrow="Evidence Log" title="Proof, Not Promises" />
 
-      <div className="grid gap-6 sm:grid-cols-3">
+      <div className="grid gap-8 md:grid-cols-3">
         {cards.map((card, i) => (
           <article
             key={card.stat}
-            className="fade-up pixel-panel p-6"
-            style={{ animationDelay: `${i * 90}ms` }}
+            className={`pixel-panel p-6 ${BLOCKS[i % BLOCKS.length]}`}
           >
-            <p className="font-display text-[clamp(13px,2.2vw,17px)] leading-relaxed text-[var(--color-accent-3)]">
+            <p className="font-display text-[clamp(14px,1.8vw,18px)] leading-[1.6]">
               {card.stat}
             </p>
-            <p className="mt-3 text-base leading-6 text-[var(--color-text-base)]/70">
+            <p className="mt-4 text-base font-semibold leading-6">
               {card.description}
             </p>
           </article>

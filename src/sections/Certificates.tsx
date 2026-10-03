@@ -86,38 +86,39 @@ export default function Certificates() {
     <Section id="certificates">
       <SectionHeader eyebrow="Achievements" title="Certificates" />
 
-      <div className="relative flex gap-4 overflow-x-auto pb-2 no-scrollbar">
+      <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
         {groups.map((g, i) => (
           <button
             key={g.title + i}
+            type="button"
             onClick={(e) => {
               triggerRef.current = e.currentTarget;
               setActive(i);
             }}
-            className="group relative flex-shrink-0 border-[3px] border-[var(--color-border)] outline-none transition-colors hover:border-[var(--color-border-strong)] focus-visible:border-[var(--color-accent-2)]"
+            className="pixel-panel flex cursor-pointer flex-col text-left"
             aria-label={`View certificate: ${g.title} — ${g.from}`}
           >
             <img
               src={g.certificate_url}
               alt=""
               loading="lazy"
-              className="h-32 w-56 object-cover transition-transform duration-200 group-hover:scale-[1.02] md:h-40 md:w-72"
+              className="aspect-[4/3] w-full border-b-4 border-[var(--color-border)] object-cover"
             />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--color-bg-base)] to-transparent px-3 py-2">
-              <p className="line-clamp-1 font-pixel-ui text-[10px] text-[var(--color-text-base)]">
+            <span className="flex flex-1 flex-col gap-2 p-3">
+              <span className="text-sm font-bold leading-5 text-[var(--color-text-base)]">
                 {g.title}
-              </p>
-              <p className="mt-0.5 text-sm text-[var(--color-text-muted)]">
+              </span>
+              <span className="mt-auto font-pixel-ui text-[10px] uppercase tracking-[0.08em] text-[var(--color-accent)]">
                 {g.from}
-              </p>
-            </div>
+              </span>
+            </span>
           </button>
         ))}
       </div>
 
       {openItem && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-[2px]"
+          className="fixed inset-0 z-[300] flex items-center justify-center bg-[var(--color-ink)]/80 p-6"
           onClick={(e) => {
             if (e.target === e.currentTarget) closeModal();
           }}
@@ -128,12 +129,12 @@ export default function Certificates() {
             aria-label={`${openItem.title} — ${openItem.from}`}
             className="pixel-panel relative flex w-full max-w-4xl flex-col overflow-hidden"
           >
-            <div className="flex-none flex items-start justify-between gap-3 border-b-[3px] border-[var(--color-border)] bg-[var(--color-surface-2)] px-4 py-3">
+            <div className="flex-none flex items-start justify-between gap-3 border-b-4 border-[var(--color-border)] bg-[var(--color-accent-3)] px-4 py-3">
               <div className="min-w-0">
-                <h3 className="font-pixel-ui text-xs text-[var(--color-text-base)] sm:text-sm">
+                <h3 className="text-sm font-bold text-[var(--color-ink)] sm:text-base">
                   {openItem.title}
                 </h3>
-                <p className="mt-1 text-sm text-[var(--color-text-muted)]">
+                <p className="mt-1 font-pixel-ui text-[10px] uppercase tracking-[0.08em] text-[var(--color-ink)]">
                   {openItem.from}
                 </p>
               </div>
@@ -142,13 +143,13 @@ export default function Certificates() {
                 type="button"
                 onClick={closeModal}
                 aria-label="Close certificate viewer"
-                className="flex-none w-[30px] h-[30px] border-2 border-[var(--color-border)] bg-[var(--color-surface)] font-pixel-ui text-xs text-[var(--color-text-base)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+                className="flex-none h-8 w-8 border-2 border-[var(--color-border)] bg-[var(--color-surface)] font-pixel-ui text-xs text-[var(--color-text-base)] hover:bg-[var(--color-accent)] hover:text-[var(--color-on-accent)]"
               >
                 &#10005;
               </button>
             </div>
 
-            <div className="flex items-center justify-center bg-[var(--color-bg-base)] p-2">
+            <div className="flex items-center justify-center bg-[var(--color-surface-2)] p-2">
               <img
                 src={openItem.certificate_url}
                 alt={`${openItem.title} certificate from ${openItem.from}`}
@@ -157,8 +158,8 @@ export default function Certificates() {
               />
             </div>
 
-            <div className="flex-none flex items-center justify-between gap-3 border-t-[3px] border-[var(--color-border)] bg-[var(--color-surface-2)] px-4 py-3">
-              <div className="flex gap-2">
+            <div className="flex-none flex flex-wrap items-center justify-between gap-4 border-t-4 border-[var(--color-border)] bg-[var(--color-surface)] px-4 pt-4 pb-5">
+              <div className="flex gap-4">
                 <button
                   type="button"
                   onClick={() =>

@@ -52,89 +52,66 @@ const STATUS_LABEL: Record<Activity["status"], string> = {
 };
 
 function StatusChip({ status }: { status: Activity["status"] }) {
-  const color =
-    status === "ongoing"
-      ? "text-[var(--color-accent-2)] border-[var(--color-accent-2)]"
-      : status === "upcoming"
-        ? "text-[var(--color-accent-3)] border-[var(--color-accent-3)]"
-        : "text-[var(--color-text-muted)] border-[var(--color-border)]";
-
   return (
-    <span
-      className={`shrink-0 border-[2px] px-2 py-1 font-pixel-ui text-[9px] uppercase tracking-[0.12em] ${color}`}
-    >
+    <span className="caption-box shrink-0">
+      {status === "ongoing" && (
+        <span className="pixel-live-dot !mr-0" aria-hidden="true" />
+      )}
       {STATUS_LABEL[status]}
     </span>
   );
 }
 
-function ActivityCard({
-  activity,
-  index,
-}: {
-  activity: Activity;
-  index: number;
-}) {
-  const cardClassName =
-    "fade-up pixel-panel block p-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-accent)]";
+function ActivityCard({ activity }: { activity: Activity }) {
+  const cardClassName = "pixel-panel pixel-panel--blue block";
 
   const cardContent = (
     <>
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-accent)]">
-            {activity.org}
-          </p>
+      <div className="panel-bar panel-bar--blue">
+        <span>{activity.org}</span>
+        <span>{activity.period}</span>
+      </div>
 
-          <h3 className="mt-1.5 font-pixel-ui text-sm tracking-wide text-[var(--color-text-base)] sm:text-base">
-            {activity.title}
-          </h3>
+      <div className="p-4 sm:p-6">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="min-w-0">
+            <h3 className="text-lg font-extrabold leading-7 text-[var(--color-text-base)] sm:text-xl">
+              {activity.title}
+            </h3>
+            <p className="mt-2 text-sm font-bold uppercase tracking-[0.06em] text-[var(--color-accent)]">
+              {activity.role}
+            </p>
+          </div>
+
+          <StatusChip status={activity.status} />
         </div>
 
-        <StatusChip status={activity.status} />
-      </div>
-
-      <p className="mt-3 font-pixel-ui text-[10px] uppercase tracking-[0.1em] text-[var(--color-text-muted)]">
-        {activity.role} · {activity.period}
-      </p>
-
-      <p className="mt-4 text-lg leading-7 text-[var(--color-text-base)]/85">
-        {activity.description}
-      </p>
-
-      {activity.highlights && activity.highlights.length > 0 && (
-        <ul className="mt-5 space-y-3">
-          {activity.highlights.map((highlight) => (
-            <li
-              key={highlight}
-              className="flex gap-3 text-base leading-6 text-[var(--color-text-base)]/75"
-            >
-              <span
-                aria-hidden="true"
-                className="mt-[2px] shrink-0 font-pixel-ui text-[10px] text-[var(--color-accent-2)]"
-              >
-                &gt;
-              </span>
-
-              <span>{highlight}</span>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <div className="mt-5 flex flex-wrap gap-2.5">
-        {activity.tags.map((tag) => (
-          <span key={tag} className="pixel-chip">
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      {activity.link && (
-        <p className="mt-5 font-pixel-ui text-[9px] uppercase tracking-[0.12em] text-[var(--color-accent)]">
-          View inzva AI Projects ↗
+        <p className="mt-5 max-w-4xl text-lg font-normal leading-8 text-[var(--color-text-base)]">
+          {activity.description}
         </p>
-      )}
+
+        {activity.highlights && activity.highlights.length > 0 && (
+          <ul className="pixel-list mt-6 max-w-4xl text-base font-normal leading-7 text-[var(--color-text-base)]">
+            {activity.highlights.map((highlight) => (
+              <li key={highlight}>{highlight}</li>
+            ))}
+          </ul>
+        )}
+
+        <div className="mt-6 flex flex-wrap gap-2">
+          {activity.tags.map((tag) => (
+            <span key={tag} className="pixel-chip">
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        {activity.link && (
+          <p className="mt-6 font-pixel-ui text-[11px] uppercase tracking-[0.12em] text-[var(--color-accent-2)]">
+            View inzva AI Projects ↗
+          </p>
+        )}
+      </div>
     </>
   );
 
@@ -147,7 +124,6 @@ function ActivityCard({
         rel="noreferrer noopener"
         aria-label={`View ${activity.title} at ${activity.org}`}
         className={cardClassName}
-        style={{ animationDelay: `${index * 110}ms` }}
       >
         {cardContent}
       </a>
@@ -155,11 +131,7 @@ function ActivityCard({
   }
 
   return (
-    <article
-      id={`activity-${activity.id}`}
-      className={cardClassName}
-      style={{ animationDelay: `${index * 110}ms` }}
-    >
+    <article id={`activity-${activity.id}`} className={cardClassName}>
       {cardContent}
     </article>
   );
@@ -174,13 +146,9 @@ export default function RecentActivity() {
         description="Current research and collaborative engineering work beyond my shipped products."
       />
 
-      <div className="space-y-8">
-        {activities.map((activity, index) => (
-          <ActivityCard
-            key={activity.title}
-            activity={activity}
-            index={index}
-          />
+      <div className="space-y-10">
+        {activities.map((activity) => (
+          <ActivityCard key={activity.title} activity={activity} />
         ))}
       </div>
     </Section>

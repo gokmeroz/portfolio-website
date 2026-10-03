@@ -11,13 +11,13 @@ export default function Contact() {
         description="Based in Istanbul, Turkey — open to relocating and working on-site wherever a role needs me. Visa sponsorship required for positions outside Turkey."
       />
 
-      <div className="pixel-panel flex flex-col items-center justify-between gap-6 p-6 md:flex-row">
+      <div className="pixel-panel block-red flex flex-col items-center justify-between gap-8 px-6 py-10 md:flex-row md:px-10">
         <a href="mailto:goekmeroz@gmail.com" className="btn-accent">
           <Mail size={16} strokeWidth={2} className="mr-2" />
           PRESS START TO CHAT
         </a>
 
-        <div className="flex flex-wrap items-center justify-center gap-2.5">
+        <div className="flex flex-wrap items-center justify-center gap-3">
           <a
             href="https://github.com/gokmeroz"
             target="_blank"

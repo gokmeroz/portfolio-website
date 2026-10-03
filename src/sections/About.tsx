@@ -11,38 +11,28 @@ function ExperienceItem(props: {
 }) {
   const { id, title, company, location, date, bullets } = props;
   return (
-    <article id={id} className="pixel-panel p-6">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-accent)]">
+    <li>
+      <article id={id} className="pixel-panel">
+        <div className="panel-bar">
+          <span>{date}</span>
+          <span>{location}</span>
+        </div>
+        <div className="p-4 sm:p-6">
+          <p className="text-sm font-bold uppercase tracking-[0.06em] text-[var(--color-accent)]">
             {company}
           </p>
-          <h3 className="mt-1.5 font-pixel-ui text-sm tracking-wide text-[var(--color-text-base)] sm:text-base">
+          <h3 className="mt-2 text-lg font-extrabold leading-7 text-[var(--color-text-base)] sm:text-xl">
             {title}
           </h3>
-        </div>
-        <p className="shrink-0 font-pixel-ui text-[10px] uppercase tracking-[0.1em] text-[var(--color-text-muted)]">
-          {location} &middot; {date}
-        </p>
-      </div>
 
-      <ul className="mt-4 space-y-3">
-        {bullets.map((bullet) => (
-          <li
-            key={bullet}
-            className="flex gap-3 text-base leading-6 text-[var(--color-text-base)]/75"
-          >
-            <span
-              aria-hidden="true"
-              className="mt-[2px] shrink-0 font-pixel-ui text-[10px] text-[var(--color-accent-2)]"
-            >
-              &gt;
-            </span>
-            <span>{bullet}</span>
-          </li>
-        ))}
-      </ul>
-    </article>
+          <ul className="pixel-list mt-5 max-w-4xl text-base leading-7 text-[var(--color-text-base)]">
+            {bullets.map((bullet) => (
+              <li key={bullet}>{bullet}</li>
+            ))}
+          </ul>
+        </div>
+      </article>
+    </li>
   );
 }
 
@@ -54,19 +44,18 @@ function EducationItem(props: {
 }) {
   const { degree, school, location, date } = props;
   return (
-    <article className="pixel-panel p-6">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-accent)]">
-            {school}
-          </p>
-          <h3 className="mt-1.5 font-pixel-ui text-sm tracking-wide text-[var(--color-text-base)] sm:text-base">
-            {degree}
-          </h3>
-        </div>
-        <p className="shrink-0 font-pixel-ui text-[10px] uppercase tracking-[0.1em] text-[var(--color-text-muted)]">
-          {location} &middot; {date}
+    <article className="pixel-panel pixel-panel--blue">
+      <div className="panel-bar panel-bar--blue">
+        <span>{date}</span>
+        <span>{location}</span>
+      </div>
+      <div className="p-4 sm:p-6">
+        <p className="text-sm font-bold uppercase tracking-[0.06em] text-[var(--color-accent)]">
+          {school}
         </p>
+        <h3 className="mt-2 text-lg font-extrabold leading-7 text-[var(--color-text-base)] sm:text-xl">
+          {degree}
+        </h3>
       </div>
     </article>
   );
@@ -76,7 +65,7 @@ export default function About() {
   return (
     <Section id="about">
       <SectionHeader eyebrow="Career Log" title="Experience" />
-      <div className="space-y-6">
+      <ol className="timeline">
         <ExperienceItem
           id="exp-halkbank"
           title="Full-Stack Software Engineering Intern"
@@ -114,9 +103,9 @@ export default function About() {
             "Conducted technical evaluation of IBM Cloud vs. AWS for containerized workloads, analyzing cost/performance trade-offs across compute, storage, and orchestration to inform client migration strategy.",
           ]}
         />
-      </div>
+      </ol>
 
-      <div className="mt-12">
+      <div className="mt-16">
         <SectionHeader eyebrow="Academy Log" title="Education" />
         <EducationItem
           degree="B.Sc. in Computer Engineering"
