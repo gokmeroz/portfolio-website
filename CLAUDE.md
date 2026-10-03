@@ -150,7 +150,7 @@ Current sections include:
 
 The page is rendered as one continuous scrolling document.
 
-Most content is currently hardcoded inside each section. There is no CMS or centralized content layer. The exception is `src/data/projects.ts`, which holds the project content shared by `Works.tsx` and the hero's arcade cabinet.
+Most content is currently hardcoded inside each section. There is no CMS or centralized content layer. The exceptions are the modules in `src/data/` that the hero windows also read: `projects.ts` (with `Works.tsx`) and `experience.ts` (with `About.tsx`).
 
 Do not introduce a CMS, state-management library, backend, or data abstraction unless the task specifically requires one.
 
@@ -561,11 +561,11 @@ Every section uses the comic system, each with its own composition: Hero (cover 
 
 Keep that variety — do not flatten sections into identical grids of `.pixel-panel` cards.
 
-`HeroScene` (module under `src/components/HeroScene/`) is the hero's art panel. It currently hosts **four shortlisted windows behind a stepper** — the plan is to settle on one and delete the rest plus the stepper. Only the selected window is mounted.
+`HeroScene` (module under `src/components/HeroScene/`) is the hero's art panel. It currently hosts **the shortlisted windows behind a stepper** — the plan is to settle on one and delete the rest plus the stepper. Only the selected window is mounted.
 
 1. `TowerClimb` — the career timeline as a tower; the hero climbs to the hovered floor and each floor links to that experience card.
-2. `TradingCard` — hero portrait that flips to facts stated elsewhere on the page.
-3. `ComicCover` — sunburst, rooftops and a large hero portrait in pointer parallax.
+2. `TradingCard` — Mert's pixel portrait (drawn from his photo, shared via `mertPortrait.ts`) that flips to facts stated elsewhere on the page.
+3. `ComicCover` — a comic cover starring Mert's pixel self in the suit, swinging over the skyline in pointer parallax. "Open the issue" turns the window into a four-page comic (who / where / what / reach me) fed by `src/data/experience.ts` and `src/data/projects.ts`.
 4. `ArcadeCabinet` — a CSS cabinet whose screen cycles the projects as title cards with pixel emblems; "Insert coin" loads the one showing into an on-screen reader (story / tech / impact) fed by `src/data/projects.ts`.
 
 Shared pixel scenes live in `src/components/pixelScenes/`: `pixelArt.ts` (224×168 canvas helpers, palette, the original masked-hero sprites), `useScene.ts` (animation loop that pauses off screen / in a hidden tab and renders a still frame under `prefers-reduced-motion`), and three scenes used outside the hero:
