@@ -563,8 +563,8 @@ Keep that variety — do not flatten sections into identical grids of `.pixel-pa
 
 `HeroScene` (module under `src/components/HeroScene/`) is the hero's art panel. It currently hosts **the shortlisted windows behind a stepper** — the plan is to settle on one and delete the rest plus the stepper. Only the selected window is mounted.
 
-1. `TowerClimb` — the career timeline as a tower; the hero climbs to the hovered floor and each floor links to that experience card.
-2. `TradingCard` — Mert's pixel portrait (drawn from his photo, shared via `mertPortrait.ts`) that flips to facts stated elsewhere on the page.
+1. `TradingCard` — Mert's pixel portrait (drawn from his photo, shared via `mertPortrait.ts`) that flips to facts stated elsewhere on the page.
+2. `TowerClimb` — the career timeline as a tower; the hero climbs to the hovered floor and each floor links to that experience card.
 3. `ComicCover` — a comic cover starring Mert's pixel self in the suit, swinging over the skyline in pointer parallax. "Open the issue" turns the window into a four-page comic (who / where / what / reach me) fed by `src/data/experience.ts` and `src/data/projects.ts`.
 4. `ArcadeCabinet` — a CSS cabinet whose screen cycles the projects as title cards with pixel emblems; "Insert coin" loads the one showing into an on-screen reader (story / tech / impact) fed by `src/data/projects.ts`.
 

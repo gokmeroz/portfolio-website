@@ -5,8 +5,8 @@ import TowerClimb from "./TowerClimb";
 import TradingCard from "./TradingCard";
 
 const WINDOWS = [
-  { label: "Tower", Component: TowerClimb },
   { label: "Card", Component: TradingCard },
+  { label: "Tower", Component: TowerClimb },
   { label: "Cover", Component: ComicCover },
   { label: "Arcade", Component: ArcadeCabinet },
 ];
