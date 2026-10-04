@@ -1,6 +1,6 @@
 // src/sections/Works.tsx
 import { useState } from "react";
-import { Github } from "lucide-react";
+import { Github, Play } from "lucide-react";
 import Section from "../components/Section";
 import SectionHeader from "../components/SectionHeader";
 import PipelineMachine from "../components/pixelScenes/PipelineMachine";
@@ -92,6 +92,65 @@ function ExplainToggle({
   );
 }
 
+// Dark "screen" strip across the top of a card. Shows the poster with a large
+// play button; the video itself is only mounted (and fetched) once played.
+function ProjectTrailer({
+  trailer,
+  title,
+}: {
+  trailer: NonNullable<Project["trailer"]>;
+  title: string;
+}) {
+  const [playing, setPlaying] = useState(false);
+
+  return (
+    <div className="border-b-4 border-[var(--color-border)] bg-[var(--color-ink)] p-4 sm:p-6">
+      <div className="relative mx-auto aspect-video max-w-4xl">
+        {playing ? (
+          <video
+            className="block h-full w-full"
+            src={trailer.src}
+            poster={trailer.poster}
+            aria-label={trailer.label}
+            controls
+            autoPlay
+            autoFocus
+            playsInline
+          />
+        ) : (
+          <button
+            type="button"
+            className="group block h-full w-full cursor-pointer"
+            aria-label={`Play the trailer for ${title} (${trailer.duration}, with sound)`}
+            onClick={() => setPlaying(true)}
+          >
+            <img
+              src={trailer.poster}
+              alt=""
+              loading="lazy"
+              className="h-full w-full object-cover"
+            />
+            <span className="caption-box absolute left-3 top-3">
+              Trailer / {trailer.duration}
+            </span>
+            <span className="absolute inset-0 flex items-end justify-center pb-6 sm:pb-10">
+              <span className="btn-accent group-hover:-translate-x-0.5 group-hover:-translate-y-0.5">
+                <Play
+                  size={14}
+                  fill="currentColor"
+                  className="mr-3 shrink-0"
+                  aria-hidden="true"
+                />
+                Play trailer
+              </span>
+            </span>
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // One accent per issue, cycling down the list.
 const ISSUE_STYLES = [
   { bar: "panel-bar--red", panel: "pixel-panel--red" },
@@ -114,6 +173,7 @@ function ProjectCard({
   const hasDemo = project.id === "jobpilot";
   const [demoOpen, setDemoOpen] = useState(false);
   const demoId = `project-demo-${project.id}`;
+  const { trailer } = project;
   return (
     <article id={`project-${project.id}`} className={`pixel-panel ${style.panel}`}>
       <div className={`panel-bar !flex-nowrap !justify-start !gap-4 ${style.bar}`}>
@@ -143,6 +203,8 @@ function ProjectCard({
           </h3>
         </div>
       </div>
+
+      {trailer && <ProjectTrailer trailer={trailer} title={project.title} />}
 
       <div className="grid grid-cols-1 gap-8 p-4 sm:p-6 lg:grid-cols-2">
         {/* Story */}

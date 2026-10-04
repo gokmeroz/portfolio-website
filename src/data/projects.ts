@@ -1,6 +1,8 @@
 // Project content for the Projects section. Shared with the hero's arcade
 // cabinet, which shows the same explanations on its screen.
 import { Eye, Plane, type LucideIcon } from "lucide-react";
+import nummoriaTrailer from "../assets/videos/brag-nummoria.mp4";
+import nummoriaTrailerPoster from "../assets/videos/brag-nummoria-poster.jpg";
 
 export type Project = {
   id: "nummoria" | "jobpilot" | "hft-btc" | "eyehub";
@@ -19,6 +21,13 @@ export type Project = {
     what?: string;
     code?: string;
     live?: string;
+  };
+  // Short promo video, played from the project card
+  trailer?: {
+    src: string;
+    poster: string;
+    duration: string;
+    label: string;
   };
 };
 
@@ -59,6 +68,13 @@ export const projects: Project[] = [
     links: {
       code: "https://github.com/gokmeroz/nummoria",
       live: "https://www.nummoria.com",
+    },
+    trailer: {
+      src: nummoriaTrailer,
+      poster: nummoriaTrailerPoster,
+      duration: "0:22",
+      label:
+        "Nummoria trailer: expense and investment tracking screens, then the AI Financial Advisor answering a savings-rate question.",
     },
   },
   {
