@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 
-const LINES = [
-  "> BOOTING GOKMEROZ.COM...",
-  "> LOADING ENGINEER PROFILE...",
-  "> MOUNTING PORTFOLIO.EXE...",
-  "GÖKTUĞ MERT ÖZDOĞAN — READY",
+const STEPS = [
+  "Inking the panels",
+  "Loading engineer profile",
+  "Opening the issue",
 ];
+
+// The three steps, then the name reveal.
+const BEAT_COUNT = STEPS.length + 1;
 
 const LINE_DELAY_MS = 320;
 const HOLD_MS = 700;
@@ -44,11 +46,11 @@ export default function BootSequence() {
       window.setTimeout(() => setVisible(false), FADE_MS);
     };
 
-    const timers = LINES.map((_, i) =>
+    const timers = Array.from({ length: BEAT_COUNT }, (_, i) =>
       window.setTimeout(() => setLineCount(i + 1), i * LINE_DELAY_MS)
     );
     timers.push(
-      window.setTimeout(dismiss, LINES.length * LINE_DELAY_MS + HOLD_MS)
+      window.setTimeout(dismiss, BEAT_COUNT * LINE_DELAY_MS + HOLD_MS)
     );
 
     window.addEventListener("keydown", dismiss);
@@ -67,13 +69,39 @@ export default function BootSequence() {
       className={`boot-sequence ${dismissing ? "is-dismissing" : ""}`}
       aria-hidden="true"
     >
-      <div className="boot-sequence__lines">
-        {LINES.slice(0, lineCount).map((line) => (
-          <p key={line} className="boot-sequence__line">
-            {line}
-          </p>
-        ))}
-        {lineCount > 0 && <span className="boot-sequence__cursor" />}
+      <div className="boot-sequence__panel pixel-panel pixel-panel--red">
+        <div className="panel-bar panel-bar--red">
+          <span>gokmeroz.com</span>
+          <span>Now loading</span>
+        </div>
+        <div className="boot-sequence__body">
+          {/* Every beat is rendered up front and only revealed, so the panel
+              never changes size while the sequence plays. */}
+          <ol className="boot-sequence__steps">
+            {STEPS.map((step, i) => (
+              <li
+                key={step}
+                className={`boot-sequence__step ${i < lineCount ? "is-shown" : ""}`}
+              >
+                {step}
+              </li>
+            ))}
+          </ol>
+          <div
+            className={`boot-sequence__title ${lineCount >= BEAT_COUNT ? "is-shown" : ""}`}
+          >
+            <p className="caption-box">Ready</p>
+            <p className="boot-sequence__name">Göktuğ Mert Özdoğan</p>
+          </div>
+          <div className="boot-sequence__meter">
+            {Array.from({ length: BEAT_COUNT }, (_, i) => (
+              <span
+                key={i}
+                className={`boot-sequence__cell ${i < lineCount ? "is-filled" : ""}`}
+              />
+            ))}
+          </div>
+        </div>
       </div>
       <p className="boot-sequence__hint">Press any key or tap to skip</p>
     </div>

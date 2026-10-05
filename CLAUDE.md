@@ -309,7 +309,7 @@ Defined in the `@theme` block of `src/index.css`:
 * `--color-on-accent` — text placed on a red or blue fill
 * `--color-border` (ink) and `--color-border-strong` (red)
 
-The `.theme-night` scope re-declares the same tokens with the original dark arcade palette. It is applied, through their own selectors, to the terminal easter egg, the boot splash, and the ULTRA MODE overlay — anything that should read as a dark "screen". Components inside it need no changes.
+The `.theme-night` scope re-declares the same tokens with the original dark arcade palette. It is applied, through their own selectors, to the terminal easter egg and the ULTRA MODE overlay — anything that should read as a dark "screen". Components inside it need no changes. The boot splash (`BootSequence`) is not in that scope: it is a `.pixel-panel` on the page's own paper.
 
 Use semantic tokens instead of raw color literals inside React components. The exception is canvas pixel art (`HeroScene`, the Spidey-Guide bust), which keeps its palette in a constant next to the drawing code.
 

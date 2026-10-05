@@ -144,11 +144,10 @@
 }
 
 /* Night scope: the original arcade-night palette, kept for full-screen
-   overlays that should read as a "screen" (terminal, boot splash, ULTRA
-   MODE) and for the footer. Everything inside resolves the same tokens. */
+   overlays that should read as a "screen" (terminal, ULTRA MODE) and for
+   the footer. Everything inside resolves the same tokens. */
 .theme-night,
 .terminal-mode,
-.boot-sequence,
 .pixel-guide-ultra-overlay {
   --color-bg-base: #0a0614;
   --color-surface: #150c29;
@@ -1755,6 +1754,8 @@ a.hero-scene__node:focus-visible {
 }
 
 /* ---------- Boot sequence intro ---------- */
+/* A comic panel on the page's own paper, so the splash hands over to the
+   site without a palette jump. */
 .boot-sequence {
   position: fixed;
   inset: 0;
@@ -1763,8 +1764,10 @@ a.hero-scene__node:focus-visible {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 24px;
-  background: var(--color-bg-base);
+  gap: 32px;
+  padding: 24px;
+  background-color: var(--color-bg-base);
+  background-image: var(--dither-ink);
   cursor: pointer;
   opacity: 1;
   transition: opacity 0.25s steps(3);
@@ -1774,46 +1777,111 @@ a.hero-scene__node:focus-visible {
   opacity: 0;
 }
 
-.boot-sequence__lines {
+.boot-sequence__panel {
+  width: min(100%, 440px);
+}
+
+.boot-sequence__body {
   display: flex;
-  min-height: 120px;
-  max-width: min(90vw, 480px);
   flex-direction: column;
-  justify-content: center;
-  gap: 10px;
-  text-align: center;
+  gap: 24px;
+  padding: 24px 16px;
 }
 
-.boot-sequence__line {
+.boot-sequence__steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.boot-sequence__step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-family: var(--font-pixel-ui);
+  font-weight: 700;
   font-size: 12px;
-  letter-spacing: 0.04em;
-  color: var(--color-accent-2);
-}
-
-.boot-sequence__line:last-child {
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--color-text-base);
+  visibility: hidden;
 }
 
-.boot-sequence__cursor {
-  display: inline-block;
-  align-self: center;
-  width: 10px;
-  height: 16px;
-  margin-top: 4px;
+.boot-sequence__step::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  background: var(--color-accent);
+  box-shadow: 2px 2px 0 var(--color-ink);
+}
+
+.boot-sequence__step:nth-child(2)::before {
+  background: var(--color-accent-2);
+}
+
+.boot-sequence__step:nth-child(3)::before {
   background: var(--color-accent-3);
-  animation: boot-cursor-blink 0.8s steps(2) infinite;
 }
 
-@keyframes boot-cursor-blink {
-  0%,
-  49% {
-    opacity: 1;
-  }
-  50%,
-  100% {
+.boot-sequence__title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  visibility: hidden;
+}
+
+.boot-sequence__name {
+  font-family: var(--font-display);
+  font-size: clamp(11px, 3.4vw, 16px);
+  line-height: 1.5;
+  color: var(--color-accent);
+}
+
+.boot-sequence__step.is-shown,
+.boot-sequence__title.is-shown {
+  visibility: visible;
+  animation: boot-pop 0.16s steps(2);
+}
+
+@keyframes boot-pop {
+  from {
     opacity: 0;
   }
+  to {
+    opacity: 1;
+  }
+}
+
+.boot-sequence__meter {
+  display: flex;
+  gap: 4px;
+}
+
+.boot-sequence__cell {
+  flex: 1;
+  height: 12px;
+  background-color: var(--color-surface-2);
+  border: 2px solid var(--color-ink);
+}
+
+.boot-sequence__cell.is-filled {
+  background-color: var(--color-accent);
+  background-image: var(--dither-ink-strong);
+}
+
+.boot-sequence__cell.is-filled:nth-child(2) {
+  background-color: var(--color-accent-2);
+}
+
+.boot-sequence__cell.is-filled:nth-child(3) {
+  background-color: var(--color-accent-3);
+}
+
+.boot-sequence__cell.is-filled:nth-child(4) {
+  background-color: var(--color-ink);
 }
 
 .boot-sequence__hint {
@@ -1821,6 +1889,7 @@ a.hero-scene__node:focus-visible {
   font-size: 10px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  text-align: center;
   color: var(--color-text-muted);
 }
 
@@ -1828,7 +1897,8 @@ a.hero-scene__node:focus-visible {
   .boot-sequence {
     transition: none;
   }
-  .boot-sequence__cursor {
+  .boot-sequence__step.is-shown,
+  .boot-sequence__title.is-shown {
     animation: none;
   }
 }
