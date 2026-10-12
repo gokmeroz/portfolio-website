@@ -1,49 +1,7 @@
 // src/sections/RecentActivity.tsx
 import Section from "../components/Section";
 import SectionHeader from "../components/SectionHeader";
-
-type Activity = {
-  id: string;
-  title: string;
-  org: string;
-  role: string;
-  period: string;
-  status: "ongoing" | "upcoming" | "completed";
-  description: string;
-  highlights?: string[];
-  tags: string[];
-  link?: string;
-};
-
-const activities: Activity[] = [
-  {
-    id: "reprobot",
-    title: "ReproBot — Automated ML Paper Replication",
-    org: "inzva AI Projects #10",
-    role: "AI Project Contributor",
-    period: "Jun 2026 — Present",
-    status: "ongoing",
-    description:
-      "Contributing to the design and development of ReproBot, a multi-agent AI pipeline that transforms machine learning research papers into executable replication workflows. The system is designed to extract experimental details, generate code, run experiments safely, and compare reproduced results against published claims.",
-    highlights: [
-      "Reader Agent: extracts methods, datasets, metrics, claims, figures, tables, and hyperparameters from research PDFs using document-parsing and vision-language tooling.",
-      "Coder and Runner Agents: generate PyTorch and Hugging Face experiment scripts, execute them inside Docker, and capture metrics, logs, and error traces.",
-      "Critic and Orchestrator: compare reproduced results with paper claims and coordinate targeted code revisions through an iterative feedback loop.",
-      "Evaluation: planned benchmarking across 20 image-classification papers using replication success, metric gaps, and refinement-loop ablation.",
-    ],
-    tags: [
-      "Python",
-      "PyTorch",
-      "Hugging Face",
-      "LLM / VLM",
-      "Multi-Agent Systems",
-      "LangChain",
-      "Docker",
-      "Scientific Reproducibility",
-    ],
-    link: "https://inzva.com/ai-projects",
-  },
-];
+import { activities, type Activity } from "../data/activities";
 
 const STATUS_LABEL: Record<Activity["status"], string> = {
   ongoing: "Ongoing",

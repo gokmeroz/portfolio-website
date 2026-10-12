@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { activities, type Activity } from "../../data/activities";
 import { projects, type Project } from "../../data/projects";
 import {
   SCENE_COLORS,
@@ -29,9 +30,9 @@ const PLANE_PALETTE = { w: SCENE_COLORS.paper, c: SCENE_COLORS.windowCool };
 
 type Art = (ctx: CanvasRenderingContext2D, cx: number, cy: number) => void;
 
-// Short title-card name, tagline and pixel emblem per project. Everything
-// else shown on screen comes straight from the project data.
-const CARDS: Record<Project["id"], { name: string; line: string; art: Art }> = {
+// Short title-card name, tagline and pixel emblem per entry. Everything
+// else shown on screen comes straight from the project / activity data.
+const CARDS: Record<Project["id"] | Activity["id"], { name: string; line: string; art: Art }> = {
   nummoria: {
     name: "Nummoria",
     line: "AI-Powered Personal Finance System",
@@ -92,13 +93,67 @@ const CARDS: Record<Project["id"], { name: string; line: string; art: Art }> = {
       ctx.fillRect(cx + 2, cy - 5, 3, 3);
     },
   },
+  reprobot: {
+    name: "ReproBot",
+    line: "Automated ML Paper Replication",
+    art: (ctx, cx, cy) => {
+      // a paper on the left, fed to a robot head on the right
+      drawBox(ctx, cx - 34, cy - 12, 16, 22, SCENE_COLORS.paper);
+      ctx.fillStyle = SCENE_COLORS.ink;
+      [10, 10, 10, 6].forEach((width, i) => ctx.fillRect(cx - 31, cy - 8 + i * 4, width, 2));
+      ctx.fillStyle = SCENE_COLORS.paper;
+      for (let i = 0; i < 3; i++) ctx.fillRect(cx - 14 + i * 6, cy - 2, 3, 3);
+      ctx.fillRect(cx + 20, cy - 17, 2, 6);
+      ctx.fillStyle = SCENE_COLORS.gold;
+      disc(ctx, cx + 21, cy - 19, 3);
+      drawBox(ctx, cx + 4, cy - 4, 3, 8, SCENE_COLORS.red);
+      drawBox(ctx, cx + 35, cy - 4, 3, 8, SCENE_COLORS.red);
+      drawBox(ctx, cx + 8, cy - 10, 26, 20, SCENE_COLORS.windowCool);
+      ctx.fillStyle = SCENE_COLORS.ink;
+      ctx.fillRect(cx + 13, cy - 5, 4, 4);
+      ctx.fillRect(cx + 25, cy - 5, 4, 4);
+      ctx.fillRect(cx + 15, cy + 3, 12, 2);
+    },
+  },
 };
 
-type Page = "story" | "tech" | "impact";
-const PAGES: { key: Page; label: string }[] = [
-  { key: "story", label: "Story" },
-  { key: "tech", label: "Tech" },
-  { key: "impact", label: "Impact" },
+type Page = "story" | "tech" | "outcome";
+
+// What the screen cycles: every project, then the ongoing work from Recent
+// Activity. The third tab reads "Impact" for a project and "Status" for an
+// activity, which reports where the work stands instead of results.
+type Cartridge = {
+  key: keyof typeof CARDS;
+  story: string;
+  technical: string;
+  techs: string[];
+  outcomeLabel: string;
+  outcome: string[];
+  links: { label: string; href: string }[];
+};
+
+const CARTRIDGES: Cartridge[] = [
+  ...projects.map((project) => ({
+    key: project.id,
+    story: project.explain.normal,
+    technical: project.explain.technical,
+    techs: project.techs,
+    outcomeLabel: "Impact",
+    outcome: project.explain.impact,
+    links: [
+      ...(project.links.code ? [{ label: "Code", href: project.links.code }] : []),
+      ...(project.links.live ? [{ label: "Live", href: project.links.live }] : []),
+    ],
+  })),
+  ...activities.map((activity) => ({
+    key: activity.id,
+    story: activity.explain.normal,
+    technical: activity.explain.technical,
+    techs: activity.tags,
+    outcomeLabel: "Status",
+    outcome: activity.explain.progress,
+    links: activity.link ? [{ label: activity.org, href: activity.link }] : [],
+  })),
 ];
 
 const ATTRACT_MS = 3600;
@@ -106,10 +161,10 @@ const SCREEN_ID = "arcade-screen";
 
 /**
  * Hero window — an arcade cabinet for the projects. In attract mode its
- * screen cycles the four projects as title cards with a pixel emblem;
- * "Insert coin" loads the one showing and the screen becomes a small
- * reader for it (story / tech / impact, plus its links), using the same
- * text as the project cards. Cycling pauses on hover / focus and does not
+ * screen cycles the projects, then the ongoing work from Recent Activity,
+ * as title cards with a pixel emblem; "Insert coin" loads the one showing
+ * and the screen becomes a small reader for it (story / tech / impact or
+ * status, plus its links), using the same text as the project cards. Cycling pauses on hover / focus and does not
  * run under reduced motion; the arrows always work.
  */
 export default function ArcadeCabinet() {
@@ -121,17 +176,22 @@ export default function ArcadeCabinet() {
   const [paused, setPaused] = useState(false);
   const [reducedMotion] = useState(prefersReducedMotion);
 
-  const project = projects[index];
-  const card = CARDS[project.id];
+  const cartridge = CARTRIDGES[index];
+  const card = CARDS[cartridge.key];
+  const pages: { key: Page; label: string }[] = [
+    { key: "story", label: "Story" },
+    { key: "tech", label: "Tech" },
+    { key: "outcome", label: cartridge.outcomeLabel },
+  ];
 
   const repaint = useScene(canvasRef, (ctx) => (_dt, time) => {
     ctx.clearRect(0, 0, ART_W, ART_H);
     const bob = Math.round(Math.sin(time * 2.2) * 2);
-    CARDS[projects[indexRef.current].id].art(ctx, ART_W / 2, ART_H / 2 + 2 + bob);
+    CARDS[CARTRIDGES[indexRef.current].key].art(ctx, ART_W / 2, ART_H / 2 + 2 + bob);
   });
 
   const show = (next: number) => {
-    const wrapped = (next + projects.length) % projects.length;
+    const wrapped = (next + CARTRIDGES.length) % CARTRIDGES.length;
     indexRef.current = wrapped;
     setIndex(wrapped);
     setPage("story");
@@ -141,7 +201,7 @@ export default function ArcadeCabinet() {
   useEffect(() => {
     if (loaded || paused || reducedMotion) return;
     const timer = window.setInterval(() => {
-      indexRef.current = (indexRef.current + 1) % projects.length;
+      indexRef.current = (indexRef.current + 1) % CARTRIDGES.length;
       setIndex(indexRef.current);
     }, ATTRACT_MS);
     return () => window.clearInterval(timer);
@@ -159,7 +219,7 @@ export default function ArcadeCabinet() {
 
       <div id={SCREEN_ID} className="theme-night hero-scene__cabinet-screen" aria-live="polite">
         <p className="font-pixel-ui text-[clamp(8px,2.2vw,10px)] uppercase tracking-[0.12em] text-[var(--color-accent-2)]">
-          {loaded ? "Now playing" : "Now showing"} {index + 1}/{projects.length}
+          {loaded ? "Now playing" : "Now showing"} {index + 1}/{CARTRIDGES.length}
         </p>
 
         {/* the emblem stays mounted so its loop keeps one canvas; it is
@@ -182,7 +242,7 @@ export default function ArcadeCabinet() {
         {loaded && (
           <div className="hero-scene__reader">
             <div role="group" aria-label="Project view" className="flex flex-wrap justify-center gap-1">
-              {PAGES.map(({ key, label }) => (
+              {pages.map(({ key, label }) => (
                 <button
                   key={key}
                   type="button"
@@ -195,12 +255,12 @@ export default function ArcadeCabinet() {
               ))}
             </div>
 
-            {page === "story" && <p>{project.explain.normal}</p>}
+            {page === "story" && <p>{cartridge.story}</p>}
             {page === "tech" && (
               <>
-                <p>{project.explain.technical}</p>
+                <p>{cartridge.technical}</p>
                 <div className="flex flex-wrap justify-center gap-1">
-                  {project.techs.map((tech) => (
+                  {cartridge.techs.map((tech) => (
                     <span key={tech} className="pixel-chip">
                       {tech}
                     </span>
@@ -208,26 +268,21 @@ export default function ArcadeCabinet() {
                 </div>
               </>
             )}
-            {page === "impact" && (
+            {page === "outcome" && (
               <ul className="pixel-list text-left">
-                {project.explain.impact.map((line) => (
+                {cartridge.outcome.map((line) => (
                   <li key={line}>{line}</li>
                 ))}
               </ul>
             )}
 
-            {(project.links.code || project.links.live) && (
+            {cartridge.links.length > 0 && (
               <p className="flex flex-wrap justify-center gap-x-5 gap-y-1 font-pixel-ui text-[10px] uppercase tracking-[0.1em]">
-                {project.links.code && (
-                  <a href={project.links.code} target="_blank" rel="noreferrer noopener">
-                    Code ↗
+                {cartridge.links.map(({ label, href }) => (
+                  <a key={href} href={href} target="_blank" rel="noreferrer noopener">
+                    {label} ↗
                   </a>
-                )}
-                {project.links.live && (
-                  <a href={project.links.live} target="_blank" rel="noreferrer noopener">
-                    Live ↗
-                  </a>
-                )}
+                ))}
               </p>
             )}
           </div>
