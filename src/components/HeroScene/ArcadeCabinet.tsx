@@ -137,9 +137,9 @@ const CARDS: Record<Project["id"] | Activity["id"], { name: string; line: string
 
 type Page = "story" | "tech" | "outcome";
 
-// What the screen cycles: every project, then the ongoing work from Recent
-// Activity. The third tab reads "Impact" for a project and "Status" for an
-// activity, which reports where the work stands instead of results.
+// What the screen cycles: every project, then any Recent Activity work without
+// a project card. The third tab reads "Impact", or "Status" for unfinished
+// work, which reports where it stands instead of results.
 type Cartridge = {
   key: keyof typeof CARDS;
   story: string;
@@ -156,22 +156,26 @@ const CARTRIDGES: Cartridge[] = [
     story: project.explain.normal,
     technical: project.explain.technical,
     techs: project.techs,
-    outcomeLabel: "Impact",
+    outcomeLabel: project.inProgress ? "Status" : "Impact",
     outcome: project.explain.impact,
     links: [
       ...(project.links.code ? [{ label: "Code", href: project.links.code }] : []),
       ...(project.links.live ? [{ label: "Live", href: project.links.live }] : []),
+      ...(project.links.what ? [{ label: "Details", href: project.links.what }] : []),
     ],
   })),
-  ...activities.map((activity) => ({
-    key: activity.id,
-    story: activity.explain.normal,
-    technical: activity.explain.technical,
-    techs: activity.tags,
-    outcomeLabel: "Status",
-    outcome: activity.explain.progress,
-    links: activity.link ? [{ label: activity.org, href: activity.link }] : [],
-  })),
+  // Activities that also have a project card are already in the list above
+  ...activities
+    .filter((activity) => !projects.some((project) => project.id === activity.id))
+    .map((activity) => ({
+      key: activity.id,
+      story: activity.explain.normal,
+      technical: activity.explain.technical,
+      techs: activity.tags,
+      outcomeLabel: "Status",
+      outcome: activity.explain.progress,
+      links: activity.link ? [{ label: activity.org, href: activity.link }] : [],
+    })),
 ];
 
 const ATTRACT_MS = 3600;

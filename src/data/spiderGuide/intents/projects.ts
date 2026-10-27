@@ -14,7 +14,7 @@ export const projectsIntents: GuideIntent[] = [
     ],
     keywords: ["projects", "built", "apps", "portfolio", "shipped"],
     answer:
-      "His portfolio centers on real systems rather than tutorial clones: Nummoria, an AI-powered personal-finance product he shipped solo end to end; JobPilot, an automated job-application pipeline; a high-frequency crypto trading capstone built with two teammates; and Eyehub, a TÜBİTAK-funded dyslexia-detection research platform where he contributed backend engineering under Prof. Gunet Eroğlu, who owns the project. ReproBot, his current AI research project, is in Recent Activity.",
+      "His portfolio centers on real systems rather than tutorial clones: Nummoria, an AI-powered personal-finance product he shipped solo end to end; JobPilot, an automated job-application pipeline; ReproBot, a multi-agent ML-paper replication pipeline that placed 2nd of 7 at the inzva showcase; ComArtist, an agentic AI comic-production system he's building for the Meta Global AI Developer Hackathon; a high-frequency crypto trading capstone built with two teammates; and Eyehub, a TÜBİTAK-funded dyslexia-detection research platform where he contributed backend engineering under Prof. Gunet Eroğlu, who owns the project. ReproBot and ComArtist also appear in Recent Activity.",
     actions: [{ type: "navigate", target: "projects" }],
     followUpIntentIds: ["strongest-backend-project", "nummoria-overview", "jobpilot-overview"],
     priority: 9,

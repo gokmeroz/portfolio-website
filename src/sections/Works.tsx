@@ -48,9 +48,11 @@ const EXPLAIN_MODES: { key: ExplainMode; label: string }[] = [
 function ExplainToggle({
   explain,
   panelId,
+  inProgress,
 }: {
   explain: Project["explain"];
   panelId: string;
+  inProgress?: boolean;
 }) {
   const [mode, setMode] = useState<ExplainMode>("normal");
 
@@ -70,7 +72,7 @@ function ExplainToggle({
             onClick={() => setMode(key)}
             className={`pixel-chip cursor-pointer ${mode === key ? "is-active" : ""}`}
           >
-            {label}
+            {key === "impact" && inProgress ? "Status" : label}
           </button>
         ))}
       </div>
@@ -224,7 +226,11 @@ function ProjectCard({
 
         {/* Explain / stack / actions */}
         <div className="flex min-w-0 flex-col gap-6">
-          <ExplainToggle explain={project.explain} panelId={explainPanelId} />
+          <ExplainToggle
+            explain={project.explain}
+            panelId={explainPanelId}
+            inProgress={project.inProgress}
+          />
 
           <div>
             <span className="font-pixel-ui text-[10px] uppercase tracking-[0.12em] text-[var(--color-text-muted)]">

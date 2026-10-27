@@ -1,17 +1,20 @@
 // Project content for the Projects section. Shared with the hero's arcade
 // cabinet, which shows the same explanations on its screen.
-import { Eye, Plane, type LucideIcon } from "lucide-react";
+import { Bot, Eye, Palette, Plane, type LucideIcon } from "lucide-react";
+import { activities, type Activity } from "./activities";
 import nummoriaTrailer from "../assets/videos/brag-nummoria.mp4";
 import nummoriaTrailerPoster from "../assets/videos/brag-nummoria-poster.jpg";
 
 export type Project = {
-  id: "nummoria" | "jobpilot" | "hft-btc" | "eyehub";
+  id: "nummoria" | "jobpilot" | "hft-btc" | "eyehub" | Activity["id"];
   title: string;
   logoSrc?: string;
   icon?: LucideIcon;
   description: string;
   highlights: string[];
   techs: string[];
+  // Unfinished work: the impact list reports where it stands, not results
+  inProgress?: boolean;
   explain: {
     normal: string;
     technical: string;
@@ -31,7 +34,33 @@ export type Project = {
   };
 };
 
+// ReproBot and ComArtist also appear in Recent Activity; their project cards
+// reuse that text so the two never drift apart.
+function fromActivity(id: Activity["id"], icon: LucideIcon): Project {
+  const activity = activities.find((entry) => entry.id === id);
+  if (!activity) throw new Error(`Unknown activity: ${id}`);
+  const isCode = activity.link?.startsWith("https://github.com/");
+  return {
+    id,
+    title: activity.title,
+    icon,
+    description: activity.description,
+    highlights: activity.highlights ?? [],
+    techs: activity.tags,
+    inProgress: activity.status !== "completed",
+    explain: {
+      normal: activity.explain.normal,
+      technical: activity.explain.technical,
+      impact: activity.explain.progress,
+    },
+    links: isCode ? { code: activity.link } : { what: activity.link },
+  };
+}
+
+// Newest first
 export const projects: Project[] = [
+  fromActivity("comartist", Palette),
+  fromActivity("reprobot", Bot),
   {
     id: "nummoria",
     title: "NUMMORIA ~ AI-Powered Personal Finance System",
