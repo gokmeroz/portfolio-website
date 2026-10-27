@@ -66,7 +66,7 @@ function ActivityCard({ activity }: { activity: Activity }) {
 
         {activity.link && (
           <p className="mt-6 font-pixel-ui text-[11px] uppercase tracking-[0.12em] text-[var(--color-accent-2)]">
-            View inzva AI Projects ↗
+            {activity.linkLabel ?? "View link"} ↗
           </p>
         )}
       </div>
@@ -80,7 +80,7 @@ function ActivityCard({ activity }: { activity: Activity }) {
         href={activity.link}
         target="_blank"
         rel="noreferrer noopener"
-        aria-label={`View ${activity.title} at ${activity.org}`}
+        aria-label={`${activity.linkLabel ?? "View"}: ${activity.title} (${activity.org})`}
         className={cardClassName}
       >
         {cardContent}

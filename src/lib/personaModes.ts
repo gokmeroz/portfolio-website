@@ -144,7 +144,7 @@ export const MODES: Record<PersonaMode, ModeConfig> = {
     },
     sectionHints: {
       projects: "Why/how/what breakdowns, real repos, real stacks.",
-      research: "Current multi-agent research work in progress.",
+      research: "Multi-agent AI work: ReproBot (done) and ComArtist (in progress).",
     },
   },
   explorer: {

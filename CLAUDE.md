@@ -566,7 +566,7 @@ Keep that variety — do not flatten sections into identical grids of `.pixel-pa
 1. `TradingCard` — Mert's pixel portrait (drawn from his photo, shared via `mertPortrait.ts`) that flips to facts stated elsewhere on the page.
 2. `TowerClimb` — the career timeline as a tower; the hero climbs to the hovered floor and each floor links to that experience card.
 3. `ComicCover` — a comic cover starring Mert's pixel self in the suit, swinging over the skyline in pointer parallax. "Open the issue" turns the window into a four-page comic (who / where / what / reach me) fed by `src/data/experience.ts` and `src/data/projects.ts`.
-4. `ArcadeCabinet` — a CSS cabinet whose screen cycles the projects, then the ongoing work from Recent Activity (ReproBot), as title cards with pixel emblems; "Insert coin" loads the one showing into an on-screen reader (story / tech / impact) fed by `src/data/projects.ts` and `src/data/activities.ts`. An activity's third tab reads "Status" and reports progress, not results.
+4. `ArcadeCabinet` — a CSS cabinet whose screen cycles the projects, then the work from Recent Activity (ComArtist, ReproBot), as title cards with pixel emblems; "Insert coin" loads the one showing into an on-screen reader (story / tech / impact) fed by `src/data/projects.ts` and `src/data/activities.ts`. An activity's third tab reads "Status" and reports progress, not results.
 
 Shared pixel scenes live in `src/components/pixelScenes/`: `pixelArt.ts` (224×168 canvas helpers, palette, the original masked-hero sprites), `useScene.ts` (animation loop that pauses off screen / in a hidden tab and renders a still frame under `prefers-reduced-motion`), and three scenes used outside the hero:
 
@@ -620,7 +620,7 @@ It includes:
 
 * Keep the knowledge base (`data/spiderGuide/intents/`) grounded only in real
   portfolio content — never invent facts, metrics, or completed status for
-  ongoing work (e.g. ReproBot must stay described as ongoing).
+  ongoing work (e.g. ComArtist must stay described as in progress until it ships; ReproBot is completed — 2nd of 7 at its showcase, no published benchmark numbers).
 * Do not claim capabilities or experience not represented elsewhere on the site.
 * Keep fallback/unsupported responses helpful — never a dead-end "I don't understand".
 * Preserve the avatar as an original design; do not turn it into a direct

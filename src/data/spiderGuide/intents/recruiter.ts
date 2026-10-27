@@ -46,7 +46,7 @@ export const recruiterIntents: GuideIntent[] = [
     ],
     keywords: ["strongest", "qualifications", "evidence", "top"],
     answer:
-      "Production backend experience at 10,000+-employee scale (Halkbank), a solo-shipped end-to-end product (Nummoria), and a genuine, current AI/ML research contribution (ReproBot) — depth, ownership, and forward direction all backed by real work.",
+      "Production backend experience at 10,000+-employee scale (Halkbank), a solo-shipped end-to-end product (Nummoria), and real agentic-AI work (ReproBot, placed 2nd of 7 at its showcase; ComArtist, in progress) — depth, ownership, and forward direction all backed by real work.",
     followUpIntentIds: ["evidence-ships-software", "production-systems-impact", "leadership-ownership-evidence"],
     priority: 8,
     recruiterRelevant: true,
@@ -94,7 +94,7 @@ export const recruiterIntents: GuideIntent[] = [
     ],
     keywords: ["development", "areas", "improving", "growth"],
     answer:
-      "Deepening distributed-systems and production AI/ML experience — he's strong on backend fundamentals and shipping, and is now building the evaluation, MLOps, and large-scale-systems muscle to match. ReproBot and his ongoing ML learning track are the current evidence of that.",
+      "Deepening distributed-systems and production AI/ML experience — he's strong on backend fundamentals and shipping, and is now building the evaluation, MLOps, and large-scale-systems muscle to match. ReproBot, ComArtist, and his ongoing ML learning track are the current evidence of that.",
     followUpIntentIds: ["ai-ml-direction", "reprobot-overview", "biggest-weakness"],
     priority: 5,
     recruiterRelevant: true,

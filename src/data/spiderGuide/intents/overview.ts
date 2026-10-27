@@ -109,7 +109,7 @@ export const overviewIntents: GuideIntent[] = [
     ],
     keywords: ["summary", "summarize", "quick", "elevator", "pitch", "30", "seconds"],
     answer:
-      "Backend-leaning full-stack engineer from Istanbul, CS grad 2025. Shipped a production fintech app (Nummoria) solo, built internal banking software touching 10,000+ employees at Halkbank, and is deepening AI/ML through an ongoing agentic-AI research project. Open to relocation, needs visa sponsorship outside Turkey.",
+      "Backend-leaning full-stack engineer from Istanbul, CS grad 2025. Shipped a production fintech app (Nummoria) solo, built internal banking software touching 10,000+ employees at Halkbank, and is deepening AI/ML through agentic-AI work — ReproBot (2nd of 7 at its showcase) and now ComArtist for the Meta Global AI Developer Hackathon. Open to relocation, needs visa sponsorship outside Turkey.",
     actions: [{ type: "navigate", target: "about" }],
     followUpIntentIds: ["recruiter-summary", "what-to-examine-first", "differentiator"],
     priority: 9,
@@ -145,7 +145,7 @@ export const overviewIntents: GuideIntent[] = [
     ],
     keywords: ["examine", "start", "look", "first", "explore"],
     answer:
-      "For engineering depth, start with Nummoria's architecture. For production credibility, look at the Halkbank internship. For where he's headed next, look at ReproBot in Recent Activity. Tell me which of those interests you and I'll take you straight there.",
+      "For engineering depth, start with Nummoria's architecture. For production credibility, look at the Halkbank internship. For where he's headed next, look at ReproBot and ComArtist in Recent Activity. Tell me which of those interests you and I'll take you straight there.",
     actions: [{ type: "navigate", target: "projects" }],
     followUpIntentIds: ["strongest-backend-project", "halkbank-overview", "reprobot-overview"],
     priority: 7,

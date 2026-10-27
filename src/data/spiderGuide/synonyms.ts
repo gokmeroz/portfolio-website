@@ -20,6 +20,7 @@ export const SYNONYMS: Record<string, string[]> = {
   secure: ["security", "auth", "authentication", "safety"],
   finish: ["complete", "done", "status", "finished", "shipped"],
   reprobot: ["repro bot", "repro-bot"],
+  comartist: ["com artist", "comic artist", "com-artist"],
   nummoria: ["numoria", "nummoria app", "finance app"],
   jobpilot: ["job pilot", "job-pilot"],
   fenerbahce: ["fenerbahçe", "fener"],

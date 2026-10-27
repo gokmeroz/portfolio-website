@@ -14,7 +14,7 @@ export const aiMlIntents: GuideIntent[] = [
     ],
     keywords: ["reprobot", "inzva", "ai", "research", "project"],
     answer:
-      "ReproBot is an ongoing project at inzva AI Projects #10 — a multi-agent AI pipeline that turns machine learning research papers into executable replication workflows. It's designed to extract experimental details, generate code, run experiments safely, and compare reproduced results against the paper's published claims. He's an AI Project Contributor, working on it since June 2026 — it's still in progress, not a finished product.",
+      "ReproBot is a completed project from inzva AI Projects #10 — a multi-agent AI pipeline that turns machine learning research papers into executable replication workflows. It extracts experimental details, generates code, runs experiments safely, and compares reproduced results against the paper's published claims. He was an AI Project Contributor from June to October 2026; the team demoed it live at the program showcase and placed 2nd of 7 teams.",
     actions: [{ type: "navigate", target: "recent-activity" }],
     followUpIntentIds: ["reprobot-agents", "reprobot-tech-stack", "reprobot-status"],
     priority: 8,
@@ -61,7 +61,7 @@ export const aiMlIntents: GuideIntent[] = [
     id: "reprobot-evaluation-plan",
     category: "ai-ml",
     topic: "reprobot",
-    title: "ReproBot evaluation plan",
+    title: "ReproBot evaluation design",
     patterns: [
       "How will ReproBot be evaluated?",
       "What is the ReproBot evaluation plan?",
@@ -69,7 +69,7 @@ export const aiMlIntents: GuideIntent[] = [
     ],
     keywords: ["reprobot", "evaluation", "benchmark", "metric", "measure"],
     answer:
-      "The plan is to benchmark across 20 image-classification papers, measuring replication success, metric gaps against the published results, and running ablations on the refinement loop itself. This part is planned, not completed yet — ReproBot is an ongoing project.",
+      "The evaluation was designed to benchmark across 20 image-classification papers, measuring replication success, metric gaps against the published results, and ablations on the refinement loop itself. Benchmark numbers aren't published on this site — the result shown here is the showcase: a live demo that placed 2nd of 7 teams.",
     followUpIntentIds: ["reprobot-status", "reprobot-agents", "reprobot-overview"],
     priority: 4,
   },
@@ -85,8 +85,45 @@ export const aiMlIntents: GuideIntent[] = [
     ],
     keywords: ["finished", "complete", "status", "done", "reprobot"],
     answer:
-      "No — it's an ongoing project (June 2026 onward) at inzva AI Projects #10. He's actively contributing to the agent pipeline; the full evaluation across 20 papers is still planned, not run yet.",
-    followUpIntentIds: ["reprobot-overview", "reprobot-evaluation-plan", "ai-ml-direction"],
+      "Yes — ReproBot wrapped up in October 2026 at inzva AI Projects #10. The team presented it in a live demo at the showcase in front of a crowd and placed 2nd of 7 teams, winning a Levi's gift card. His current focus is ComArtist, for the Meta Global AI Developer Hackathon.",
+    followUpIntentIds: ["reprobot-overview", "comartist-overview", "ai-ml-direction"],
+    priority: 5,
+  },
+  {
+    id: "comartist-overview",
+    category: "ai-ml",
+    topic: "comartist",
+    title: "ComArtist overview",
+    patterns: [
+      "What is ComArtist?",
+      "Tell me about ComArtist.",
+      "What is he working on now?",
+      "What is his hackathon project?",
+      "Is he in the Meta hackathon?",
+    ],
+    keywords: ["comartist", "comic", "hackathon", "meta", "current", "now"],
+    answer:
+      "ComArtist is his current focus — an agentic AI comic-production system he's building for the Meta Global AI Developer Hackathon (Indie developer track, Oct 26 – Nov 4, 2026). Story Architect, Script Writer, and Visual Director agents plan a chapter from a short story idea, an image model draws the panels, and a Critic checks them against the script so characters and continuity stay consistent. It's in progress — the agents and panel generation are being built during the hackathon.",
+    actions: [{ type: "highlight", target: "activity-comartist" }],
+    followUpIntentIds: ["comartist-models", "reprobot-status", "ai-ml-direction"],
+    priority: 8,
+    recruiterRelevant: true,
+  },
+  {
+    id: "comartist-models",
+    category: "ai-ml",
+    topic: "comartist",
+    title: "ComArtist models and stack",
+    patterns: [
+      "What models does ComArtist use?",
+      "What is ComArtist built with?",
+      "What tech stack does ComArtist use?",
+    ],
+    keywords: ["comartist", "model", "muse", "llama", "stack", "tech", "python"],
+    requiredKeywords: ["comartist"],
+    answer:
+      "Python with Pydantic data models and a Streamlit front end. Every model call goes through a provider adapter: Meta's Muse Spark models for the writing and critic agents, Muse Image for the panels, and SAM 3.1 segmentation for visual checks — with Meta open-weights models on other hosts as fallbacks.",
+    followUpIntentIds: ["comartist-overview", "ml-skills-stack", "ai-ml-direction"],
     priority: 5,
   },
   {

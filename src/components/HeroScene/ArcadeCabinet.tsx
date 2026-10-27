@@ -115,6 +115,24 @@ const CARDS: Record<Project["id"] | Activity["id"], { name: string; line: string
       ctx.fillRect(cx + 15, cy + 3, 12, 2);
     },
   },
+  comartist: {
+    name: "ComArtist",
+    line: "Agentic AI Comic Production",
+    art: (ctx, cx, cy) => {
+      // a comic page of three panels, with a pencil drawing the last one
+      drawBox(ctx, cx - 30, cy - 18, 44, 36, SCENE_COLORS.paper);
+      drawBox(ctx, cx - 27, cy - 15, 18, 13, SCENE_COLORS.windowCool);
+      drawBox(ctx, cx - 6, cy - 15, 17, 13, SCENE_COLORS.red);
+      drawBox(ctx, cx - 27, cy + 1, 38, 14, SCENE_COLORS.gold);
+      ctx.fillStyle = SCENE_COLORS.ink;
+      ctx.fillRect(cx - 22, cy + 6, 14, 2);
+      ctx.fillStyle = SCENE_COLORS.paper;
+      disc(ctx, cx - 18, cy - 9, 3);
+      for (let i = 0; i < 6; i++) {
+        drawBox(ctx, cx + 30 - i * 3, cy - 14 + i * 3, 4, 4, i === 5 ? SCENE_COLORS.ink : SCENE_COLORS.gold);
+      }
+    },
+  },
 };
 
 type Page = "story" | "tech" | "outcome";
