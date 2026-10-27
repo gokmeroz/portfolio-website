@@ -4,6 +4,8 @@ import { Bot, Eye, Palette, Plane, type LucideIcon } from "lucide-react";
 import { activities, type Activity } from "./activities";
 import nummoriaTrailer from "../assets/videos/brag-nummoria.mp4";
 import nummoriaTrailerPoster from "../assets/videos/brag-nummoria-poster.jpg";
+import reprobotTrailer from "../assets/videos/brag-reprobot.mp4";
+import reprobotTrailerPoster from "../assets/videos/brag-reprobot-poster.jpg";
 
 export type Project = {
   id: "nummoria" | "jobpilot" | "hft-btc" | "eyehub" | Activity["id"];
@@ -36,7 +38,11 @@ export type Project = {
 
 // ReproBot and ComArtist also appear in Recent Activity; their project cards
 // reuse that text so the two never drift apart.
-function fromActivity(id: Activity["id"], icon: LucideIcon): Project {
+function fromActivity(
+  id: Activity["id"],
+  icon: LucideIcon,
+  trailer?: Project["trailer"]
+): Project {
   const activity = activities.find((entry) => entry.id === id);
   if (!activity) throw new Error(`Unknown activity: ${id}`);
   const isCode = activity.link?.startsWith("https://github.com/");
@@ -54,13 +60,20 @@ function fromActivity(id: Activity["id"], icon: LucideIcon): Project {
       impact: activity.explain.progress,
     },
     links: isCode ? { code: activity.link } : { what: activity.link },
+    trailer,
   };
 }
 
 // Newest first
 export const projects: Project[] = [
   fromActivity("comartist", Palette),
-  fromActivity("reprobot", Bot),
+  fromActivity("reprobot", Bot, {
+    src: reprobotTrailer,
+    poster: reprobotTrailerPoster,
+    duration: "0:25",
+    label:
+      "ReproBot trailer: a support-vector classification paper goes from PDF through the Reader, Coder, Runner and Critic agents to a replication report with a PASS verdict.",
+  }),
   {
     id: "nummoria",
     title: "NUMMORIA ~ AI-Powered Personal Finance System",
