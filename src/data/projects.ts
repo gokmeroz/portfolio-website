@@ -6,6 +6,8 @@ import nummoriaTrailer from "../assets/videos/brag-nummoria.mp4";
 import nummoriaTrailerPoster from "../assets/videos/brag-nummoria-poster.jpg";
 import reprobotTrailer from "../assets/videos/brag-reprobot.mp4";
 import reprobotTrailerPoster from "../assets/videos/brag-reprobot-poster.jpg";
+import comartistDemo from "../assets/videos/comartist-demo.mp4";
+import comartistDemoPoster from "../assets/videos/comartist-demo-poster.jpg";
 
 export type Project = {
   id: "nummoria" | "jobpilot" | "hft-btc" | "eyehub" | Activity["id"];
@@ -66,7 +68,13 @@ function fromActivity(
 
 // Newest first
 export const projects: Project[] = [
-  fromActivity("comartist", Palette),
+  fromActivity("comartist", Palette, {
+    src: comartistDemo,
+    poster: comartistDemoPoster,
+    duration: "2:59",
+    label:
+      "ComArtist demo from the Meta Global AI Developer Hackathon: the pipeline dashboard (Brief, Story, Script, Critic, Visuals, Panels, Layout, Judge) running chapters on the Meta Model API.",
+  }),
   fromActivity("reprobot", Bot, {
     src: reprobotTrailer,
     poster: reprobotTrailerPoster,
